@@ -1,27 +1,32 @@
-import React from 'react';
-
 interface ButtonProps {
-  primaryBgColor?: boolean;
-  buttonColor?: 'text-black' | 'text-pink' | 'text-white';
+  buttonColor?: "black" | "pink" | "white";
   label: string;
   onClick?: () => void;
 }
 
-const BASE_BUTTON_CLASSES =
-  'cursor-pointer rounded-sm border-2 font-bold leading-none inline-block';
+const base_button =
+  "cursor-pointer rounded border-2 font-bold leading-none inline-block font-sans text-sm px-4 py-2 w-full";
 
 export const Button = ({
   label,
-  ...props
+  buttonColor = "black",
+  onClick,
 }: ButtonProps) => {
-  const mode = primaryBgColor ? 'bg-black text-white' : 'bg-white';
+  let mode = "text-white border-black bg-black";
+
+  switch (buttonColor) {
+    case "pink":
+      mode = "text-pink-600 border-pink-600 bg-white";
+      break;
+    case "white":
+      mode = "text-black border-black bg-white";
+      break;
+  }
+
+  const classes = `${base_button} ${mode}`;
+
   return (
-    <button
-      type="button"
-      className={`${BASE_BUTTON_CLASSES} ${mode}`}  
-      // style={{ tex }}
-      {...props}
-    >
+    <button type="button" className={classes} onClick={onClick}>
       {label}
     </button>
   );
