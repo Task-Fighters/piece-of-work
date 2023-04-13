@@ -18,22 +18,18 @@ export const Header = ({ navItems, onClick }: HeaderProps) => {
 
   const classes = `${baseHeader} ${mode}`;
 
-//   const itemsClass ='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ';
+  const itemsClass = "flex flex-row  mt-10 justify-end space-x-5 ";
 
-const itemsClass = 'flex '
-
-//flex-row md:p-0 mt-4  items-end justify-between mx-auto p-4
-
-const ulClass = '';
+  const ulClass = "";
   return (
     <header className={classes} onClick={onClick}>
       <nav>
-        <div >
-        <ul className={itemsClass} >
-          {navItems.map((item) => (
-            <div>{item.label}</div>
-          ))}
-        </ul>
+        <div>
+          <ul className={itemsClass}>
+            {navItems.map((item) => (
+              <li>{item.label}</li>
+            ))}
+          </ul>
         </div>
       </nav>
     </header>
