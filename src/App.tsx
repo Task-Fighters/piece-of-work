@@ -1,6 +1,7 @@
 import React from 'react';
-import logo from './logo.svg';
+import logo from './logo-white.png';
 import './App.css';
+// import saltLogo from './stories/assets/saltLogo.svg';
 
 function App() {
   return (
