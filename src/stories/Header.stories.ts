@@ -1,26 +1,34 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { Header } from './Header';
-
+import type { Meta, StoryObj } from "@storybook/react";
+import { Header } from "../components/Header";
+import { NavItem } from "../components/Header";
 const meta = {
-  title: 'Example/Header',
+  title: "Salty/Header",
   component: Header,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/react/configure/story-layout
-    layout: 'fullscreen',
+    layout: "fullscreen",
   },
 } satisfies Meta<typeof Header>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const LoggedIn: Story = {
+
+
+// const  navItems :  NavItem[] = [{label:'Home'}, {label:'Groups'},{label:'Users'}, {label:'Assignments'}, {label:'Profile'}];
+
+export const Primary: Story = {
   args: {
-    user: {
-      name: 'Jane Doe',
-    },
+    items: [
+      { label: 'Home', href: '/home' },
+      { label: 'Groups', href: '/groups' },
+      { label: 'Users', href: '/users' },
+      { label: 'Assignments', href: '/assignments' },
+      { label: 'Profile', href: '/profile' },
+
+      
+    ],
   },
 };
-
-export const LoggedOut: Story = {};
