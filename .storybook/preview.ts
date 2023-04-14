@@ -1,5 +1,5 @@
 import type { Preview } from "@storybook/react";
-import 'tailwindcss/tailwind.css'
+import "tailwindcss/tailwind.css";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -9,9 +9,7 @@ export const parameters = {
       date: /Date$/,
     },
   },
-}
-
-
+};
 
 // const preview: Preview = {
 //   parameters: {
