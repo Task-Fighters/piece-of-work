@@ -17,10 +17,18 @@ type Story = StoryObj<typeof meta>;
 
 
 
-const  navItems :  NavItem[] = [{label:'Home'}, {label:'Groups'},{label:'Users'}, {label:'Assignments'}, {label:'Profile'}];
+// const  navItems :  NavItem[] = [{label:'Home'}, {label:'Groups'},{label:'Users'}, {label:'Assignments'}, {label:'Profile'}];
 
 export const Primary: Story = {
   args: {
-    navItems: navItems,
+    items: [
+      { label: 'Home', href: '/home' },
+      { label: 'Groups', href: '/groups' },
+      { label: 'Users', href: '/users' },
+      { label: 'Assignments', href: '/assignments' },
+      { label: 'Profile', href: '/profile' },
+
+      
+    ],
   },
 };

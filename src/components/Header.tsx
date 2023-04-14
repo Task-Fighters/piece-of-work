@@ -2,35 +2,32 @@ import React from "react";
 // import { Link } from 'react-router-dom';
 export interface NavItem {
   label: string;
+
 }
-
+export 
 interface HeaderProps {
-  navItems: NavItem[];
-
-  onClick?: () => void;
+    items: { label: string; href: string }[];
 }
 
 const baseHeader =
-  "cursor-pointer rounded border-4 font-bold leading-none inline-block font-sans text-sm px-4 py-4 w-full";
+  "cursor-pointer rounded border-4 font-bold leading-none inline-block font-sans text-sm px-4 py-2 h-430 w-full";
 
-export const Header = ({ navItems, onClick }: HeaderProps) => {
-  let mode = "fixed text-white border-black bg-black";
+export const Header = ({ items}: HeaderProps) => {
+  let mode = "fixed text-white  bg-neutral-700";
+  const headerClasses = `${baseHeader} ${mode}`;
+  const itemsClass = "flex flex-row  mt-10 justify-end my-0";
+  const liClass = "font-normal mx-2 bottom-0 text-xs";
 
-  const classes = `${baseHeader} ${mode}`;
-
-  const itemsClass = "flex flex-row  mt-10 justify-end space-x-5 ";
-
-  const ulClass = "";
   return (
-    <header className={classes} onClick={onClick}>
+    <header className={headerClasses}>
       <nav>
-        <div>
-          <ul className={itemsClass}>
-            {navItems.map((item) => (
-              <li>{item.label}</li>
-            ))}
-          </ul>
-        </div>
+        <ul className={itemsClass}>
+          {items.map((item) => (
+            <li className={liClass} key={item.href}>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
       </nav>
     </header>
   );
