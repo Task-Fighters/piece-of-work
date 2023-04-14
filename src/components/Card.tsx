@@ -2,8 +2,8 @@ interface CardProps {
   cardType?: "card" | "feature" | "detailed";
   title: string;
   subtitle: string;
-  limittext: number;
-  feature: string;
+  limitText: number;
+  featured: string;
   onClick?: () => void;
 }
 
@@ -12,25 +12,25 @@ const base_card = "text-left border-b-2 leading-relaxed w-full";
 export const Card = ({
   title,
   subtitle,
-  feature,
-  limittext,
+  featured,
+  limitText,
   cardType = "card",
   onClick,
 }: CardProps) => {
   let mode = "text-black border-black bg-gray-100";
-  let featureText = feature;
+  let featureText = featured;
 
   switch (cardType) {
     case "feature":
       mode = "text-black border-pink-600 bg-gray-100";
       featureText =
-        feature.length > limittext
-          ? feature.slice(0, limittext) + "..."
-          : feature;
+        featured.length > limitText
+          ? featured.slice(0, limitText) + "..."
+          : featured;
       break;
     case "detailed":
       mode = "text-black border-pink-600 bg-gray-100";
-      featureText = feature;
+      featureText = featured;
       break;
     case "card":
       featureText = "";

@@ -16,7 +16,7 @@ export const Primary: Story = {
   args: {
     title: "Primary",
     subtitle: "Subtitle",
-    feature: "Feature Text",
-    limittext: 300,
+    featured: "Feature Text",
+    limitText: 300,
   },
 };
