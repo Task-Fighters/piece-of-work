@@ -5,26 +5,30 @@ export interface HeaderProps {
   items: { label: string; href: string }[];
 }
 
-const baseHeader = 'flex justify-between text-white bg-neutral-700';
+const baseHeader = 'text-white bg-neutral-700 mb-4 flex justify-center';
 
 export const Header = ({ items }: HeaderProps) => {
   const ulClass = 'flex my-2';
-  const liClass = 'font-normal mx-2 bottom-0 text-lg';
+  const liClass = 'font-poppins mx-2 bottom-0 text-base';
 
   return (
     <header className={baseHeader}>
-      <div className="w-60 m-5">
-        <img src={darkLogo} alt="Salt logo" />
+      <div className="flex flex-wrap justify-between w-full max-w-6xl items-end mx-2 h-36">
+        <div className="w-52 m-5">
+          <img src={darkLogo} alt="Salt logo" />
+        </div>
+        <div>
+          <nav className="flex">
+            <ul className={ulClass}>
+              {items.map((item) => (
+                <li className={liClass} key={item.href}>
+                  <a href={item.href}>{item.label}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
       </div>
-      <nav className="flex items-end">
-        <ul className={ulClass}>
-          {items.map((item) => (
-            <li className={liClass} key={item.href}>
-              <a href={item.href}>{item.label}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
     </header>
   );
 };

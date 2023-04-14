@@ -5,7 +5,7 @@ interface ButtonProps {
 }
 
 const base_button =
-  'cursor-pointer rounded border-2 font-bold leading-none inline-block font-sans text-sm px-4 py-2 w-full';
+  'cursor-pointer rounded border-2 font-bold leading-none inline-block font-sans text-sm px-4 py-2 w-full mb-4';
 
 export const Button = ({
   label,

@@ -10,7 +10,7 @@ interface InputProps {
 }
 
 const BASE =
-  'w-full rounded border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-600';
+  'w-full rounded border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-600 mb-4';
 
 export const Input = ({
   label,
