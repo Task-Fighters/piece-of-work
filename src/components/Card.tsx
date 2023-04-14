@@ -1,5 +1,5 @@
 interface CardProps {
-  cardType?: "card" | "feature" | "detailed";
+  cardType?: 'card' | 'feature' | 'detailed';
   title: string;
   subtitle: string;
   limitText: number;
@@ -7,33 +7,33 @@ interface CardProps {
   onClick?: () => void;
 }
 
-const base_card = "text-left border-b-2 leading-relaxed w-full";
+const base_card = 'text-left border-b-2 leading-relaxed w-full';
 
 export const Card = ({
   title,
   subtitle,
   featured,
   limitText,
-  cardType = "card",
-  onClick,
+  cardType = 'card',
+  onClick
 }: CardProps) => {
-  let mode = "text-black border-black bg-gray-100";
+  let mode = 'text-black border-black bg-gray-100';
   let featureText = featured;
 
   switch (cardType) {
-    case "feature":
-      mode = "text-black border-pink-600 bg-gray-100";
+    case 'feature':
+      mode = 'text-black border-pink-600 bg-gray-100';
       featureText =
         featured.length > limitText
-          ? featured.slice(0, limitText) + "..."
+          ? featured.slice(0, limitText) + '...'
           : featured;
       break;
-    case "detailed":
-      mode = "text-black border-pink-600 bg-gray-100";
+    case 'detailed':
+      mode = 'text-black border-pink-600 bg-gray-100';
       featureText = featured;
       break;
-    case "card":
-      featureText = "";
+    case 'card':
+      featureText = '';
       break;
   }
 
@@ -45,7 +45,7 @@ export const Card = ({
         <h2 className="text-xl font-bold font-poppins">{title}</h2>
         <h3 className="text-sm font-bold font-roboto">{subtitle}</h3>
       </div>
-      {cardType === "detailed" && (
+      {cardType === 'detailed' && (
         <div className="border-b-2 mt-2 mb-1 border-pink-600"></div>
       )}
       <div className="px-4 py-1">

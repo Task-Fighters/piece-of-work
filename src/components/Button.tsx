@@ -1,25 +1,25 @@
 interface ButtonProps {
-  buttonColor?: "black" | "pink" | "white";
+  buttonColor?: 'black' | 'pink' | 'white';
   label: string;
   onClick?: () => void;
 }
 
 const base_button =
-  "cursor-pointer rounded border-2 font-bold leading-none inline-block font-sans text-sm px-4 py-2 w-full";
+  'cursor-pointer rounded border-2 font-bold leading-none inline-block font-sans text-sm px-4 py-2 w-full';
 
 export const Button = ({
   label,
-  buttonColor = "black",
-  onClick,
+  buttonColor = 'black',
+  onClick
 }: ButtonProps) => {
-  let mode = "text-white border-black bg-black";
+  let mode = 'text-white border-black bg-black';
 
   switch (buttonColor) {
-    case "pink":
-      mode = "text-pink-600 border-pink-600 bg-white";
+    case 'pink':
+      mode = 'text-pink-600 border-pink-600 bg-white';
       break;
-    case "white":
-      mode = "text-black border-black bg-white";
+    case 'white':
+      mode = 'text-black border-black bg-white';
       break;
   }
 
