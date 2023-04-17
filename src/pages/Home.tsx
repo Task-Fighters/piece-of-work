@@ -19,13 +19,15 @@ const Home = () => {
       <div className="flex justify-center">
         <div className="max-w-6xl mx-2">
           <div className="float-right">
-            <div className="w-48">
-              <Button
-                buttonColor="white"
-                label="Add new Assignment"
-                onClick={() => {}}
-              />
-            </div>
+            {userRole === 'admin' && (
+              <div className="w-48">
+                <Button
+                  buttonColor="white"
+                  label="Add new Assignment"
+                  onClick={() => {}}
+                />
+              </div>
+            )}
           </div>
           <Input icon placeholder="Search" />
           <Card
