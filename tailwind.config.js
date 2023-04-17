@@ -2,17 +2,21 @@
 
 module.exports = {
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}',
+    './components/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
     fontFamily: {
-      poppins: ["Poppins", "sans-serif"],
-      roboto: ["Roboto", "sans-serif"],
+      poppins: ['Poppins', 'sans-serif'],
+      roboto: ['Roboto', 'sans-serif']
     },
-    extend: {},
+    extend: {
+      width: {
+        128: '32%'
+      }
+    }
   },
 
-  plugins: [],
+  plugins: []
 };
