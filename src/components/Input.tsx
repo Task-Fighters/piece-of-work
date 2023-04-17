@@ -35,7 +35,7 @@ export const Input = ({
         <div className="inline-block relative w-full">
           <input type="text" className={BASE} placeholder={placeholder} />
           {icon && (
-            <BiSearch className="absolute inset-y-3 right-2 text-gray-500" />
+            <BiSearch className="absolute inset-y-2.5 right-2 text-gray-500 text-2xl" />
           )}
         </div>
       )}

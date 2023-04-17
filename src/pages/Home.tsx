@@ -19,7 +19,7 @@ const Home = () => {
         <div className="max-w-6xl mx-2">
           <div className="float-right">
             {user.role === 'admin' && (
-              <div className="w-48">
+              <div className="w-48 hidden md:flex">
                 <Button
                   buttonColor="white"
                   label="Add new Assignment"
