@@ -2,37 +2,36 @@ interface CardProps {
   cardType?: 'card' | 'feature' | 'detailed';
   title: string;
   subtitle: string;
-  limitText: number;
-  featured: string;
+  description: string;
   onClick?: () => void;
 }
 
-const base_card = 'text-left border-b-2 leading-relaxed w-full';
+const base_card = 'text-left border-b-2 leading-relaxed mb-4 w-full';
 
 export const Card = ({
   title,
   subtitle,
-  featured,
-  limitText,
+  description,
   cardType = 'card',
   onClick
 }: CardProps) => {
   let mode = 'text-black border-black bg-gray-100';
-  let featureText = featured;
+  let featureText = description;
 
   switch (cardType) {
     case 'feature':
       mode = 'text-black border-pink-600 bg-gray-100';
       featureText =
-        featured.length > limitText
-          ? featured.slice(0, limitText) + '...'
-          : featured;
+        description.length > 300
+          ? description.slice(0, 300) + '...'
+          : description;
       break;
     case 'detailed':
       mode = 'text-black border-pink-600 bg-gray-100';
-      featureText = featured;
+      featureText = description;
       break;
     case 'card':
+      mode = 'text-black border-black bg-gray-100 md:w-128';
       featureText = '';
       break;
   }
