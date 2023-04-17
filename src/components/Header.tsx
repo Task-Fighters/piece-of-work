@@ -40,7 +40,7 @@ export const Header = () => {
           <img src={whiteLogo} alt="Salt logo" />
         </div>
         <div>
-          <div className="w-52 m-5 flex md:hidden">
+          <div className="w-36 m-5 flex md:hidden">
             <img src={blackLogo} alt="Salt logo" />
           </div>
 

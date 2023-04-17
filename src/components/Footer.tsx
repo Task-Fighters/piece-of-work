@@ -9,10 +9,10 @@ import { AppContext } from '../AppContext';
 import { ContextType } from '../types';
 
 const baseFooter =
-  'fixed bottom-0 left-0 z-20 bg-white border-t-[1px] border-solid border-black w-full w-full py-6 px-8 flex';
+  'fixed bottom-0 left-0 z-20 bg-gray-100 border-t-[1px] border-solid border-black w-full w-full py-6 px-8 flex';
 const baseLink = 'flex items-center';
 const baseListItem = 'hover:drop-shadow-lg';
-const baseIcon = 'text-2xl';
+const baseIcon = 'text-4xl';
 
 export const Footer = () => {
   const { user } = useContext(AppContext) as ContextType;
