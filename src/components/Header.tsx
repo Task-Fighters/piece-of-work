@@ -5,7 +5,7 @@ import blackLogo from '../assets/Saltblack.svg';
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
 import { ContextType } from '../types';
-import { MdEdit, MdAddCircleOutline } from 'react-icons/md';
+// import { MdEdit, MdAddCircleOutline } from 'react-icons/md';
 
 const baseHeader = 'text-white mb-4 flex md:bg-neutral-700 justify-center';
 

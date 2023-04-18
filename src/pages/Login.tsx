@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
-import { ContextType } from '../types';
-import { AppContext } from '../AppContext';
+// import { ContextType } from '../types';
+// import { AppContext } from '../AppContext';
 import Title from '../components/Title';
 import { Button } from '../components/Button';
 import { IProfile } from '../types';
 import lightLogo from '../assets/Saltblack.svg';
 
 const Login = () => {
-  const { user, setUser } = useContext(AppContext) as ContextType;
+  // const { user, setUser } = useContext(AppContext) as ContextType;
   const [userToken, setUserToken] = useState();
   const [profile, setProfile] = useState<IProfile>({} as IProfile);
 
@@ -35,18 +35,18 @@ const Login = () => {
         .then((res) => {
           setProfile(res.data);
         })
-        .then(() => {
-          axios.put(
-            'https://project-salty-backend.azurewebsites.net/Users/login',
-            {
-              email: profile.email,
-              fullName: profile.name,
-              imageURL: profile.picture,
-              googleId: profile.googleId
-            }
-          );
-        })
-        .then((res) => console.log(res))
+        // .then(() => {
+        //   axios.put(
+        //     'https://project-salty-backend.azurewebsites.net/Users/login',
+        //     {
+        //       email: profile.email,
+        //       fullName: profile.name,
+        //       imageURL: profile.picture,
+        //       googleId: profile.googleId
+        //     }
+        //   );
+        // })
+        // .then((res) => console.log(res))
         .catch((err) => console.log(err));
     }
   }, [userToken]);

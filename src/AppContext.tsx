@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import { IUser, IAssignment, ContextType } from './types';
 
 const AppContext = createContext<ContextType | null>(null);
