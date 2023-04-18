@@ -24,10 +24,21 @@ export interface IAssignment {
   description: string;
 }
 
+export interface IProfile {
+  email: string;
+  name: string;
+  picture: string;
+  googleId: string;
+}
+
 export type ContextType = {
   user: IUser;
   assignments: IAssignment[];
+  setUser: (user: IUser) => void;
+
   // cart: IProductToOrder[]
   // addToCart: (product: IProduct, quantity: number) => void
   // submitCart: (cart: IProductToOrder[] ) => void
 };
+
+//  setIsFilterOpen: React.Dispatch<React.SetStateAction<boolean | undefined>>,
