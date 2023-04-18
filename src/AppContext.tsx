@@ -17,7 +17,7 @@ const AppProvider = ({ children }: any) => {
       googleId: '330983098',
       email: 'lucas.wiersma@appliedtechnology.se',
       fullName: 'Lucas Wiersma',
-      role: 'admin',
+      role: 'user',
       location: 'Amsterdam',
       imageURL: '',
       status: 'active',
@@ -62,7 +62,7 @@ const AppProvider = ({ children }: any) => {
   }, []);
 
   return (
-    <AppContext.Provider value={{ user, assignments }}>
+    <AppContext.Provider value={{ user, setUser, assignments }}>
       {children}
     </AppContext.Provider>
   );
