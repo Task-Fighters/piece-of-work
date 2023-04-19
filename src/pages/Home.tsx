@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ContextType } from '../types';
 import { AppContext } from '../AppContext';
 import { Header } from '../components/Header';
@@ -10,9 +11,11 @@ import { Footer } from '../components/Footer';
 const Home = () => {
   const { user, assignments } = useContext(AppContext) as ContextType;
 
+  let location = useLocation().pathname.toLowerCase();
+
   return (
     <div className="container-xl">
-      <Header />
+      <Header role={user.role} location={location} />
       <div className="flex justify-center">
         <div className="max-w-6xl mx-2">
           <div className="float-right">
@@ -41,7 +44,7 @@ const Home = () => {
               );
             })}
           </div>
-          <Footer />
+          <Footer role={user.role} image={user.imageURL} />
         </div>
       </div>
     </div>

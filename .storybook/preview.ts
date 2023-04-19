@@ -1,7 +1,8 @@
 import type { Preview } from '@storybook/react';
 import 'tailwindcss/tailwind.css';
-import { withReactContext } from 'storybook-react-context';
-import { AppContext } from '../src/AppContext';
+// import { withRouter } from 'storybook-addon-react-router-v6';
+
+// export const decorators = [withRouter];
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -10,8 +11,7 @@ export const parameters = {
       color: /(background|color)$/i,
       date: /Date$/
     }
-  },
-  decorators: [withReactContext]
+  }
 };
 
 // const preview: Preview = {

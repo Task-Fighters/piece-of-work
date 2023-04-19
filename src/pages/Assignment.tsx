@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { ContextType } from '../types';
 import { AppContext } from '../AppContext';
 import { Button } from '../components/Button';
@@ -11,14 +11,16 @@ import Title from '../components/Title';
 
 const Assignment = () => {
   const { user, assignments } = useContext(AppContext) as ContextType;
+
   let { assignmentId } = useParams();
+  let location = useLocation().pathname.toLowerCase();
   let assignment = assignments?.find(
     (assignment) => assignment.id === Number(assignmentId)
   );
 
   return (
     <div className="container-xl">
-      <Header />
+      <Header role={user.role} location={location} />
       <div className="flex justify-center">
         <div className="max-w-6xl mx-2">
           <div className="float-right">
@@ -50,7 +52,7 @@ const Assignment = () => {
             />
           </div>
           <Title title="Completed assignments" />
-          <Footer />
+          <Footer role={user.role} image={user.imageURL} />
         </div>
       </div>
     </div>
