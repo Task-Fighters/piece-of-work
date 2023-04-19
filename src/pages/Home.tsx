@@ -10,8 +10,6 @@ import { Footer } from '../components/Footer';
 const Home = () => {
   const { user, assignments } = useContext(AppContext) as ContextType;
 
-  console.log('USER', user);
-
   return (
     <div className="container-xl">
       <Header />
@@ -34,6 +32,7 @@ const Home = () => {
               return (
                 <Card
                   cardType={index === 0 ? 'feature' : 'card'}
+                  id={assignment.id}
                   key={index}
                   description={assignment.description}
                   subtitle={assignment.startDate}

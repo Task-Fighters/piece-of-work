@@ -3,7 +3,7 @@ interface TitleProps {
   underline?: boolean;
 }
 
-const baseTitleClass = 'font-bold font-sans text-lg';
+const baseTitleClass = 'font-bold font-sans text-lg mb-4';
 
 const Title = ({ title, underline }: TitleProps) => {
   const underlineClass = 'border-b-4 border-pink-600';

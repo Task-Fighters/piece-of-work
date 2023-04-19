@@ -27,7 +27,7 @@ export const Header = () => {
     { label: 'Profile', href: '/profile' }
   ];
 
-  const items = user.role === 'admin' ? adminMenu : pgpMenu;
+  const items = user?.role === 'admin' ? adminMenu : pgpMenu;
 
   const ulClass = 'flex my-2';
   const liClass = 'font-poppins mx-2 bottom-0 text-base';
@@ -46,7 +46,7 @@ export const Header = () => {
 
           <nav className="hidden md:flex">
             <ul className={ulClass}>
-              {items.map((item) => (
+              {items?.map((item) => (
                 <li
                   className={location === item.href ? liClassSelected : liClass}
                   key={item.href}

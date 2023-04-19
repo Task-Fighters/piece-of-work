@@ -1,10 +1,6 @@
 import { useContext } from 'react';
-import {
-  MdArticle,
-  MdHome,
-  MdAddCircleOutline,
-  MdPerson2
-} from 'react-icons/md';
+import { MdHome, MdAddCircleOutline, MdPerson2 } from 'react-icons/md';
+import { HiUserGroup } from 'react-icons/hi';
 import { AppContext } from '../AppContext';
 import { ContextType } from '../types';
 
@@ -17,14 +13,14 @@ const baseIcon = 'text-4xl';
 export const Footer = () => {
   const { user } = useContext(AppContext) as ContextType;
 
-  let mode = user.role === 'admin' ? 'flex' : 'hidden';
+  let mode = user?.role === 'admin' ? 'flex' : 'hidden';
 
   return (
     <div className={`${baseFooter} md:hidden`}>
       <ul className="flex items-center justify-between w-full font-medium text-pink-600">
         <li className={`${baseListItem}`}>
-          <a href="/assignments" className={`mr-4  ${baseLink}`}>
-            <MdArticle className={`${baseIcon}`} />
+          <a href="/users" className={`mr-4  ${baseLink}`}>
+            <HiUserGroup className={`${baseIcon}`} />
           </a>
         </li>
         <li className={`${baseListItem}`}>
@@ -40,7 +36,7 @@ export const Footer = () => {
         </li>
         <li className={`${baseListItem}`}>
           <a href="/profile" className={`${baseLink}`}>
-            {user.imageURL === '' || user.imageURL === null ? (
+            {user?.imageURL === '' || user?.imageURL === null ? (
               <MdPerson2 className={`${baseIcon}`} />
             ) : (
               <img

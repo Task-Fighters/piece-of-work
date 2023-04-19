@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Header } from '../components/Header';
+// import { withReactContext } from 'storybook-react-context';
 
 const meta = {
   title: 'Salty/Header',
@@ -9,6 +10,7 @@ const meta = {
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'fullscreen'
+    // decorators: [withReactContext]
   }
 } satisfies Meta<typeof Header>;
 

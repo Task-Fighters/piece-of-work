@@ -1,6 +1,8 @@
+import { Link } from 'react-router-dom';
 interface CardProps {
   cardType?: 'card' | 'feature' | 'detailed';
   title: string;
+  id?: number;
   subtitle: string;
   description: string;
   onClick?: () => void;
@@ -9,6 +11,7 @@ interface CardProps {
 const base_card = 'text-left border-b-2 leading-relaxed mb-4 w-full';
 
 export const Card = ({
+  id,
   title,
   subtitle,
   description,
@@ -38,15 +41,23 @@ export const Card = ({
 
   const classes = `${base_card} ${mode} py-2`;
 
-  return (
-    <div className={classes} onClick={onClick}>
+  return cardType !== 'detailed' ? (
+    <Link to={`/assignment/${id}`} className={classes} onClick={onClick}>
       <div className="px-4 pt-1">
         <h2 className="text-xl font-bold font-poppins">{title}</h2>
         <h3 className="text-sm font-bold font-roboto">{subtitle}</h3>
       </div>
-      {cardType === 'detailed' && (
-        <div className="border-b-2 mt-2 mb-1 border-pink-600"></div>
-      )}
+      <div className="px-4 py-1">
+        <p className="text-sm font-roboto">{featureText}</p>
+      </div>
+    </Link>
+  ) : (
+    <div className={classes}>
+      <div className="px-4 pt-1">
+        <h2 className="text-xl font-bold font-poppins">{title}</h2>
+        <h3 className="text-sm font-bold font-roboto">{subtitle}</h3>
+      </div>
+      <div className="border-b-2 mt-2 mb-1 border-pink-600"></div>
       <div className="px-4 py-1">
         <p className="text-sm font-roboto">{featureText}</p>
       </div>
