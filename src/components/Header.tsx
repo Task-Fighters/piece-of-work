@@ -1,18 +1,16 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import whiteLogo from '../assets/Saltwhite.svg';
 import blackLogo from '../assets/Saltblack.svg';
-import { useContext } from 'react';
-import { AppContext } from '../AppContext';
-import { ContextType } from '../types';
-import { MdEdit, MdAddCircleOutline } from 'react-icons/md';
+// import { MdEdit, MdAddCircleOutline } from 'react-icons/md';
+
+interface HeaderProps {
+  role: string;
+  location: string;
+}
 
 const baseHeader = 'text-white mb-4 flex md:bg-neutral-700 justify-center';
 
-export const Header = () => {
-  const { user } = useContext(AppContext) as ContextType;
-  let location = useLocation().pathname.toLowerCase();
-
+export const Header = ({ role, location }: HeaderProps) => {
   const adminMenu = [
     { label: 'Home', href: '/home' },
     { label: 'Groups', href: '/groups' },
@@ -27,7 +25,7 @@ export const Header = () => {
     { label: 'Profile', href: '/profile' }
   ];
 
-  const items = user?.role === 'admin' ? adminMenu : pgpMenu;
+  const items = role === 'admin' ? adminMenu : pgpMenu;
 
   const ulClass = 'flex my-2';
   const liClass = 'font-poppins mx-2 bottom-0 text-base';
