@@ -1,7 +1,6 @@
+import { MemoryRouter } from 'react-router';
 import type { Preview } from '@storybook/react';
 import 'tailwindcss/tailwind.css';
-// import { withRouter } from 'storybook-addon-react-router-v6';
-
 // export const decorators = [withRouter];
 
 export const parameters = {

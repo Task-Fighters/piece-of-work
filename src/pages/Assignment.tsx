@@ -8,6 +8,7 @@ import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Input } from '../components/Input';
 import Title from '../components/Title';
+import { ListItem } from '../components/ListItem';
 
 const Assignment = () => {
   const { user, assignments } = useContext(AppContext) as ContextType;
@@ -23,12 +24,12 @@ const Assignment = () => {
       <Header role={user.role} location={location} />
       <div className="flex justify-center">
         <div className="max-w-6xl mx-2">
-          <div className="float-right">
+          <div className="flex justify-end">
             {user.role === 'admin' && (
               <div className="w-48 hidden md:flex">
                 <Button
                   buttonColor="white"
-                  label="Add new Assignment"
+                  label="Add New Assignment"
                   onClick={() => {}}
                 />
               </div>
@@ -51,7 +52,21 @@ const Assignment = () => {
               onClick={() => {}}
             />
           </div>
-          <Title title="Completed assignments" />
+          <Title
+            title={`Completed assignments (${assignment?.submission.length})`}
+          />
+          <ul className="flex flex-row flex-wrap justify-between">
+            {assignment?.submission.map((user) => {
+              return (
+                <ListItem
+                  key={user.userId}
+                  id={user.userId}
+                  title={user.name}
+                  route="/user"
+                />
+              );
+            })}
+          </ul>
           <Footer role={user.role} image={user.imageURL} />
         </div>
       </div>

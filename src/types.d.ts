@@ -7,7 +7,11 @@ export interface IUser {
   location: string;
   imageURL: string;
   status: string;
-  groups: number[];
+  groups: IUserGroups[];
+}
+export interface IUserGroups {
+  groupsId: number;
+  name: string;
 }
 
 export interface IGroup {
@@ -22,6 +26,13 @@ export interface IAssignment {
   title: string;
   startDate: string;
   description: string;
+  submission: ISubmission[];
+}
+
+export interface ISubmission {
+  userId: number;
+  name: string;
+  repo: string;
 }
 
 export interface IProfile {
@@ -33,6 +44,8 @@ export interface IProfile {
 
 export type ContextType = {
   user: IUser;
+  users: IUser[];
+  groups: IGroup[];
   assignments: IAssignment[];
   setUser: (user: IUser) => void;
 

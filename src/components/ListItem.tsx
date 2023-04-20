@@ -12,7 +12,7 @@ interface ListItemProps {
 }
 
 const base_listItem =
-  'text-left leading-relaxed mb-4 w-full text-black bg-gray-100 py-2';
+  'text-left leading-relaxed mb-2 w-full text-black bg-gray-100 py-2 md:w-129';
 
 export const ListItem = ({
   id,
@@ -22,15 +22,19 @@ export const ListItem = ({
   onClick,
   route
 }: ListItemProps) => {
-  const classes = `${base_listItem} `;
+  const classes = `${base_listItem}`;
 
   return (
-    <Link to={`/${route}/${id}`} className={classes} onClick={onClick}>
-      <div className="px-4 pt-1">
-        <h2 className="text-xl font-bold font-poppins">{title}</h2>
-        {iconDelete && <TiDeleteOutline></TiDeleteOutline>}
-        {iconEdit && <MdEdit></MdEdit>}
-      </div>
-    </Link>
+    <li className={classes}>
+      <Link to={`${route}/${id}`} onClick={onClick}>
+        <div className="px-4 flex justify-between">
+          <h2 className="text-md font-normal font-poppins">{title}</h2>
+          {iconDelete && (
+            <TiDeleteOutline className={'text-2xl text-neutral-400'} />
+          )}
+          {iconEdit && <MdEdit className={'text-2xl text-neutral-400'} />}
+        </div>
+      </Link>
+    </li>
   );
 };

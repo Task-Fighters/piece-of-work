@@ -1,7 +1,55 @@
-import React from 'react';
+import { useContext } from 'react';
+import { useLocation } from 'react-router-dom';
+import { ContextType } from '../types';
+import { AppContext } from '../AppContext';
+import { Footer } from '../components/Footer';
+import { Header } from '../components/Header';
+import Title from '../components/Title';
+import { ListItem } from '../components/ListItem';
+import { Button } from '../components/Button';
 
 const Groups = () => {
-  return <div>Groups</div>;
+  const { user, groups } = useContext(AppContext) as ContextType;
+
+  console.log('Groups', groups);
+
+  let location = useLocation().pathname.toLowerCase();
+
+  return (
+    <div className="container-xl">
+      <Header role={user.role} location={location} />
+      <div className="flex justify-center">
+        <div className="max-w-6xl w-full mx-2">
+          <div className="flex justify-end">
+            {user.role === 'admin' && (
+              <div className="w-48 hidden md:flex">
+                <Button
+                  buttonColor="white"
+                  label="Add New Group"
+                  onClick={() => {}}
+                />
+              </div>
+            )}
+          </div>
+          <Title underline title="Groups" />
+          <ul className="flex flex-row flex-wrap justify-between capitalize">
+            {groups.map((group) => {
+              return (
+                <ListItem
+                  key={group?.id}
+                  id={group?.id}
+                  title={group?.name}
+                  route="/groups"
+                  iconDelete={user.role === 'user' ? false : true}
+                />
+              );
+            })}
+          </ul>
+          <Footer role={user.role} image={user.imageURL} />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Groups;

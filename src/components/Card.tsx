@@ -8,7 +8,7 @@ interface CardProps {
   onClick?: () => void;
 }
 
-const base_card = 'text-left border-b-2 leading-relaxed mb-4 w-full';
+const base_card = 'text-left border-b-2 leading-tight mb-4 w-full';
 
 export const Card = ({
   id,
@@ -42,15 +42,15 @@ export const Card = ({
   const classes = `${base_card} ${mode} py-2`;
 
   return cardType !== 'detailed' ? (
-    <Link to={`/assignment/${id}`} className={classes} onClick={onClick}>
+    <a href={`/assignment/${id}`} className={classes} onClick={onClick}>
       <div className="px-4 pt-1">
         <h2 className="text-xl font-bold font-poppins">{title}</h2>
         <h3 className="text-sm font-bold font-roboto">{subtitle}</h3>
       </div>
       <div className="px-4 py-1">
-        <p className="text-sm font-roboto">{featureText}</p>
+        <p className="text-md font-roboto">{featureText}</p>
       </div>
-    </Link>
+    </a>
   ) : (
     <div className={classes}>
       <div className="px-4 pt-1">
@@ -59,7 +59,7 @@ export const Card = ({
       </div>
       <div className="border-b-2 mt-2 mb-1 border-pink-600"></div>
       <div className="px-4 py-1">
-        <p className="text-sm font-roboto">{featureText}</p>
+        <p className="text-md font-roboto">{featureText}</p>
       </div>
     </div>
   );
