@@ -6,6 +6,8 @@ const AppContext = createContext<ContextType | null>(null);
 
 const AppProvider = ({ children }: any) => {
   const [user, setUser] = useState<IUser>({} as IUser);
+  const [userGroup, setUserGroup] = useState<IGroup[]>([]);
+  const [userAssignments, setUserAssignments] = useState<IAssignment[]>();
   const [assignments, setAssignments] = useState<IAssignment[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [groups, setGroups] = useState<IGroup[]>([]);
@@ -45,7 +47,7 @@ const AppProvider = ({ children }: any) => {
 
   useEffect(() => {
     // axios
-    //   .get('https://project-salty-backend.azurewebsites.net/Assignments')
+    //   .get('https://project-salty-backend.azurewebsites.net/Assignments/group/')
     //   .then((response) => {
     //     console.log('RESPONSE', response);
     //     setAssignments([...response.data]);
@@ -107,8 +109,8 @@ const AppProvider = ({ children }: any) => {
           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas exercitationem assumenda amet necessitatibus, repellendus tenetur! Officia rem dolorem saepe laborum quo. Officiis quidem impedit corporis facilis ad saepe odit cumque!',
         submission: [
           {
-            userId: 1,
-            name: 'Dasha Mylnikova',
+            userId: 0,
+            name: 'Lucas Wiersma',
             repo: 'https://github.com/saltams/project-salty'
           },
           {

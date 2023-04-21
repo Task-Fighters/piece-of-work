@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 interface CardProps {
   cardType?: 'card' | 'feature' | 'detailed';
   title: string;

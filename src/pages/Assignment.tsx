@@ -19,6 +19,8 @@ const Assignment = () => {
     (assignment) => assignment.id === Number(assignmentId)
   );
 
+  //Add filter to render only assignments from the group that user is linked to.
+
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
