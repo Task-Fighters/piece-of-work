@@ -43,7 +43,7 @@ export const Card = ({
   return cardType !== 'detailed' ? (
     <a href={`/assignment/${id}`} className={classes} onClick={onClick}>
       <div className="px-4 pt-1">
-        <h2 className="text-xl font-bold font-poppins">{title}</h2>
+        <h2 className="text-lg font-bold font-poppins">{title}</h2>
         <h3 className="text-sm font-bold font-roboto">{subtitle}</h3>
       </div>
       <div className="px-4 py-1">
@@ -53,7 +53,7 @@ export const Card = ({
   ) : (
     <div className={classes}>
       <div className="px-4 pt-1">
-        <h2 className="text-xl font-bold font-poppins">{title}</h2>
+        <h2 className="text-lg font-bold font-poppins">{title}</h2>
         <h3 className="text-sm font-bold font-roboto">{subtitle}</h3>
       </div>
       <div className="border-b-2 mt-2 mb-1 border-pink-600"></div>

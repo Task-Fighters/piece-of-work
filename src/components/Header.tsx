@@ -26,7 +26,7 @@ export const Header = ({ role, location }: HeaderProps) => {
   ];
 
   const items = role === 'admin' ? adminMenu : pgpMenu;
-  console.log('loc', location);
+
   const ulClass = 'flex my-2';
   const liClass = 'font-poppins mx-2 bottom-0 text-base';
   const liClassSelected =

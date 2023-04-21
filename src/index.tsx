@@ -6,8 +6,6 @@ import { AppProvider } from './AppContext';
 import { BrowserRouter } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-console.log(process.env.REACT_APP_CLIENT_ID);
-
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

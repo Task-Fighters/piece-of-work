@@ -1,5 +1,5 @@
 import { MdLocationPin } from 'react-icons/md';
-import Title from '../components/Title';
+// import Title from '../components/Title';
 
 interface UserDetailsProps {
   id: number;

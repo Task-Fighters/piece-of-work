@@ -19,7 +19,7 @@ const Users = () => {
       <div className="flex justify-center">
         <div className="max-w-6xl w-full mx-2">
           <Input icon placeholder="Search" />
-          <Title className="" underline title="Users" />
+          <Title underline title="Users" />
           <ul className="flex flex-row flex-wrap justify-between capitalize">
             {users.map((person) => {
               return (

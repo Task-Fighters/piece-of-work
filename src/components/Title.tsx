@@ -4,10 +4,10 @@ interface TitleProps {
   className?: string;
 }
 
-const baseTitleClass = 'font-bold font-sans text-lg mb-4';
+const baseTitleClass = 'font-bold font-sans mb-4 text-xl';
 
 const Title = ({ title, underline, className }: TitleProps) => {
-  const underlineClass = 'border-b-4 border-pink-600';
+  const underlineClass = 'border-b-2 border-pink-600';
 
   const getStyling = (isUnderlined: boolean | undefined) =>
     isUnderlined ? `${baseTitleClass} ${underlineClass}` : `${baseTitleClass}`;
