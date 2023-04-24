@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ContextType } from '../types';
 import { AppContext } from '../AppContext';
 import { Footer } from '../components/Footer';
@@ -10,8 +10,7 @@ import { Button } from '../components/Button';
 
 const Groups = () => {
   const { user, groups } = useContext(AppContext) as ContextType;
-
-  console.log('Groups', groups);
+  const navigate = useNavigate();
 
   let location = useLocation().pathname.toLowerCase();
 
@@ -26,7 +25,9 @@ const Groups = () => {
                 <Button
                   buttonColor="white"
                   label="Add New Group"
-                  onClick={() => {}}
+                  onClick={() => {
+                    navigate('/add-group');
+                  }}
                 />
               </div>
             )}

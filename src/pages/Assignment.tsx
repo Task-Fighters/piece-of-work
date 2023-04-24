@@ -31,7 +31,7 @@ const Assignment = () => {
               <div className="w-48 hidden md:flex">
                 <Button
                   buttonColor="white"
-                  label="Add New Assignment"
+                  label="Edit Assignment"
                   onClick={() => {}}
                 />
               </div>

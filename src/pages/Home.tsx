@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ContextType } from '../types';
 import { AppContext } from '../AppContext';
 import { Header } from '../components/Header';
@@ -10,7 +10,7 @@ import { Footer } from '../components/Footer';
 
 const Home = () => {
   const { user, assignments } = useContext(AppContext) as ContextType;
-
+  const navigate = useNavigate();
   let location = useLocation().pathname.toLowerCase();
 
   return (
@@ -24,7 +24,9 @@ const Home = () => {
                 <Button
                   buttonColor="white"
                   label="Add new Assignment"
-                  onClick={() => {}}
+                  onClick={() => {
+                    navigate('/add-assignment');
+                  }}
                 />
               </div>
             )}

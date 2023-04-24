@@ -15,7 +15,7 @@ export const Header = ({ role, location }: HeaderProps) => {
     { label: 'Home', href: '/home' },
     { label: 'Groups', href: '/groups' },
     { label: 'Users', href: '/users' },
-    { label: 'Assignments', href: '/assignments' },
+    { label: 'Add assignment', href: '/add-assignment' },
     { label: 'Profile', href: '/profile' }
   ];
 

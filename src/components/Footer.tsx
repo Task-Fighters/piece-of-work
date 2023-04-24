@@ -1,6 +1,9 @@
 import { MdHome, MdAddCircleOutline, MdPerson2 } from 'react-icons/md';
 import { HiUserGroup } from 'react-icons/hi';
+import { RiGroup2Line, RiGroup2Fill } from 'react-icons/ri';
+import { MdOutlineAssignment } from 'react-icons/md';
 
+//
 interface FooterProps {
   role: string;
   image: string;
@@ -13,27 +16,31 @@ const baseListItem = 'hover:drop-shadow-lg';
 const baseIcon = 'text-4xl';
 
 export const Footer = ({ role, image }: FooterProps) => {
-  // const { user } = useContext(AppContext) as ContextType;
-
   let mode = role === 'admin' ? 'flex' : 'hidden';
 
   return (
     <div className={`${baseFooter} md:hidden`}>
       <ul className="flex items-center justify-between w-full font-medium text-pink-600">
         <li className={`${baseListItem}`}>
-          <a href="/users" className={`mr-4  ${baseLink}`}>
-            <HiUserGroup className={`${baseIcon}`} />
-          </a>
-        </li>
-        <li className={`${baseListItem}`}>
           <a href="/home" className={`mr-4  ${baseLink}`}>
             <MdHome className={`${baseIcon}`} />
           </a>
         </li>
+        <li className={`${mode} ${baseListItem}`}>
+          <a href="/groups" className={`mr-4  ${baseLink}`}>
+            <RiGroup2Fill className={`${baseIcon}`} />
+          </a>
+        </li>
+
+        <li className={`${baseListItem}`}>
+          <a href="/users" className={`mr-4  ${baseLink}`}>
+            <HiUserGroup className={`${baseIcon}`} />
+          </a>
+        </li>
 
         <li className={`${mode} ${baseListItem}`}>
-          <a href="/add_assignment" className={`mr-4  ${baseLink}`}>
-            <MdAddCircleOutline className={`${baseIcon}`} />
+          <a href="/add-assignment" className={`mr-4  ${baseLink}`}>
+            <MdOutlineAssignment className={`${baseIcon}`} />
           </a>
         </li>
         <li className={`${baseListItem}`}>

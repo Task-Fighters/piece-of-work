@@ -7,6 +7,7 @@ import Groups from './pages/Groups';
 import Group from './pages/Group';
 import Users from './pages/Users';
 import Assignment from './pages/Assignment';
+import AddUser from './pages/AddUser';
 import AddAssignment from './pages/AddAssignment';
 import Profile from './pages/Profile';
 
@@ -19,6 +20,7 @@ function App() {
       <Route path="/groups/:groupId" element={<Group />} />
       <Route path="/users" element={<Users />} />
       <Route path="/users/:userId" element={<Profile />} />
+      <Route path="/add-user" element={<AddUser />} />
       <Route path="/assignment/:assignmentId" element={<Assignment />} />
       <Route path="/add-assignment" element={<AddAssignment />} />
       <Route path="/profile" element={<Profile />} />

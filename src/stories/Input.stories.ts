@@ -10,7 +10,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const TextInput: Story = {
   args: {
     label: 'label'
@@ -25,6 +24,12 @@ export const Search: Story = {
 };
 
 export const Select: Story = {
+  args: {
+    select: true
+  }
+};
+
+export const Date: Story = {
   args: {
     select: true
   }

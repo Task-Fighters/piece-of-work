@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { ContextType } from '../types';
 import { AppContext } from '../AppContext';
 import { Footer } from '../components/Footer';
@@ -7,10 +7,11 @@ import { Header } from '../components/Header';
 import { Input } from '../components/Input';
 import Title from '../components/Title';
 import { ListItem } from '../components/ListItem';
+import { Button } from '../components/Button';
 
 const Users = () => {
   const { user, users } = useContext(AppContext) as ContextType;
-
+  const navigate = useNavigate();
   let location = useLocation().pathname.toLowerCase();
 
   return (
@@ -18,6 +19,19 @@ const Users = () => {
       <Header role={user.role} location={location} />
       <div className="flex justify-center">
         <div className="max-w-6xl w-full mx-2">
+          <div className="flex justify-end">
+            {user.role === 'admin' && (
+              <div className="w-48 hidden md:flex">
+                <Button
+                  buttonColor="white"
+                  label="Add User"
+                  onClick={() => {
+                    navigate('/add-user');
+                  }}
+                />
+              </div>
+            )}
+          </div>
           <Input icon placeholder="Search" />
           <Title underline title="Users" />
           <ul className="flex flex-row flex-wrap justify-between capitalize">

@@ -1,14 +1,16 @@
 import { BiSearch } from 'react-icons/bi';
-import { IGroup } from '../types';
+import { IGroup, IRole, ILocation } from '../types';
 import { Select, initTE } from 'tw-elements';
 import { useEffect } from 'react';
-import { FiChevronDown } from 'react-icons/fi';
+
 interface InputProps {
   label?: string;
   icon?: Boolean;
   select?: Boolean;
+  multiple?: Boolean;
+  date?: Boolean;
   placeholder?: string;
-  options?: IGroup[];
+  options?: IGroup[] | IRole[] | ILocation[];
   onChange?: () => void;
 }
 
@@ -19,7 +21,9 @@ export const Input = ({
   label,
   icon,
   select,
+  date,
   placeholder,
+  multiple,
   options,
   ...props
 }: InputProps) => {
@@ -34,27 +38,44 @@ export const Input = ({
       </label>
       {select ? (
         <div className="inline-block relative w-full mb-4">
-          <select
-            data-te-select-init
-            data-te-select-placeholder="Select group"
-            multiple
-            data-te-select-size="lg"
-            data-te-class-form-outline="relative focus:border-pink-600"
-            // data-te-select-form-outline-ref="focus:outline-none focus:ring-2 focus:border-pink-600"
-            className={BASE}
-          >
-            {options?.map((option) => {
-              return (
-                <option key={option.id} value={option.name}>
-                  {option.name}
-                </option>
-              );
-            })}
-          </select>
+          {multiple ? (
+            <select
+              data-te-select-init
+              data-te-select-placeholder="Select option"
+              multiple
+              data-te-select-size="lg"
+            >
+              {options?.map((option) => {
+                return (
+                  <option key={option.id} value={option.name}>
+                    {option.name}
+                  </option>
+                );
+              })}
+            </select>
+          ) : (
+            <select
+              data-te-select-init
+              data-te-select-placeholder="Select option"
+              data-te-select-size="lg"
+            >
+              {options?.map((option) => {
+                return (
+                  <option key={option.id} value={option.name}>
+                    {option.name}
+                  </option>
+                );
+              })}
+            </select>
+          )}
         </div>
       ) : (
         <div className="inline-block relative w-full">
-          <input type="text" className={BASE} placeholder={placeholder} />
+          <input
+            type={date ? 'date' : 'text'}
+            className={BASE}
+            placeholder={placeholder}
+          />
           {icon && (
             <BiSearch className="absolute inset-y-2.5 right-2 text-gray-500 text-2xl" />
           )}

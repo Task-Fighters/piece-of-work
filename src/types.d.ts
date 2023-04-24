@@ -21,6 +21,16 @@ export interface IGroup {
   assignments: IAssignment[];
 }
 
+export interface IRole {
+  id: number;
+  name: string;
+}
+
+export interface ILocation {
+  id: number;
+  name: string;
+}
+
 export interface IAssignment {
   id: number;
   title: string;
@@ -48,10 +58,4 @@ export type ContextType = {
   groups: IGroup[];
   assignments: IAssignment[];
   setUser: (user: IUser) => void;
-
-  // cart: IProductToOrder[]
-  // addToCart: (product: IProduct, quantity: number) => void
-  // submitCart: (cart: IProductToOrder[] ) => void
 };
-
-//  setIsFilterOpen: React.Dispatch<React.SetStateAction<boolean | undefined>>,
