@@ -4,7 +4,8 @@ module.exports = {
   content: [
     './index.html',
     './src/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}'
+    './components/**/*.{js,ts,jsx,tsx}',
+    './node_modules/tw-elements/dist/js/**/*.js'
   ],
   theme: {
     fontFamily: {
@@ -22,5 +23,6 @@ module.exports = {
     }
   },
 
-  plugins: []
+  plugins: [require('tw-elements/dist/plugin.cjs')],
+  darkMode: 'class'
 };
