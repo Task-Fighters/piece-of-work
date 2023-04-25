@@ -11,6 +11,7 @@ const AppProvider = ({ children }: any) => {
   const [assignments, setAssignments] = useState<IAssignment[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [groups, setGroups] = useState<IGroup[]>([]);
+  const [update, setUpdate] = useState<Boolean>(false);
 
   useEffect(() => {
     // axios.get('http://localhost:8080/api/user').then((response) => {
@@ -42,8 +43,9 @@ const AppProvider = ({ children }: any) => {
       .get('https://project-salty-backend.azurewebsites.net/Groups')
       .then((response) => {
         setGroups([...response.data]);
+        setUpdate(false);
       });
-  }, []);
+  }, [update]);
 
   useEffect(() => {
     // axios
@@ -153,7 +155,17 @@ const AppProvider = ({ children }: any) => {
   }, []);
 
   return (
-    <AppContext.Provider value={{ groups, user, setUser, assignments, users }}>
+    <AppContext.Provider
+      value={{
+        groups,
+        user,
+        setUser,
+        assignments,
+        setGroups,
+        setUpdate,
+        users
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

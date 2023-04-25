@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import whiteLogo from '../assets/Saltwhite.svg';
 import blackLogo from '../assets/Saltblack.svg';
 // import { MdEdit, MdAddCircleOutline } from 'react-icons/md';
@@ -11,6 +12,8 @@ interface HeaderProps {
 const baseHeader = 'text-white mb-4 flex md:bg-neutral-700 justify-center';
 
 export const Header = ({ role, location }: HeaderProps) => {
+  const navigate = useNavigate();
+
   const adminMenu = [
     { label: 'Home', href: '/home' },
     { label: 'Groups', href: '/groups' },
@@ -35,7 +38,14 @@ export const Header = ({ role, location }: HeaderProps) => {
     <header className={baseHeader}>
       <div className="flex flex-wrap justify-between w-full max-w-6xl items-end mx-2 h-36">
         <div className="w-52 m-5 hidden md:flex">
-          <img src={whiteLogo} alt="Salt logo" />
+          <img
+            className="cursor-pointer"
+            src={whiteLogo}
+            alt="Salt logo"
+            onClick={() => {
+              navigate('/home');
+            }}
+          />
         </div>
         <div>
           <div className="w-36 m-5 flex md:hidden">

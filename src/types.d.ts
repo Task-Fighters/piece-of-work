@@ -58,4 +58,6 @@ export type ContextType = {
   groups: IGroup[];
   assignments: IAssignment[];
   setUser: (user: IUser) => void;
+  setGroups: (groups: IGroups[]) => void;
+  setUpdate: (update: boolean) => void;
 };

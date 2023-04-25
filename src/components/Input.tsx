@@ -10,8 +10,9 @@ interface InputProps {
   multiple?: Boolean;
   date?: Boolean;
   placeholder?: string;
+  value?: string;
   options?: IGroup[] | IRole[] | ILocation[];
-  onChange?: () => void;
+  onChange?: (e: any) => void;
 }
 
 const BASE =
@@ -24,6 +25,8 @@ export const Input = ({
   date,
   placeholder,
   multiple,
+  onChange,
+  value,
   options,
   ...props
 }: InputProps) => {
@@ -75,6 +78,8 @@ export const Input = ({
             type={date ? 'date' : 'text'}
             className={BASE}
             placeholder={placeholder}
+            onChange={onChange}
+            value={value}
           />
           {icon && (
             <BiSearch className="absolute inset-y-2.5 right-2 text-gray-500 text-2xl" />

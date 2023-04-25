@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { ContextType } from '../types';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AppContext } from '../AppContext';
+import { ContextType } from '../types';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Input } from '../components/Input';

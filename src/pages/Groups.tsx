@@ -1,7 +1,8 @@
 import { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ContextType } from '../types';
+import axios from 'axios';
 import { AppContext } from '../AppContext';
+import { ContextType } from '../types';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import Title from '../components/Title';
@@ -9,10 +10,19 @@ import { ListItem } from '../components/ListItem';
 import { Button } from '../components/Button';
 
 const Groups = () => {
-  const { user, groups } = useContext(AppContext) as ContextType;
+  const { user, groups, setUpdate } = useContext(AppContext) as ContextType;
   const navigate = useNavigate();
 
   let location = useLocation().pathname.toLowerCase();
+
+  const handleDeleteGroup = (e: any, groupId: number) => {
+    e.preventDefault();
+    axios
+      .delete(
+        `https://project-salty-backend.azurewebsites.net/Groups/${groupId}`
+      )
+      .then(() => setUpdate(true));
+  };
 
   return (
     <div className="container-xl">
@@ -26,7 +36,7 @@ const Groups = () => {
                   buttonColor="white"
                   label="Add New Group"
                   onClick={() => {
-                    navigate('/add-group');
+                    navigate('/groups/add-group');
                   }}
                 />
               </div>
@@ -42,6 +52,7 @@ const Groups = () => {
                   title={group?.name}
                   route="/groups"
                   iconDelete={user.role === 'user' ? false : true}
+                  onClickDeleteIcon={(e: any) => handleDeleteGroup(e, group.id)}
                 />
               );
             })}

@@ -8,7 +8,8 @@ interface ListItemProps {
   iconDelete?: Boolean;
   iconEdit?: Boolean;
   id?: number;
-  onClick?: () => void;
+  onClick?: (e: any) => void;
+  onClickDeleteIcon?: (e: any) => void;
 }
 
 const base_listItem =
@@ -20,6 +21,7 @@ export const ListItem = ({
   iconEdit,
   title,
   onClick,
+  onClickDeleteIcon,
   route
 }: ListItemProps) => {
   const classes = `${base_listItem}`;
@@ -30,7 +32,10 @@ export const ListItem = ({
         <div className="px-4 flex justify-between">
           <h2 className="text-md font-normal font-poppins">{title}</h2>
           {iconDelete && (
-            <TiDeleteOutline className={'text-2xl text-neutral-400'} />
+            <TiDeleteOutline
+              className={'text-2xl text-neutral-400'}
+              onClick={onClickDeleteIcon}
+            />
           )}
           {iconEdit && <MdEdit className={'text-2xl text-neutral-400'} />}
         </div>

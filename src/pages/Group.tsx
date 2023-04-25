@@ -1,36 +1,63 @@
-import { useContext } from 'react';
-import { useLocation } from 'react-router-dom';
-import { ContextType } from '../types';
+import { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import { useLocation, useParams } from 'react-router-dom';
 import { AppContext } from '../AppContext';
+import { ContextType, IGroup } from '../types';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Input } from '../components/Input';
-import Title from '../components/Title';
 import { ListItem } from '../components/ListItem';
 import { Button } from '../components/Button';
-import { MdEdit } from 'react-icons/md';
+import Editable from '../components/Editable';
 
 const Group = () => {
-  const { user, users } = useContext(AppContext) as ContextType;
-
+  const { user } = useContext(AppContext) as ContextType;
+  const [group, setGroup] = useState<IGroup>({} as IGroup);
+  const [groupName, setGroupName] = useState('');
+  let { groupId } = useParams();
   let location = useLocation().pathname.toLowerCase();
+
+  useEffect(() => {
+    axios
+      .get(`https://project-salty-backend.azurewebsites.net/Groups/${groupId}`)
+      .then((response) => {
+        setGroup(response.data);
+        setGroupName(response.data.name);
+      });
+  }, [groupId]);
+
+  // const handleDeleteUser = () => {
+  //   axios
+  //     .delete(
+  //       `https://project-salty-backend.azurewebsites.net/Groups/${groupId}`
+  //     )
+  //     .then((response) => {
+  //       setGroup(response.data);
+  //       setGroupName(response.data.name);
+  //     });
+  // };
 
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
       <div className="flex justify-center">
         <div className="max-w-6xl w-full mx-2">
-          <div className="w-full flex flex-row justify-between items-center border-b-2 border-pink-600 mb-4">
-            <Title title="JSFS Amsterdam Fall 2022" className="!mb-0" />
-            <MdEdit className="text-2xl text-pink-600" />
-          </div>
+          <Editable text={groupName} groupId={Number(groupId)} type="input">
+            <input
+              type="text"
+              name="task"
+              value={groupName}
+              className="focus:outline-none w-96"
+              onChange={(e) => setGroupName(e.target.value)}
+            />
+          </Editable>
 
           <Input label="User E-mail Address" />
           <div className="mb-4">
             <Button label="Add User to Group" />
           </div>
           <ul className="flex flex-row flex-wrap justify-between capitalize">
-            {users.map((person) => {
+            {group.users?.map((person) => {
               return (
                 <ListItem
                   key={person?.id}

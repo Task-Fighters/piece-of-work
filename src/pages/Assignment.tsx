@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import { ContextType } from '../types';
 import { AppContext } from '../AppContext';
+import { ContextType } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Footer } from '../components/Footer';

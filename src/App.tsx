@@ -10,6 +10,9 @@ import Assignment from './pages/Assignment';
 import AddUser from './pages/AddUser';
 import AddAssignment from './pages/AddAssignment';
 import Profile from './pages/Profile';
+import AddGroup from './pages/AddGroup';
+import UpdateUser from './pages/UpdateUser';
+import UpdateAssignment from './pages/UpdateAssignment';
 
 function App() {
   return (
@@ -18,10 +21,16 @@ function App() {
       <Route path="/home" element={<Home />} />
       <Route path="/groups" element={<Groups />} />
       <Route path="/groups/:groupId" element={<Group />} />
+      <Route path="/groups/add-group" element={<AddGroup />} />
       <Route path="/users" element={<Users />} />
       <Route path="/users/:userId" element={<Profile />} />
+      <Route path="/users/:userId/update" element={<UpdateUser />} />
       <Route path="/add-user" element={<AddUser />} />
       <Route path="/assignment/:assignmentId" element={<Assignment />} />
+      <Route
+        path="/assignments/:assignmentId/update"
+        element={<UpdateAssignment />}
+      />
       <Route path="/add-assignment" element={<AddAssignment />} />
       <Route path="/profile" element={<Profile />} />
     </Routes>

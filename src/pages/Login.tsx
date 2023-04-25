@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
-import { ContextType } from '../types';
 import { AppContext } from '../AppContext';
+import { ContextType } from '../types';
 import Title from '../components/Title';
 import { Button } from '../components/Button';
 import { IProfile } from '../types';
