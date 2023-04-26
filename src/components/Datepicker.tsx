@@ -1,9 +1,20 @@
 import { Input } from '../components/Input';
 
-const Datepicker = () => {
+interface DatePickerProps {
+  value?: string | null;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const Datepicker = ({ onChange, value }: DatePickerProps) => {
   return (
     <div>
-      <Input placeholder="Select a date" date label="Date" />
+      <Input
+        value={value}
+        placeholder="Select a date"
+        date
+        label="Date"
+        onChange={onChange}
+      />
     </div>
   );
 };

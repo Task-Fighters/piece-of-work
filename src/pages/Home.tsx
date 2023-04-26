@@ -25,7 +25,7 @@ const Home = () => {
                   buttonColor="white"
                   label="Add new Assignment"
                   onClick={() => {
-                    navigate('/add-assignment');
+                    navigate('/assignments/new');
                   }}
                 />
               </div>
@@ -46,7 +46,7 @@ const Home = () => {
               );
             })}
           </div>
-          <Footer role={user.role} image={user.imageURL} />
+          <Footer role={user.role} image={user.imageUrl} />
         </div>
       </div>
     </div>

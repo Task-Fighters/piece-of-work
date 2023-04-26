@@ -5,7 +5,7 @@ interface UserDetailsProps {
   id: number;
   name: string;
   email: string;
-  imageURL?: string;
+  imageUrl?: string;
   location?: string;
   groups?: string[];
 }
@@ -15,7 +15,7 @@ const UserDetails = ({
   id,
   name,
   email,
-  imageURL = 'https://lh3.googleusercontent.com/a/AGNmyxakun_wyuFnicLeqrIfZW766lP5xL0wP_OK-pm3vQ=s576',
+  imageUrl,
   location = 'Amsterdam',
   groups
 }: UserDetailsProps) => {
@@ -36,7 +36,7 @@ const UserDetails = ({
       </div>
       <div className="absolute top-4 right-4">
         <img
-          src={imageURL}
+          src={imageUrl}
           alt="Profile"
           className="rounded-full border-8 w-24 border-white outline-none outline-offset-0 outline-pink-600"
         />

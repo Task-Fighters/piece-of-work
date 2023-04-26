@@ -1,11 +1,12 @@
 export interface IUser {
   id: number;
+  token?: string;
   googleId: string;
   email: string;
   fullName: string;
   role: string;
   location: string;
-  imageURL: string;
+  imageUrl: string;
   status: string;
   groups: IUserGroups[];
 }
@@ -49,15 +50,17 @@ export interface IProfile {
   email: string;
   name: string;
   picture: string;
-  googleId: string;
+  id: string;
 }
 
 export type ContextType = {
   user: IUser;
   users: IUser[];
+  profile: IProfile;
   groups: IGroup[];
   assignments: IAssignment[];
   setUser: (user: IUser) => void;
+  setProfile: (profile: IProfile) => void;
   setGroups: (groups: IGroups[]) => void;
   setUpdate: (update: boolean) => void;
 };

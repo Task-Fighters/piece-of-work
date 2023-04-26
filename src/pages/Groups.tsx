@@ -36,7 +36,7 @@ const Groups = () => {
                   buttonColor="white"
                   label="Add New Group"
                   onClick={() => {
-                    navigate('/groups/add-group');
+                    navigate('/groups/new');
                   }}
                 />
               </div>
@@ -57,7 +57,7 @@ const Groups = () => {
               );
             })}
           </ul>
-          <Footer role={user.role} image={user.imageURL} />
+          <Footer role={user.role} image={user.imageUrl} />
         </div>
       </div>
     </div>

@@ -1,57 +1,67 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
+import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../AppContext';
 import { ContextType } from '../types';
 import Title from '../components/Title';
 import { Button } from '../components/Button';
-import { IProfile } from '../types';
 import lightLogo from '../assets/Saltblack.svg';
+import Cookies from 'js-cookie';
 
 const Login = () => {
-  const { user, setUser } = useContext(AppContext) as ContextType;
-  const [userToken, setUserToken] = useState();
-  const [profile, setProfile] = useState<IProfile>({} as IProfile);
+  const { user, setUser, profile, setProfile } = useContext(
+    AppContext
+  ) as ContextType;
+  const [userGoogleToken, setUserGoogleToken] = useState<{
+    access_token?: string;
+  }>();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   const login = useGoogleLogin({
-    //@ts-ignore
-    onSuccess: (codeResponse) => setUserToken(codeResponse)
+    onSuccess: (codeResponse) => setUserGoogleToken(codeResponse)
   });
 
   useEffect(() => {
-    if (userToken) {
+    if (userGoogleToken) {
       axios
         .get(
-          //@ts-ignore
-          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${userToken.access_token}`,
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${userGoogleToken.access_token}`,
           {
             headers: {
-              //@ts-ignore
-              Authorization: `Bearer ${userToken.access_token}`,
+              Authorization: `Bearer ${userGoogleToken.access_token}`,
               Accept: 'application/json'
             }
           }
         )
         .then((res) => {
           setProfile(res.data);
+          setIsLoggedIn(true);
+        });
+    }
+  }, [userGoogleToken]);
+
+  useEffect(() => {
+    if (profile && isLoggedIn) {
+      axios
+        .put('https://project-salty-backend.azurewebsites.net/Users/login', {
+          googleId: profile.id,
+          email: profile.email,
+          fullName: profile.name,
+          imageUrl: profile.picture
         })
-        .then(() => {
-          axios.put(
-            'https://project-salty-backend.azurewebsites.net/Users/login',
-            {
-              email: profile.email,
-              fullName: profile.name,
-              imageURL: profile.picture,
-              googleId: profile.googleId
-            }
-          );
+        .then((res) => {
+          setUser(res.data);
+          Cookies.set('user', JSON.stringify(res.data), {
+            expires: 1
+          });
+          navigate('/home');
         })
-        .then((res) => console.log(res))
         .catch((err) => console.log(err));
     }
-  }, [userToken]);
+  }, [profile]);
 
-  console.log('PROFILE', profile);
   return (
     <div className="h-screen flex justify-center items-center mx-2">
       <div className="max-w-md w-full">

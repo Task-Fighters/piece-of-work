@@ -1,3 +1,5 @@
+import parse from 'html-react-parser';
+
 interface CardProps {
   cardType?: 'card' | 'feature' | 'detailed';
   title: string;
@@ -41,13 +43,13 @@ export const Card = ({
   const classes = `${base_card} ${mode} py-2`;
 
   return cardType !== 'detailed' ? (
-    <a href={`/assignment/${id}`} className={classes} onClick={onClick}>
+    <a href={`/assignments/${id}`} className={classes} onClick={onClick}>
       <div className="px-4 pt-1">
         <h2 className="text-lg font-bold font-poppins">{title}</h2>
         <h3 className="text-sm font-bold font-roboto">{subtitle}</h3>
       </div>
       <div className="px-4 py-1">
-        <p className="text-md font-roboto">{featureText}</p>
+        <h4 className="text-md font-roboto">{parse(`${featureText}`)}</h4>
       </div>
     </a>
   ) : (
@@ -58,7 +60,7 @@ export const Card = ({
       </div>
       <div className="border-b-2 mt-2 mb-1 border-pink-600"></div>
       <div className="px-4 py-1">
-        <p className="text-md font-roboto">{featureText}</p>
+        <h4 className="text-md font-roboto">{parse(`${featureText}`)}</h4>
       </div>
     </div>
   );

@@ -3,7 +3,6 @@ import { HiUserGroup } from 'react-icons/hi';
 import { RiGroup2Line, RiGroup2Fill } from 'react-icons/ri';
 import { MdOutlineAssignment } from 'react-icons/md';
 
-//
 interface FooterProps {
   role: string;
   image: string;
@@ -39,7 +38,7 @@ export const Footer = ({ role, image }: FooterProps) => {
         </li>
 
         <li className={`${mode} ${baseListItem}`}>
-          <a href="/add-assignment" className={`mr-4  ${baseLink}`}>
+          <a href="/assignments/new" className={`mr-4  ${baseLink}`}>
             <MdOutlineAssignment className={`${baseIcon}`} />
           </a>
         </li>
@@ -51,7 +50,7 @@ export const Footer = ({ role, image }: FooterProps) => {
               <img
                 src={image}
                 alt="Profile"
-                className="rounded-full object-cover w-6 h-6"
+                className="rounded-full object-cover w-8 h-8"
               ></img>
             )}
           </a>

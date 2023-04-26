@@ -66,7 +66,7 @@ const UpdateUser = () => {
             </div>
           </form>
         </div>
-        <Footer role={user.role} image={user.imageURL} />
+        <Footer role={user.role} image={user.imageUrl} />
       </div>
     </div>
   );

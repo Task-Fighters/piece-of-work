@@ -24,8 +24,8 @@ const AddGroup = () => {
       })
       .then((response) => {
         console.log(response);
+        setGroupName('');
       });
-    setGroupName('');
   };
 
   return (
@@ -44,7 +44,7 @@ const AddGroup = () => {
           <div className="mb-4">
             <Button label="Add Group" onClick={addGroup} />
           </div>
-          <Footer role={user.role} image={user.imageURL} />
+          <Footer role={user.role} image={user.imageUrl} />
         </div>
       </div>
     </div>

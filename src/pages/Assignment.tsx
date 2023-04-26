@@ -1,7 +1,8 @@
-import { useContext } from 'react';
+import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { AppContext } from '../AppContext';
-import { ContextType } from '../types';
+import { IAssignment, ContextType } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Footer } from '../components/Footer';
@@ -12,13 +13,23 @@ import { ListItem } from '../components/ListItem';
 
 const Assignment = () => {
   const { user, assignments } = useContext(AppContext) as ContextType;
+  const [assignment, setAssignment] = useState<IAssignment>({} as IAssignment);
 
   let { assignmentId } = useParams();
   let location = useLocation().pathname.toLowerCase();
-  let assignment = assignments?.find(
-    (assignment) => assignment.id === Number(assignmentId)
-  );
+  // let assignment = assignments?.find(
+  //   (assignment) => assignment.id === Number(assignmentId)
+  // );
 
+  useEffect(() => {
+    axios
+      .get(
+        `https://project-salty-backend.azurewebsites.net/Assignments/${assignmentId}`
+      )
+      .then((response) => {
+        setAssignment(response.data);
+      });
+  }, [assignmentId]);
   //Add filter to render only assignments from the group that user is linked to.
 
   return (
@@ -54,8 +65,9 @@ const Assignment = () => {
               onClick={() => {}}
             />
           </div>
-          <Title
+          {/* <Title
             title={`Completed assignments (${assignment?.submission.length})`}
+            // Correct the number of assignments after implementation on the backend ${assignment?.submission.length}
           />
           <ul className="flex flex-row flex-wrap justify-between">
             {assignment?.submission.map((user) => {
@@ -64,12 +76,12 @@ const Assignment = () => {
                   key={user.userId}
                   id={user.userId}
                   title={user.name}
-                  route="/user"
+                  route="/users"
                 />
               );
             })}
-          </ul>
-          <Footer role={user.role} image={user.imageURL} />
+          </ul> */}
+          <Footer role={user.role} image={user.imageUrl} />
         </div>
       </div>
     </div>

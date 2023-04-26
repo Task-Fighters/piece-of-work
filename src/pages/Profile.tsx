@@ -12,13 +12,13 @@ import UserDetails from '../components/UserDetails';
 const Profile = () => {
   const { user, assignments } = useContext(AppContext) as ContextType;
   let completedAssignments: any = [];
-  assignments.forEach((assignment) => {
-    assignment.submission.forEach((item) => {
-      if (item.userId === user.id) {
-        completedAssignments.push(assignment);
-      }
-    });
-  });
+  // assignments.forEach((assignment) => {
+  //   assignment.submission.forEach((item) => {
+  //     if (item.userId === user.id) {
+  //       completedAssignments.push(assignment);
+  //     }
+  //   });
+  // });
 
   let location = useLocation().pathname.toLowerCase();
 
@@ -42,6 +42,7 @@ const Profile = () => {
             id={user.id}
             name={user.fullName}
             email={user.email}
+            imageUrl={user.imageUrl}
             // groups={user.groupsId}
           />
           <Title
@@ -50,7 +51,7 @@ const Profile = () => {
             title="Completed Assignments"
           />
           <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
-            {assignments.map((assignment, index) => {
+            {assignments?.map((assignment, index) => {
               return (
                 <Card
                   cardType={'card'}
@@ -73,7 +74,7 @@ const Profile = () => {
               </div>
             )}
           </div>
-          <Footer role={user.role} image={user.imageURL} />
+          <Footer role={user.role} image={user.imageUrl} />
         </div>
       </div>
     </div>

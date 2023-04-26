@@ -10,7 +10,7 @@ interface InputProps {
   multiple?: Boolean;
   date?: Boolean;
   placeholder?: string;
-  value?: string;
+  value?: any;
   options?: IGroup[] | IRole[] | ILocation[];
   onChange?: (e: any) => void;
 }
@@ -47,6 +47,7 @@ export const Input = ({
               data-te-select-placeholder="Select option"
               multiple
               data-te-select-size="lg"
+              onChange={onChange}
             >
               {options?.map((option) => {
                 return (
@@ -61,10 +62,11 @@ export const Input = ({
               data-te-select-init
               data-te-select-placeholder="Select option"
               data-te-select-size="lg"
+              onChange={onChange}
             >
               {options?.map((option) => {
                 return (
-                  <option key={option.id} value={option.name}>
+                  <option key={option.id} value={option.id}>
                     {option.name}
                   </option>
                 );

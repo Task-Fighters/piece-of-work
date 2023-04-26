@@ -1,11 +1,18 @@
 import axios from 'axios';
 import { createContext, useEffect, useState } from 'react';
-import { IUser, IAssignment, ContextType, IGroup } from './types';
+import { IUser, IAssignment, IProfile, ContextType, IGroup } from './types';
+import Cookies from 'js-cookie';
 
 const AppContext = createContext<ContextType | null>(null);
 
 const AppProvider = ({ children }: any) => {
-  const [user, setUser] = useState<IUser>({} as IUser);
+  const cookie: string | undefined = Cookies.get('user');
+  let defaultUser = {} as IUser;
+  if (cookie) {
+    defaultUser = JSON.parse(cookie);
+  }
+  const [user, setUser] = useState<IUser>(defaultUser);
+  const [profile, setProfile] = useState<IProfile>({} as IProfile);
   const [userGroup, setUserGroup] = useState<IGroup[]>([]);
   const [userAssignments, setUserAssignments] = useState<IAssignment[]>();
   const [assignments, setAssignments] = useState<IAssignment[]>([]);
@@ -13,22 +20,13 @@ const AppProvider = ({ children }: any) => {
   const [groups, setGroups] = useState<IGroup[]>([]);
   const [update, setUpdate] = useState<Boolean>(false);
 
-  useEffect(() => {
-    // axios.get('http://localhost:8080/api/user').then((response) => {
-    //   setUser([...response.data]);
-    // });
-    setUser({
-      id: 0,
-      googleId: '330983098',
-      email: 'lucas.wiersma@appliedtechnology.se',
-      fullName: 'Lucas Wiersma',
-      role: 'admin',
-      location: 'Amsterdam',
-      imageURL: '',
-      status: 'active',
-      groups: [{ groupsId: 1, name: 'JSFS Fall 2022' }]
-    });
-  }, []);
+  // useEffect(() => {
+  //   const cookie: string | undefined = Cookies.get('user');
+  //   if (cookie) {
+  //     console.log('user cookie', cookie);
+  //     setUser(JSON.parse(cookie));
+  //   }
+  // }, []);
 
   useEffect(() => {
     axios
@@ -48,118 +46,35 @@ const AppProvider = ({ children }: any) => {
   }, [update]);
 
   useEffect(() => {
-    // axios
-    //   .get('https://project-salty-backend.azurewebsites.net/Assignments/group/')
-    //   .then((response) => {
-    //     console.log('RESPONSE', response);
-    //     setAssignments([...response.data]);
-    //   });
-    setAssignments([
-      {
-        id: 22,
-        title: 'Flight Finder v2 - Week 1',
-        startDate: '12-03-2023',
-        description:
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas exercitationem assumenda amet necessitatibus, repellendus tenetur! Officia rem dolorem saepe laborum quo. Officiis quidem impedit corporis facilis ad saepe odit cumque!',
-        submission: [
-          {
-            userId: 1,
-            name: 'Dasha Mylnikova',
-            repo: 'https://github.com/saltams/project-salty'
-          },
-          {
-            userId: 2,
-            name: 'Teddy Bear',
-            repo: 'https://github.com/saltams/project-salty'
-          },
-          {
-            userId: 3,
-            name: 'Winny Pooh',
-            repo: 'https://github.com/saltams/project-salty'
-          }
-        ]
-      },
-      {
-        id: 24,
-        title: 'Flight Finder v2 - Week 2',
-        startDate: '12-03-2023',
-        description:
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas exercitationem assumenda amet necessitatibus, repellendus tenetur! Officia rem dolorem saepe laborum quo. Officiis quidem impedit corporis facilis ad saepe odit cumque!',
-        submission: [
-          {
-            userId: 1,
-            name: 'Dasha Mylnikova',
-            repo: 'https://github.com/saltams/project-salty'
-          },
-          {
-            userId: 2,
-            name: 'Teddy Bear',
-            repo: 'https://github.com/saltams/project-salty'
-          },
-          {
-            userId: 3,
-            name: 'Winny Pooh',
-            repo: 'https://github.com/saltams/project-salty'
-          }
-        ]
-      },
-      {
-        id: 26,
-        title: 'Flight Finder v2 - Week 3',
-        startDate: '12-03-2023',
-        description:
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas exercitationem assumenda amet necessitatibus, repellendus tenetur! Officia rem dolorem saepe laborum quo. Officiis quidem impedit corporis facilis ad saepe odit cumque!',
-        submission: [
-          {
-            userId: 0,
-            name: 'Lucas Wiersma',
-            repo: 'https://github.com/saltams/project-salty'
-          },
-          {
-            userId: 2,
-            name: 'Teddy Bear',
-            repo: 'https://github.com/saltams/project-salty'
-          },
-          {
-            userId: 3,
-            name: 'Winny Pooh',
-            repo: 'https://github.com/saltams/project-salty'
-          }
-        ]
-      },
-      {
-        id: 28,
-        title: 'Flight Finder v2 - Week 4',
-        startDate: '12-03-2023',
-        description:
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas exercitationem assumenda amet necessitatibus, repellendus tenetur! Officia rem dolorem saepe laborum quo. Officiis quidem impedit corporis facilis ad saepe odit cumque!',
-        submission: [
-          {
-            userId: 1,
-            name: 'Dasha Mylnikova',
-            repo: 'https://github.com/saltams/project-salty'
-          },
-          {
-            userId: 3,
-            name: 'Teddy Bear',
-            repo: 'https://github.com/saltams/project-salty'
-          },
-          {
-            userId: 4,
-            name: 'Winny Pooh',
-            repo: 'https://github.com/saltams/project-salty'
-          }
-        ]
-      }
-    ]);
-  }, []);
+    if (user.role === 'admin') {
+      axios
+        .get('https://project-salty-backend.azurewebsites.net/Assignments')
+        .then((response) => {
+          console.log('RESPONSE', response);
+          setAssignments([...response.data]);
+        });
+    } else {
+      user?.groups?.forEach((group) => {
+        axios
+          .get(
+            `https://project-salty-backend.azurewebsites.net/Assignments/group/${group.groupsId}`
+          )
+          .then((response) => {
+            console.log('RESPONSE', response);
+            setAssignments([...response.data]);
+          });
+      });
+    }
+  }, [user]);
 
   return (
     <AppContext.Provider
       value={{
         groups,
         user,
+        profile,
         setUser,
+        setProfile,
         assignments,
         setGroups,
         setUpdate,

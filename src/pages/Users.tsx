@@ -26,7 +26,7 @@ const Users = () => {
                   buttonColor="white"
                   label="Add User"
                   onClick={() => {
-                    navigate('/add-user');
+                    navigate('/users/new');
                   }}
                 />
               </div>
@@ -47,7 +47,7 @@ const Users = () => {
               );
             })}
           </ul>
-          <Footer role={user.role} image={user.imageURL} />
+          <Footer role={user.role} image={user.imageUrl} />
         </div>
       </div>
     </div>
