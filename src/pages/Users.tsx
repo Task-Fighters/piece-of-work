@@ -25,6 +25,7 @@ const Users = () => {
                 <Button
                   buttonColor="white"
                   label="Add User"
+                  type="button"
                   onClick={() => {
                     navigate('/users/new');
                   }}

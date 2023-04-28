@@ -42,7 +42,7 @@ const AddGroup = () => {
             }
           />
           <div className="mb-4">
-            <Button label="Add Group" onClick={addGroup} />
+            <Button label="Add Group" onClick={addGroup} type="button" />
           </div>
           <Footer role={user.role} image={user.imageUrl} />
         </div>

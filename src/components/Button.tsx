@@ -2,7 +2,8 @@ interface ButtonProps {
   buttonColor?: 'black' | 'pink' | 'white';
   label: string;
   className?: string;
-  onClick?: () => void;
+  type: any;
+  onClick?: (e: any) => void;
 }
 
 const base_button =
@@ -11,6 +12,7 @@ const base_button =
 export const Button = ({
   label,
   buttonColor = 'black',
+  type,
   onClick,
   className
 }: ButtonProps) => {
@@ -28,11 +30,7 @@ export const Button = ({
   const classes = `${base_button} ${mode}`;
 
   return (
-    <button
-      type="button"
-      className={`${className} ${classes}`}
-      onClick={onClick}
-    >
+    <button type={type} className={`${className} ${classes}`} onClick={onClick}>
       {label}
     </button>
   );

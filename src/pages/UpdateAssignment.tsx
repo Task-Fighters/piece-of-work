@@ -27,10 +27,14 @@ const UpdateAssignment = () => {
             <Input options={groups} select label="Group" />
             <RichTextEditor />
             <div>
-              <Button label="Update Assignment" />
+              <Button label="Update Assignment" type="button" />
             </div>
             <div className="mb-32">
-              <Button buttonColor="pink" label="Delete Assignment" />
+              <Button
+                buttonColor="pink"
+                label="Delete Assignment"
+                type="button"
+              />
             </div>
           </form>
         </div>

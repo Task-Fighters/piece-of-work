@@ -23,12 +23,12 @@ export interface IGroup {
 }
 
 export interface IRole {
-  id: number;
+  id?: number;
   name: string;
 }
 
 export interface ILocation {
-  id: number;
+  id?: number;
   name: string;
 }
 

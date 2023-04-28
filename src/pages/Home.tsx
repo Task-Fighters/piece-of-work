@@ -17,13 +17,14 @@ const Home = () => {
     <div className="container-xl">
       <Header role={user.role} location={location} />
       <div className="flex justify-center">
-        <div className="max-w-6xl mx-2">
+        <div className="max-w-6xl mx-2 w-full">
           <div className="float-right">
             {user.role === 'admin' && (
               <div className="w-48 hidden md:flex">
                 <Button
                   buttonColor="white"
                   label="Add new Assignment"
+                  type="button"
                   onClick={() => {
                     navigate('/assignments/new');
                   }}

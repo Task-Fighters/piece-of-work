@@ -32,6 +32,7 @@ const Profile = () => {
               <div className="w-48 hidden md:flex">
                 <Button
                   buttonColor="pink"
+                  type="button"
                   label="Logout"
                   className=" hover:bg-pink-600 hover:text-white"
                 />
@@ -69,6 +70,7 @@ const Profile = () => {
               <div className="w-full md:hidden flex">
                 <Button
                   label="Logout"
+                  type="button"
                   className="bg-pink-600 border-pink-600 text-white border-"
                 />
               </div>

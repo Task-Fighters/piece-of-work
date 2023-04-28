@@ -54,7 +54,7 @@ const Group = () => {
 
           <Input label="User E-mail Address" />
           <div className="mb-4">
-            <Button label="Add User to Group" />
+            <Button label="Add User to Group" type="button" />
           </div>
           <ul className="flex flex-row flex-wrap justify-between capitalize">
             {group.users?.map((person) => {

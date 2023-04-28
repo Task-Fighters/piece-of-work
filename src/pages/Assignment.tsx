@@ -43,6 +43,7 @@ const Assignment = () => {
                 <Button
                   buttonColor="white"
                   label="Edit Assignment"
+                  type="button"
                   onClick={() => {}}
                 />
               </div>
@@ -62,6 +63,7 @@ const Assignment = () => {
             <Button
               className="md:w-1/4 md:ml-2"
               label="Submit"
+              type="button"
               onClick={() => {}}
             />
           </div>

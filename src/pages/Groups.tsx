@@ -35,6 +35,7 @@ const Groups = () => {
                 <Button
                   buttonColor="white"
                   label="Add New Group"
+                  type="button"
                   onClick={() => {
                     navigate('/groups/new');
                   }}

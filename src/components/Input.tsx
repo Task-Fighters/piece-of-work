@@ -66,7 +66,10 @@ export const Input = ({
             >
               {options?.map((option) => {
                 return (
-                  <option key={option.id} value={option.id}>
+                  <option
+                    key={`${option.name} ${option.id}`}
+                    value={label !== 'group' ? option.name : option.id}
+                  >
                     {option.name}
                   </option>
                 );

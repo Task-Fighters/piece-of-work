@@ -74,7 +74,11 @@ const Login = () => {
         <p className="mb-10 text-sm">
           Log in with your @appliedtechnology.se account
         </p>
-        <Button onClick={() => login()} label="Login with Google" />
+        <Button
+          onClick={() => login()}
+          label="Login with Google"
+          type="button"
+        />
       </div>
     </div>
   );

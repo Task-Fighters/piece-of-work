@@ -59,10 +59,10 @@ const UpdateUser = () => {
             <Input options={groups} select multiple label="Group" />
             <Input options={roleArr} select label="Role" />
             <div>
-              <Button label="Add User" />
+              <Button label="Add User" type="button" />
             </div>
             <div className="mb-32">
-              <Button buttonColor="pink" label="Delete User" />
+              <Button buttonColor="pink" label="Delete User" type="button" />
             </div>
           </form>
         </div>
