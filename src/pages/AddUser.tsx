@@ -10,6 +10,7 @@ import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 import { MultiSelect } from 'react-multi-select-component';
+import '../styles/external-components.css'
 
 const roleArr: IRole[] = [
   {
@@ -45,7 +46,7 @@ const AddUser = () => {
   const [role, setRole] = useState('pgp');
 
   let urlLocation = useLocation().pathname.toLowerCase();
-
+  
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const newUser = {
@@ -73,7 +74,6 @@ const AddUser = () => {
   };
   const groupsByName = groups.map(item => item.name)
 
-  // console.log(groupsByName);
 
   const selectOptions = groupsByName.map(item => ({ label: item, value: item }));
   const [selectedGroups, setGroups] = useState(selectOptions);
@@ -97,21 +97,16 @@ const AddUser = () => {
               value={userLocation}
               onChange={(e) => setUserLocation(e.target.value)}
             />
-            {/* <Input
-              options={groups}
-              select
-              multiple
-              label="Group"
-              value={userGroups}
-              onChange={(e) => setUserGroups([...userGroups, e.target.value])}
-            /> */}
-            <MultiSelect
-            options={selectOptions}
-            value={selectedGroups}
-            onChange={setGroups}
-            labelledBy="Select"
-            
-          />
+            <label className='text-pink-600 text-lg font-bold font-sans'>Group</label>
+            <div className='.dropdown-container'>
+              <MultiSelect
+                className='mb-4'
+                options={selectOptions}
+                value={selectedGroups}
+                onChange={setGroups}
+                labelledBy="Select"
+              />
+            </div>
             <Input
               options={roleArr}
               select

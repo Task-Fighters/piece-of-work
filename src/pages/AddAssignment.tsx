@@ -11,6 +11,7 @@ import Datepicker from '../components/Datepicker';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
+import { MultiSelect } from 'react-multi-select-component';
 
 const AddAssignment = () => {
   const { user, groups } = useContext(AppContext) as ContextType;
@@ -20,6 +21,9 @@ const AddAssignment = () => {
   const [groupId, setGroupId] = useState(null);
 
   let location = useLocation().pathname.toLowerCase();
+  const groupsByName = groups.map(item => item.name)
+  const selectOptions = groupsByName.map(item => ({ label: item, value: item }));
+  const [selectedGroups, setGroups] = useState(selectOptions);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -61,13 +65,16 @@ const AddAssignment = () => {
                 setStartDate(e.target.value)
               }
             />
-            <Input
-              options={groups}
-              select
-              multiple
-              label="Group"
-              onChange={(e) => setGroupId(e.target.value)}
-            />
+            <label className='text-pink-600 text-lg font-bold font-sans'>Group</label>
+            <div className='.dropdown-container'>
+              <MultiSelect
+                className='mb-4'
+                options={selectOptions}
+                value={selectedGroups}
+                onChange={setGroups}
+                labelledBy="Select"
+              />
+            </div>
             <label className="text-pink-600 text-lg font-bold font-sans">
               Details
             </label>
