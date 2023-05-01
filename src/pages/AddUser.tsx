@@ -9,6 +9,7 @@ import { Input } from '../components/Input';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Button } from '../components/Button';
+import { MultiSelect } from 'react-multi-select-component';
 
 const roleArr: IRole[] = [
   {
@@ -70,7 +71,13 @@ const AddUser = () => {
     setRole('PGP');
     setUserGroups([]);
   };
-  console.log(userGroups);
+  const groupsByName = groups.map(item => item.name)
+
+  // console.log(groupsByName);
+
+  const selectOptions = groupsByName.map(item => ({ label: item, value: item }));
+  const [selectedGroups, setGroups] = useState(selectOptions);
+
   return (
     <div className="container-xl">
       <Header role={user.role} location={urlLocation} />
@@ -90,14 +97,21 @@ const AddUser = () => {
               value={userLocation}
               onChange={(e) => setUserLocation(e.target.value)}
             />
-            <Input
+            {/* <Input
               options={groups}
               select
               multiple
               label="Group"
               value={userGroups}
               onChange={(e) => setUserGroups([...userGroups, e.target.value])}
-            />
+            /> */}
+            <MultiSelect
+            options={selectOptions}
+            value={selectedGroups}
+            onChange={setGroups}
+            labelledBy="Select"
+            
+          />
             <Input
               options={roleArr}
               select
