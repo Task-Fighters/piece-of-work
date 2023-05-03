@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
-import { useGoogleLogin } from '@react-oauth/google';
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
 import { ContextType } from '../types';
 import Title from '../components/Title';
 import { Button } from '../components/Button';
 import lightLogo from '../assets/Saltblack.svg';
-import Cookies from 'js-cookie';
 
 const Login = () => {
   const { user, setUser, profile, setProfile } = useContext(
@@ -39,9 +39,9 @@ const Login = () => {
           setProfile(res.data);
           setIsLoggedIn(true);
         });
-    }
-  }, [userGoogleToken]);
-
+      }
+    }, [userGoogleToken]);
+    
   useEffect(() => {
     if (profile && isLoggedIn) {
       axios
@@ -53,9 +53,14 @@ const Login = () => {
         })
         .then((res) => {
           setUser(res.data);
-          Cookies.set('user', JSON.stringify(res.data), {
-            expires: 1
-          });
+          console.log(user, 'user')
+          // Cookies.set('user', JSON.stringify(res.data), {
+          //   expires: 1
+          // });
+          Cookies.set('token', res.data.token,{
+            expires: 30
+          })
+          
           navigate('/home');
         })
         .catch((err) => console.log(err));
