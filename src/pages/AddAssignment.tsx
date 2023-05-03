@@ -1,38 +1,39 @@
 import React, { useContext, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import ReactQuill from 'react-quill';
+import axios from 'axios';
+import { MultiSelect } from 'react-multi-select-component';
 import { ContextType } from '../types';
 import Title from '../components/Title';
 import { Input } from '../components/Input';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { AppContext } from '../AppContext';
-import { useLocation } from 'react-router-dom';
 import { Button } from '../components/Button';
 import Datepicker from '../components/Datepicker';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import axios from 'axios';
-import { MultiSelect } from 'react-multi-select-component';
 
 const AddAssignment = () => {
   const { user, groups } = useContext(AppContext) as ContextType;
   const [title, setTitle] = useState('');
   const [startDate, setStartDate] = useState('');
   const [description, setDescription] = useState('');
-  const [groupId, setGroupId] = useState(null);
 
   let location = useLocation().pathname.toLowerCase();
-  const groupsByName = groups.map(item => item.name)
-  const selectOptions = groupsByName.map(item => ({ label: item, value: item }));
-  const [selectedGroups, setGroups] = useState(selectOptions);
+  const selectOptions = groups.map(item => ({ label: item.name, value: item.id }));
+  const [selectedGroups, setSelectedGroups] = useState(selectOptions);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    const selectedGroupsIds = selectedGroups.map(group =>  group.value)
+    // change after backend is fixed, pass whole array instead of first position
     const newAssignment = {
       title: title,
       startDate: startDate,
       description: description,
-      groupId: groupId
+      groupId: selectedGroupsIds[0]
     };
+
     axios
       .post(`https://project-salty-backend.azurewebsites.net/Assignments`, {
         ...newAssignment
@@ -71,7 +72,7 @@ const AddAssignment = () => {
                 className='mb-4'
                 options={selectOptions}
                 value={selectedGroups}
-                onChange={setGroups}
+                onChange={setSelectedGroups}
                 labelledBy="Select"
               />
             </div>

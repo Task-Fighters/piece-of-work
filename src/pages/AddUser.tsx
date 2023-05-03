@@ -1,6 +1,7 @@
-import axios from 'axios';
 import { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { MultiSelect } from 'react-multi-select-component';
 import { AppContext } from '../AppContext';
 import { ContextType } from '../types';
 import { IRole, ILocation } from '../types';
@@ -9,31 +10,28 @@ import { Input } from '../components/Input';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Button } from '../components/Button';
-import { MultiSelect } from 'react-multi-select-component';
 import '../styles/external-components.css'
 
 const roleArr: IRole[] = [
   {
-    // id: 1,
+  
     name: 'PGP'
   },
   {
-    // id: 2,
     name: 'Admin'
   }
 ];
 
 const locationArr: ILocation[] = [
   {
-    // id: 1,
+
     name: 'Amsterdam'
   },
   {
-    // id: 2,
+  
     name: 'Oslo'
   },
   {
-    // id: 3,
     name: 'Stockholm'
   }
 ];
@@ -42,22 +40,24 @@ const AddUser = () => {
   const { user, groups } = useContext(AppContext) as ContextType;
   const [email, setEmail] = useState('');
   const [userLocation, setUserLocation] = useState('Amsterdam');
-  const [userGroups, setUserGroups] = useState<string[]>([]);
   const [role, setRole] = useState('pgp');
 
   let urlLocation = useLocation().pathname.toLowerCase();
-  
+  const selectOptions = groups.map(item => ({ label: item.name, value: item.id }));
+  const [selectedGroups, setSelectedGroups] = useState(selectOptions);
+  const selectedGroupsIds = selectedGroups.map(group =>  group.value)
+
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const newUser = {
       email: email,
       fullName: '',
-      role: role,
+      role: role.toLowerCase(),
       location: userLocation,
       status: 'active',
-      groups: userGroups
+      groups: selectedGroupsIds
     };
-    console.log(newUser);
+
     axios
       .post(`https://project-salty-backend.azurewebsites.net/Users`, {
         ...newUser
@@ -70,14 +70,8 @@ const AddUser = () => {
     setEmail('');
     setUserLocation('Amsterdam');
     setRole('PGP');
-    setUserGroups([]);
   };
-  const groupsByName = groups.map(item => item.name)
-
-
-  const selectOptions = groupsByName.map(item => ({ label: item, value: item }));
-  const [selectedGroups, setGroups] = useState(selectOptions);
-
+  
   return (
     <div className="container-xl">
       <Header role={user.role} location={urlLocation} />
@@ -103,7 +97,7 @@ const AddUser = () => {
                 className='mb-4'
                 options={selectOptions}
                 value={selectedGroups}
-                onChange={setGroups}
+                onChange={setSelectedGroups}
                 labelledBy="Select"
               />
             </div>
