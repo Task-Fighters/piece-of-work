@@ -2,6 +2,7 @@ import { BiSearch } from 'react-icons/bi';
 import { IGroup, IRole, ILocation } from '../types';
 import { Select, initTE } from 'tw-elements';
 import { useEffect } from 'react';
+
 interface InputProps {
   label?: string;
   icon?: Boolean;
@@ -39,9 +40,9 @@ export const Input = ({
         {label}
       </label>
       {select ? (
-        <div className="inline-block relative w-full focus-within:outline-none focus-within:ring-1 focus-within:ring-pink-600 mb-4">
+         <div className="inline-block relative w-full focus-within:outline-none focus-within:ring-1 focus-within:ring-pink-600 mb-4">
           {multiple ? (
-            <select 
+            <select
               data-te-select-init
               data-te-select-placeholder="Select option"
               multiple

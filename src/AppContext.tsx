@@ -1,36 +1,51 @@
 import axios from 'axios';
 import { createContext, useEffect, useState } from 'react';
 import { IUser, IAssignment, IProfile, ContextType, IGroup } from './types';
+import { useLocation } from "react-router-dom";
 import Cookies from 'js-cookie';
 
 const AppContext = createContext<ContextType | null>(null);
 
 const AppProvider = ({ children }: any) => {
   const cookie: string | undefined = Cookies.get('token');
-  // let defaultUser = {} as IUser;
-  // if (cookie) {
-  //   defaultUser = JSON.parse(cookie);
-  // }
+  const location = useLocation();
+  const userData = location.state;
+  const [userId, setUserId] = useState<number>();
   const [user, setUser] = useState<IUser>({} as IUser);
   const [profile, setProfile] = useState<IProfile>({} as IProfile);
-  const [userGroup, setUserGroup] = useState<IGroup[]>([]);
-  const [userAssignments, setUserAssignments] = useState<IAssignment[]>();
+  // const [userGroup, setUserGroup] = useState<IGroup[]>([]);
+  // const [userAssignments, setUserAssignments] = useState<IAssignment[]>();
   const [assignments, setAssignments] = useState<IAssignment[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [groups, setGroups] = useState<IGroup[]>([]);
   const [update, setUpdate] = useState<Boolean>(false);
 
-
+  useEffect(() => {
+      const userCookie: string | undefined = Cookies.get('user');
+      if (userCookie) {
+          setUser(JSON.parse(userCookie));
+        }
+      }, []);
+  
   // useEffect(() => {
-    //   const cookie: string | undefined = Cookies.get('user');
-    //   if (cookie) {
-      //     console.log('user cookie', cookie);
-      //     setUser(JSON.parse(cookie));
-      //   }
-      // }, []);
+  //   if (userData) {
+  //     setUserId(userData.id);
+  //   axios
+  //   .get(`https://project-salty-backend.azurewebsites.net/Users/${userId}`, {
+  //     headers:{
+  //       Authorization: `Bearer ${cookie}`,
+  //       Accept: 'text/plain'
+  //     }
+  //   })
+  //   .then((response) => {
+  //     console.log('before',user)
+  //     setUser({...response.data});
+  //     console.log('after',user)
+  //   });
+  //   }
+  // }, [])
       
   useEffect(() => {
-    console.log(cookie);
     axios
       .get('https://project-salty-backend.azurewebsites.net/Users', {
         headers:{
@@ -47,7 +62,7 @@ const AppProvider = ({ children }: any) => {
     axios
       .get('https://project-salty-backend.azurewebsites.net/Groups',
       {
-        headers:{
+        headers: {
           Authorization: `Bearer ${cookie}`,
           Accept: 'text/plain'
         }
@@ -68,7 +83,6 @@ const AppProvider = ({ children }: any) => {
           }
         })
         .then((response) => {
-          console.log('RESPONSE', response);
           setAssignments([...response.data]);
         });
     } else {
@@ -83,7 +97,6 @@ const AppProvider = ({ children }: any) => {
             }
           )
           .then((response) => {
-            console.log('RESPONSE', response);
             setAssignments([...response.data]);
           });
       });
@@ -95,6 +108,8 @@ const AppProvider = ({ children }: any) => {
       value={{
         groups,
         user,
+        userId,
+        setUserId,
         profile,
         setUser,
         setProfile,

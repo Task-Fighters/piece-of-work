@@ -44,6 +44,7 @@ const Login = () => {
     
   useEffect(() => {
     if (profile && isLoggedIn) {
+      console.log('profile exists' , profile)
       axios
         .put('https://project-salty-backend.azurewebsites.net/Users/login', {
           googleId: profile.id,
@@ -53,15 +54,13 @@ const Login = () => {
         })
         .then((res) => {
           setUser(res.data);
-          console.log(user, 'user')
-          // Cookies.set('user', JSON.stringify(res.data), {
-          //   expires: 1
-          // });
+          Cookies.set('user', JSON.stringify(res.data), {
+            expires: 30
+          });
           Cookies.set('token', res.data.token,{
             expires: 30
-          })
-          
-          navigate('/home');
+          });
+          navigate('/home', { state: { id: res.data.id }});
         })
         .catch((err) => console.log(err));
     }

@@ -9,10 +9,16 @@ import { Button } from '../components/Button';
 import { Footer } from '../components/Footer';
 
 const Home = () => {
-  const { user, assignments } = useContext(AppContext) as ContextType;
+  const { user, setUser, assignments, userId } = useContext(AppContext) as ContextType;
   const navigate = useNavigate();
   let location = useLocation().pathname.toLowerCase();
   // console.log(Date.now());
+  // const loc = useLocation();
+  // const userData = loc.state;
+  // console.log('set?',userData)
+  // console.log('set? user',user)
+  // console.log(userId, 'id in home')
+  
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
@@ -33,7 +39,7 @@ const Home = () => {
             )}
           </div>
           <Input icon placeholder="Search" />
-          <div className="flex flex-row flex-wrap justify-between">
+          <div className="flex flex-row flex-wrap justify-between mb-32">
             {assignments.map((assignment, index) => {
               return (
                 <Card
@@ -53,5 +59,6 @@ const Home = () => {
     </div>
   );
 };
+
 
 export default Home;

@@ -58,6 +58,16 @@ const Groups = () => {
               );
             })}
           </ul>
+          <div className="mb-32 mt-8 flex md:hidden">
+                <Button
+                  buttonColor="black"
+                  label="Add Group"
+                  type="button"
+                  onClick={() => {
+                    navigate('/groups/new');
+                  }}
+                />
+          </div>
           <Footer role={user.role} image={user.imageUrl} />
         </div>
       </div>
