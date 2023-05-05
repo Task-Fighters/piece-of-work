@@ -1,15 +1,16 @@
 export interface IUser {
   id: number;
   token?: string;
-  googleId: string;
+  googleId?: string;
   email: string;
   fullName: string;
   role: string;
   location: string;
   imageUrl: string;
   status: string;
-  groups: IUserGroups[];
+  groups?: IUserGroups[];
 }
+
 export interface IUserGroups {
   groupsId: number;
   name: string;

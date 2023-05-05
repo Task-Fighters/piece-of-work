@@ -2,16 +2,17 @@ import axios from 'axios';
 import { createContext, useEffect, useState } from 'react';
 import { IUser, IAssignment, IProfile, ContextType, IGroup } from './types';
 import { useLocation } from "react-router-dom";
+import { useAppSelector } from './hooks/reduxHooks';
 import Cookies from 'js-cookie';
 
 const AppContext = createContext<ContextType | null>(null);
 
 const AppProvider = ({ children }: any) => {
   const cookie: string | undefined = Cookies.get('token');
-  const location = useLocation();
-  const userData = location.state;
+  // const location = useLocation();
+  // const userData = location.state;
   const [userId, setUserId] = useState<number>();
-  const [user, setUser] = useState<IUser>({} as IUser);
+  // const [setUser] = useState<IUser>({} as IUser);
   const [profile, setProfile] = useState<IProfile>({} as IProfile);
   // const [userGroup, setUserGroup] = useState<IGroup[]>([]);
   // const [userAssignments, setUserAssignments] = useState<IAssignment[]>();
@@ -19,33 +20,38 @@ const AppProvider = ({ children }: any) => {
   const [users, setUsers] = useState<IUser[]>([]);
   const [groups, setGroups] = useState<IGroup[]>([]);
   const [update, setUpdate] = useState<Boolean>(false);
+  const [user, setUser] = useState<IUser>({} as IUser);
+  const userRedux = useAppSelector(state => state.user.user);
 
-  useEffect(() => {
-      const userCookie: string | undefined = Cookies.get('user');
-      if (userCookie) {
-          setUser(JSON.parse(userCookie));
-        }
-      }, []);
-  
+console.log(userRedux, 'USER REDUX')
   // useEffect(() => {
-  //   if (userData) {
-  //     setUserId(userData.id);
-  //   axios
-  //   .get(`https://project-salty-backend.azurewebsites.net/Users/${userId}`, {
-  //     headers:{
-  //       Authorization: `Bearer ${cookie}`,
-  //       Accept: 'text/plain'
-  //     }
-  //   })
-  //   .then((response) => {
-  //     console.log('before',user)
-  //     setUser({...response.data});
-  //     console.log('after',user)
-  //   });
-  //   }
-  // }, [])
+  //     const userCookie: string | undefined = Cookies.get('user');
+  //     if (userCookie) {
+  //         setUser(JSON.parse(userCookie));
+  //       }
+  //     }, []);
+  
+  useEffect(() => {
+    if (userRedux) {
+      setUserId(userRedux.id);
+      if(userId)
+    axios
+    .get(`https://project-salty-backend.azurewebsites.net/Users/${userId}`, {
+      headers:{
+        Authorization: `Bearer ${cookie}`,
+        Accept: 'text/plain'
+      }
+    })
+    .then((response) => {
+      console.log('before',user)
+      setUser({...response.data});
+      console.log('after',user)
+    });
+    }
+  }, [userRedux, userId, cookie, user]);
       
   useEffect(() => {
+    if (cookie) {
     axios
       .get('https://project-salty-backend.azurewebsites.net/Users', {
         headers:{
@@ -56,9 +62,11 @@ const AppProvider = ({ children }: any) => {
       .then((response) => {
         setUsers([...response.data]);
       });
+    };
   }, [cookie]);
 
   useEffect(() => {
+    if (cookie) {
     axios
       .get('https://project-salty-backend.azurewebsites.net/Groups',
       {
@@ -71,10 +79,11 @@ const AppProvider = ({ children }: any) => {
         setGroups([...response.data]);
         setUpdate(false);
       });
+    };
   }, [cookie]);
 
   useEffect(() => {
-    if (user.role === 'admin') {
+    if (userRedux.role === 'admin') {
       axios
         .get('https://project-salty-backend.azurewebsites.net/Assignments', {
           headers:{
@@ -86,7 +95,7 @@ const AppProvider = ({ children }: any) => {
           setAssignments([...response.data]);
         });
     } else {
-      user?.groups?.forEach((group) => {
+      userRedux?.groups?.forEach((group) => {
         axios
           .get(
             `https://project-salty-backend.azurewebsites.net/Assignments/group/${group.groupsId}`, {
@@ -101,7 +110,7 @@ const AppProvider = ({ children }: any) => {
           });
       });
     }
-  }, [user, cookie]);
+  }, [userRedux, cookie]);
 
   return (
     <AppContext.Provider

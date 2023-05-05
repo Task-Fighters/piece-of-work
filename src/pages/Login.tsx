@@ -4,6 +4,8 @@ import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
+import { useAppSelector, useAppDispatch } from '../hooks/reduxHooks';
+import{ loginReducer }from '../slices/userSlice';
 import { ContextType } from '../types';
 import Title from '../components/Title';
 import { Button } from '../components/Button';
@@ -18,7 +20,7 @@ const Login = () => {
   }>();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => setUserGoogleToken(codeResponse)
   });
@@ -44,7 +46,6 @@ const Login = () => {
     
   useEffect(() => {
     if (profile && isLoggedIn) {
-      console.log('profile exists' , profile)
       axios
         .put('https://project-salty-backend.azurewebsites.net/Users/login', {
           googleId: profile.id,
@@ -53,19 +54,20 @@ const Login = () => {
           imageUrl: profile.picture
         })
         .then((res) => {
-          setUser(res.data);
-          Cookies.set('user', JSON.stringify(res.data), {
-            expires: 30
-          });
-          Cookies.set('token', res.data.token,{
-            expires: 30
-          });
-          navigate('/home', { state: { id: res.data.id }});
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [profile]);
-
+          // setUser(res.data);
+          dispatch(loginReducer(res.data))
+          // Cookies.set('user', JSON.stringify(res.data), {
+            //   expires: 30
+            // });
+            Cookies.set('token', res.data.token,{
+              expires: 30
+            });
+            navigate('/home', { state: { id: res.data.id }});
+          })
+          .catch((err) => console.log(err));
+        }
+      }, [profile]);
+   
   return (
     <div className="h-screen flex justify-center items-center mx-2">
       <div className="max-w-md w-full">

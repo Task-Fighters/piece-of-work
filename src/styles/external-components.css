@@ -8,16 +8,16 @@
   box-shadow: 0 0 2px #db2777 !important;
 }
 
-/* .multi .group[data-te-input-focused] .group-data-\[te-input-focused\]\:shadow-\[-1px_0_0_\#3b71ca\2c _0_1px_0_0_\#3b71ca\2c _0_-1px_0_0_\#3b71ca\] {
+.group[data-te-input-focused] .group-data-\[te-input-focused\]\:shadow-\[-1px_0_0_\#3b71ca\2c _0_1px_0_0_\#3b71ca\2c _0_-1px_0_0_\#3b71ca\] {
   --tw-shadow: -1px 0 0 rgb(219 39 119), 0 1px 0 0 rgb(219 39 119), 0 -1px 0 0 rgb(219 39 119);
   border-top-color: rgb(219 39 119);
   border-left-color: rgb(219 39 119);
   border-bottom-color: rgb(219 39 119);
 }
 
-.multi .group[data-te-input-focused] .group-data-\[te-input-focused\]\:shadow-\[1px_0_0_\#3b71ca\2c _0_-1px_0_0_\#3b71ca\2c _0_1px_0_0_\#3b71ca\] {
+.group[data-te-input-focused] .group-data-\[te-input-focused\]\:shadow-\[1px_0_0_\#3b71ca\2c _0_-1px_0_0_\#3b71ca\2c _0_1px_0_0_\#3b71ca\] {
   --tw-shadow: 1px 0 0 rgb(219 39 119), 0 -1px 0 0 rgb(219 39 119), 0 1px 0 0 rgb(219 39 119);
   border-top-color: rgb(219 39 119);
   border-right-color: rgb(219 39 119);
   border-bottom-color: rgb(219 39 119);
-} */
+}

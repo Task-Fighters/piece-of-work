@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import { ContextType } from '../types';
 import { AppContext } from '../AppContext';
 import { Header } from '../components/Header';
@@ -12,6 +13,7 @@ const Home = () => {
   const { user, setUser, assignments, userId } = useContext(AppContext) as ContextType;
   const navigate = useNavigate();
   let location = useLocation().pathname.toLowerCase();
+
   // console.log(Date.now());
   // const loc = useLocation();
   // const userData = loc.state;
