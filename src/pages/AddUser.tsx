@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { MultiSelect } from 'react-multi-select-component';
 import { AppContext } from '../AppContext';
 import { ContextType } from '../types';
@@ -10,11 +11,10 @@ import { Input } from '../components/Input';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Button } from '../components/Button';
-import '../styles/external-components.css'
+import '../styles/external-components.css';
 
 const roleArr: IRole[] = [
   {
-  
     name: 'PGP'
   },
   {
@@ -24,11 +24,9 @@ const roleArr: IRole[] = [
 
 const locationArr: ILocation[] = [
   {
-
     name: 'Amsterdam'
   },
   {
-  
     name: 'Oslo'
   },
   {
@@ -41,11 +39,15 @@ const AddUser = () => {
   const [email, setEmail] = useState('');
   const [userLocation, setUserLocation] = useState('Amsterdam');
   const [role, setRole] = useState('pgp');
+  const cookieToken: string | undefined = Cookies.get('token');
 
   let urlLocation = useLocation().pathname.toLowerCase();
-  const selectOptions = groups.map(item => ({ label: item.name, value: item.id }));
+  const selectOptions = groups.map((item) => ({
+    label: item.name,
+    value: item.id
+  }));
   const [selectedGroups, setSelectedGroups] = useState(selectOptions);
-  const selectedGroupsIds = selectedGroups.map(group =>  group.value)
+  const selectedGroupsIds = selectedGroups.map((group) => group.value);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -59,9 +61,18 @@ const AddUser = () => {
     };
 
     axios
-      .post(`https://project-salty-backend.azurewebsites.net/Users`, {
-        ...newUser
-      })
+      .post(
+        `https://project-salty-backend.azurewebsites.net/Users`,
+        {
+          ...newUser
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
+          }
+        }
+      )
       .then((response) => {
         console.log(response.statusText);
       });
@@ -71,7 +82,7 @@ const AddUser = () => {
     setUserLocation('Amsterdam');
     setRole('PGP');
   };
-  
+
   return (
     <div className="container-xl">
       <Header role={user.role} location={urlLocation} />
@@ -91,10 +102,12 @@ const AddUser = () => {
               value={userLocation}
               onChange={(e) => setUserLocation(e.target.value)}
             />
-            <label className='text-pink-600 text-lg font-bold font-sans'>Group</label>
-            <div className='.dropdown-container'>
+            <label className="text-pink-600 text-lg font-bold font-sans">
+              Group
+            </label>
+            <div className=".dropdown-container">
               <MultiSelect
-                className='mb-4'
+                className="mb-4"
                 options={selectOptions}
                 value={selectedGroups}
                 onChange={setSelectedGroups}

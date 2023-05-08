@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import Cookies from 'js-cookie';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AppContext } from '../AppContext';
@@ -12,6 +13,7 @@ import { Button } from '../components/Button';
 const Groups = () => {
   const { user, groups, setUpdate } = useContext(AppContext) as ContextType;
   const navigate = useNavigate();
+  const cookieToken: string | undefined = Cookies.get('token');
 
   let location = useLocation().pathname.toLowerCase();
 
@@ -19,7 +21,13 @@ const Groups = () => {
     e.preventDefault();
     axios
       .delete(
-        `https://project-salty-backend.azurewebsites.net/Groups/${groupId}`
+        `https://project-salty-backend.azurewebsites.net/Groups/${groupId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
+          }
+        }
       )
       .then(() => setUpdate(true));
   };

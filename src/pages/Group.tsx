@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { useLocation, useParams } from 'react-router-dom';
 import { AppContext } from '../AppContext';
 import { ContextType, IGroup } from '../types';
@@ -16,10 +17,19 @@ const Group = () => {
   const [groupName, setGroupName] = useState('');
   let { groupId } = useParams();
   let location = useLocation().pathname.toLowerCase();
+  const cookieToken: string | undefined = Cookies.get('token');
 
   useEffect(() => {
     axios
-      .get(`https://project-salty-backend.azurewebsites.net/Groups/${groupId}`)
+      .get(
+        `https://project-salty-backend.azurewebsites.net/Groups/${groupId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
+          }
+        }
+      )
       .then((response) => {
         setGroup(response.data);
         setGroupName(response.data.name);

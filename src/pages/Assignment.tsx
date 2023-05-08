@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
 import { IAssignment, ContextType } from '../types';
 import { Button } from '../components/Button';
@@ -14,6 +15,7 @@ import { ListItem } from '../components/ListItem';
 const Assignment = () => {
   const { user, assignments } = useContext(AppContext) as ContextType;
   const [assignment, setAssignment] = useState<IAssignment>({} as IAssignment);
+  const cookieToken: string | undefined = Cookies.get('token');
 
   let { assignmentId } = useParams();
   let location = useLocation().pathname.toLowerCase();
@@ -24,12 +26,18 @@ const Assignment = () => {
   useEffect(() => {
     axios
       .get(
-        `https://project-salty-backend.azurewebsites.net/Assignments/${assignmentId}`
+        `https://project-salty-backend.azurewebsites.net/Assignments/${assignmentId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
+          }
+        }
       )
       .then((response) => {
         setAssignment(response.data);
       });
-  }, [assignmentId]);
+  }, [assignmentId, cookieToken]);
   //Add filter to render only assignments from the group that user is linked to.
 
   return (

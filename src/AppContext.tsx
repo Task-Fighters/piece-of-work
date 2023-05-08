@@ -6,10 +6,8 @@ import Cookies from 'js-cookie';
 const AppContext = createContext<ContextType | null>(null);
 
 const AppProvider = ({ children }: any) => {
-  const cookie: string | undefined = Cookies.get('token');
-  if (cookie) {
-    console.log('user cookie', JSON.parse(cookie));
-  }
+  const cookieToken: string | undefined = Cookies.get('token');
+  const cookieUserId: string | undefined = Cookies.get('userId');
   const [user, setUser] = useState<IUser>({} as IUser);
   const [profile, setProfile] = useState<IProfile>({} as IProfile);
   const [userGroup, setUserGroup] = useState<IGroup[]>([]);
@@ -21,38 +19,39 @@ const AppProvider = ({ children }: any) => {
 
   useEffect(() => {
     axios
-      .get(`https://project-salty-backend.azurewebsites.net/Users/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${cookie}`,
-          Accept: 'text/plain'
+      .get(
+        `https://project-salty-backend.azurewebsites.net/Users/${cookieUserId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
+          }
         }
-      })
+      )
       .then((response) => {
-        console.log('before', user);
         setUser({ ...response.data });
-        console.log('after', user);
       });
-  }, [cookie, user]);
+  }, [cookieToken, cookieUserId]);
 
   useEffect(() => {
     axios
       .get('https://project-salty-backend.azurewebsites.net/Users', {
         headers: {
-          Authorization: `Bearer ${cookie}`,
+          Authorization: `Bearer ${cookieToken}`,
           Accept: 'text/plain'
         }
       })
       .then((response) => {
         setUsers([...response.data]);
       });
-  }, [cookie]);
+  }, [cookieToken]);
 
   useEffect(() => {
-    if (cookie) {
+    if (cookieToken) {
       axios
         .get('https://project-salty-backend.azurewebsites.net/Groups', {
           headers: {
-            Authorization: `Bearer ${cookie}`,
+            Authorization: `Bearer ${cookieToken}`,
             Accept: 'text/plain'
           }
         })
@@ -61,19 +60,18 @@ const AppProvider = ({ children }: any) => {
           setUpdate(false);
         });
     }
-  }, [cookie]);
+  }, [cookieToken]);
 
   useEffect(() => {
     if (user.role === 'admin') {
       axios
         .get('https://project-salty-backend.azurewebsites.net/Assignments', {
           headers: {
-            Authorization: `Bearer ${cookie}`,
+            Authorization: `Bearer ${cookieToken}`,
             Accept: 'text/plain'
           }
         })
         .then((response) => {
-          console.log('RESPONSE', response);
           setAssignments([...response.data]);
         });
     } else {
@@ -83,18 +81,17 @@ const AppProvider = ({ children }: any) => {
             `https://project-salty-backend.azurewebsites.net/Assignments/group/${group.groupsId}`,
             {
               headers: {
-                Authorization: `Bearer ${cookie}`,
+                Authorization: `Bearer ${cookieToken}`,
                 Accept: 'text/plain'
               }
             }
           )
           .then((response) => {
-            console.log('RESPONSE', response);
             setAssignments([...response.data]);
           });
       });
     }
-  }, [user, cookie]);
+  }, [user, cookieToken]);
 
   return (
     <AppContext.Provider

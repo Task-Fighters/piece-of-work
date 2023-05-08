@@ -42,7 +42,7 @@ const Login = () => {
           setIsLoggedIn(true);
         });
     }
-  }, [userGoogleToken]);
+  }, [setProfile, userGoogleToken]);
 
   useEffect(() => {
     if (profile && isLoggedIn) {
@@ -55,7 +55,7 @@ const Login = () => {
         })
         .then((res) => {
           setUser(res.data);
-          Cookies.set('user', JSON.stringify(res.data), {
+          Cookies.set('userId', res.data.id, {
             expires: 30
           });
           Cookies.set('token', res.data.token, {

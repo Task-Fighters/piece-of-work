@@ -6,6 +6,7 @@ import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import { ContextType } from '../types';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import Title from '../components/Title';
 import { AppContext } from '../AppContext';
 
@@ -13,15 +14,25 @@ const AddGroup = () => {
   const { user } = useContext(AppContext) as ContextType;
   const [groupName, setGroupName] = useState('');
   let location = useLocation().pathname.toLowerCase();
+  const cookieToken: string | undefined = Cookies.get('token');
 
   const addGroup = () => {
     if (groupName.trim() === '') {
       return;
     }
     axios
-      .post(`https://project-salty-backend.azurewebsites.net/Groups`, {
-        name: groupName
-      })
+      .post(
+        `https://project-salty-backend.azurewebsites.net/Groups`,
+        {
+          name: groupName
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
+          }
+        }
+      )
       .then((response) => {
         console.log(response);
         setGroupName('');

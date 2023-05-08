@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import ReactQuill from 'react-quill';
 import axios from 'axios';
 import { MultiSelect } from 'react-multi-select-component';
@@ -18,14 +19,18 @@ const AddAssignment = () => {
   const [title, setTitle] = useState('');
   const [startDate, setStartDate] = useState('');
   const [description, setDescription] = useState('');
+  const cookieToken: string | undefined = Cookies.get('token');
 
   let location = useLocation().pathname.toLowerCase();
-  const selectOptions = groups.map(item => ({ label: item.name, value: item.id }));
+  const selectOptions = groups.map((item) => ({
+    label: item.name,
+    value: item.id
+  }));
   const [selectedGroups, setSelectedGroups] = useState(selectOptions);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    const selectedGroupsIds = selectedGroups.map(group =>  group.value)
+    const selectedGroupsIds = selectedGroups.map((group) => group.value);
     // change after backend is fixed, pass whole array instead of first position
     const newAssignment = {
       title: title,
@@ -35,9 +40,18 @@ const AddAssignment = () => {
     };
 
     axios
-      .post(`https://project-salty-backend.azurewebsites.net/Assignments`, {
-        ...newAssignment
-      })
+      .post(
+        `https://project-salty-backend.azurewebsites.net/Assignments`,
+        {
+          ...newAssignment
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
+          }
+        }
+      )
       .then((response) => {
         console.log(response.statusText);
       });
@@ -66,10 +80,12 @@ const AddAssignment = () => {
                 setStartDate(e.target.value)
               }
             />
-            <label className='text-pink-600 text-lg font-bold font-sans'>Group</label>
-            <div className='.dropdown-container'>
+            <label className="text-pink-600 text-lg font-bold font-sans">
+              Group
+            </label>
+            <div className=".dropdown-container">
               <MultiSelect
-                className='mb-4'
+                className="mb-4"
                 options={selectOptions}
                 value={selectedGroups}
                 onChange={setSelectedGroups}
