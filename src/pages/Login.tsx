@@ -5,7 +5,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
 import { useAppSelector, useAppDispatch } from '../hooks/reduxHooks';
-import{ loginReducer }from '../slices/userSlice';
+import { loginReducer } from '../slices/userSlice';
 import { ContextType } from '../types';
 import Title from '../components/Title';
 import { Button } from '../components/Button';
@@ -41,9 +41,9 @@ const Login = () => {
           setProfile(res.data);
           setIsLoggedIn(true);
         });
-      }
-    }, [userGoogleToken]);
-    
+    }
+  }, [userGoogleToken]);
+
   useEffect(() => {
     if (profile && isLoggedIn) {
       axios
@@ -54,20 +54,19 @@ const Login = () => {
           imageUrl: profile.picture
         })
         .then((res) => {
-          // setUser(res.data);
-          dispatch(loginReducer(res.data))
-          // Cookies.set('user', JSON.stringify(res.data), {
-            //   expires: 30
-            // });
-            Cookies.set('token', res.data.token,{
-              expires: 30
-            });
-            navigate('/home', { state: { id: res.data.id }});
-          })
-          .catch((err) => console.log(err));
-        }
-      }, [profile]);
-   
+          setUser(res.data);
+          Cookies.set('user', JSON.stringify(res.data), {
+            expires: 30
+          });
+          Cookies.set('token', res.data.token, {
+            expires: 30
+          });
+          navigate('/home', { state: { id: res.data.id } });
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [profile]);
+
   return (
     <div className="h-screen flex justify-center items-center mx-2">
       <div className="max-w-md w-full">

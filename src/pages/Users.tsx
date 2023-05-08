@@ -48,16 +48,6 @@ const Users = () => {
               );
             })}
           </ul>
-          <div className="mb-32 mt-8 flex md:hidden">
-                <Button
-                  buttonColor="black"
-                  label="Add User"
-                  type="button"
-                  onClick={() => {
-                    navigate('/users/new');
-                  }}
-                />
-          </div>
           <Footer role={user.role} image={user.imageUrl} />
         </div>
       </div>

@@ -56,7 +56,6 @@ export interface IProfile {
 
 export type ContextType = {
   user: IUser;
-  userId : number | undefined;
   users: IUser[];
   profile: IProfile;
   groups: IGroup[];
@@ -65,5 +64,4 @@ export type ContextType = {
   setProfile: (profile: IProfile) => void;
   setGroups: (groups: IGroups[]) => void;
   setUpdate: (update: boolean) => void;
-  setUserId: (userId: number) => void;
 };

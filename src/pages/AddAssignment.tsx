@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { MultiSelect } from 'react-multi-select-component';
 import { ContextType } from '../types';
 import Title from '../components/Title';
@@ -15,7 +14,6 @@ import Datepicker from '../components/Datepicker';
 import 'react-quill/dist/quill.snow.css';
 
 const AddAssignment = () => {
-  const cookie: string | undefined = Cookies.get('token');
   const { user, groups } = useContext(AppContext) as ContextType;
   const [title, setTitle] = useState('');
   const [startDate, setStartDate] = useState('');
@@ -39,11 +37,6 @@ const AddAssignment = () => {
     axios
       .post(`https://project-salty-backend.azurewebsites.net/Assignments`, {
         ...newAssignment
-      }, {
-        headers:{
-          Authorization: `Bearer ${cookie}`,
-          Accept: 'text/plain'
-        }
       })
       .then((response) => {
         console.log(response.statusText);
