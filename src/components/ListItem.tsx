@@ -10,7 +10,9 @@ interface ListItemProps {
   id?: number;
   onClick?: (e: any) => void;
   onClickDeleteIcon?: (e: any) => void;
+  onClickEditIcon?: (e: any) => void;
 }
+
 
 const base_listItem =
   'text-left leading-relaxed mb-2 w-full text-black bg-gray-100 py-2 md:w-129';
@@ -22,6 +24,7 @@ export const ListItem = ({
   title,
   onClick,
   onClickDeleteIcon,
+  onClickEditIcon,
   route
 }: ListItemProps) => {
   const classes = `${base_listItem}`;
@@ -37,7 +40,7 @@ export const ListItem = ({
               onClick={onClickDeleteIcon}
             />
           )}
-          {iconEdit && <MdEdit className={'text-2xl text-neutral-400'} />}
+          {iconEdit && <MdEdit className={'text-2xl text-neutral-400'} onClick={onClickEditIcon}/>}
         </div>
       </Link>
     </li>
