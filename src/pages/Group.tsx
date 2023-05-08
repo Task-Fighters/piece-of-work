@@ -34,7 +34,7 @@ const Group = () => {
         setGroup(response.data);
         setGroupName(response.data.name);
       });
-  }, [groupId]);
+  });
 
   // const handleDeleteUser = () => {
   //   axios

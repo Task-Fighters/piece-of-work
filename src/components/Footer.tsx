@@ -1,6 +1,6 @@
-import { MdHome, MdAddCircleOutline, MdPerson2 } from 'react-icons/md';
+import { MdHome, MdPerson2 } from 'react-icons/md';
 import { HiUserGroup } from 'react-icons/hi';
-import { RiGroup2Line, RiGroup2Fill } from 'react-icons/ri';
+import { RiGroup2Fill } from 'react-icons/ri';
 import { MdOutlineAssignment } from 'react-icons/md';
 
 interface FooterProps {

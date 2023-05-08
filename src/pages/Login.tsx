@@ -10,7 +10,7 @@ import { Button } from '../components/Button';
 import lightLogo from '../assets/Saltblack.svg';
 
 const Login = () => {
-  const { user, setUser, profile, setProfile } = useContext(
+  const { setUser, profile, setProfile } = useContext(
     AppContext
   ) as ContextType;
   const [userGoogleToken, setUserGoogleToken] = useState<{
@@ -62,7 +62,7 @@ const Login = () => {
         })
         .catch((err) => console.log(err));
     }
-  }, [profile]);
+  }, [isLoggedIn, navigate, profile, setUser]);
 
   return (
     <div className="h-screen flex justify-center items-center mx-2">

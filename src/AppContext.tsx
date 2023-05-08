@@ -10,8 +10,8 @@ const AppProvider = ({ children }: any) => {
   const cookieUserId: string | undefined = Cookies.get('userId');
   const [user, setUser] = useState<IUser>({} as IUser);
   const [profile, setProfile] = useState<IProfile>({} as IProfile);
-  const [userGroup, setUserGroup] = useState<IGroup[]>([]);
-  const [userAssignments, setUserAssignments] = useState<IAssignment[]>();
+  // const [userGroup, setUserGroup] = useState<IGroup[]>([]);
+  // const [userAssignments, setUserAssignments] = useState<IAssignment[]>();
   const [assignments, setAssignments] = useState<IAssignment[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [groups, setGroups] = useState<IGroup[]>([]);
@@ -60,7 +60,7 @@ const AppProvider = ({ children }: any) => {
           setUpdate(false);
         });
     }
-  }, [cookieToken]);
+  }, [cookieToken, update]);
 
   useEffect(() => {
     if (user.role === 'admin') {

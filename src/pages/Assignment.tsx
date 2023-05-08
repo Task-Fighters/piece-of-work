@@ -10,10 +10,10 @@ import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Input } from '../components/Input';
 import Title from '../components/Title';
-import { ListItem } from '../components/ListItem';
+// import { ListItem } from '../components/ListItem';
 
 const Assignment = () => {
-  const { user, assignments } = useContext(AppContext) as ContextType;
+  const { user } = useContext(AppContext) as ContextType;
   const [assignment, setAssignment] = useState<IAssignment>({} as IAssignment);
   const cookieToken: string | undefined = Cookies.get('token');
 

@@ -11,7 +11,8 @@ import UserDetails from '../components/UserDetails';
 
 const Profile = () => {
   const { user, assignments } = useContext(AppContext) as ContextType;
-  let completedAssignments: any = [];
+
+  // let completedAssignments: any = [];
   // assignments.forEach((assignment) => {
   //   assignment.submission.forEach((item) => {
   //     if (item.userId === user.id) {
