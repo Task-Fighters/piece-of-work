@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
-import { ContextType } from '../types';
+import { ContextType, IAssignment } from '../types';
 import { AppContext } from '../AppContext';
 import { Header } from '../components/Header';
 import { Input } from '../components/Input';
@@ -13,8 +12,20 @@ const Home = () => {
   const { user, assignments } = useContext(AppContext) as ContextType;
   const navigate = useNavigate();
   let location = useLocation().pathname.toLowerCase();
+  const currentDate = new Date().toJSON();
+  
+  const newAssignments = assignments.sort((a: IAssignment, b: IAssignment) => {
+    return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+  });
 
-  // console.log(Date.now());
+  const feature = newAssignments.find(assignment => new Date(assignment.startDate).getTime() > new Date(currentDate).getTime());
+  
+  if (feature) {
+    const index = newAssignments.indexOf(feature);
+    newAssignments.unshift(feature)
+    newAssignments.splice(index + 1, 1)
+  }
+
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
@@ -36,7 +47,7 @@ const Home = () => {
           </div>
           <Input icon placeholder="Search" />
           <div className="flex flex-row flex-wrap justify-between">
-            {assignments.map((assignment, index) => {
+            {newAssignments.map((assignment, index) => {
               return (
                 <Card
                   cardType={index === 0 ? 'feature' : 'card'}
