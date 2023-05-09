@@ -41,7 +41,7 @@ const Users = () => {
           </div>
           <Input icon placeholder="Search" />
           <Title underline title="Users" />
-          <ul className="flex flex-row flex-wrap justify-between capitalize">
+          <ul className="flex flex-row flex-wrap justify-between capitalize mb-32">
             {users.map((person) => {
               return (
                 <ListItem

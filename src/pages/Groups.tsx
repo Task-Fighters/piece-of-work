@@ -52,7 +52,7 @@ const Groups = () => {
             )}
           </div>
           <Title underline title="Groups" />
-          <ul className="flex flex-row flex-wrap justify-between capitalize">
+          <ul className="flex flex-row flex-wrap justify-between capitalize mb-32">
             {groups.map((group) => {
               return (
                 <ListItem

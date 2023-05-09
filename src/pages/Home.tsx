@@ -47,7 +47,7 @@ const Home = () => {
             )}
           </div>
           <Input icon placeholder="Search" />
-          <div className="flex flex-row flex-wrap justify-between">
+          <div className="flex flex-row flex-wrap justify-between mb-32">
             {newAssignments.map((assignment, index) => {
               return (
                 <Card
