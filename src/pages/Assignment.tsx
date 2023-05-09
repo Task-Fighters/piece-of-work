@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
 import { IAssignment, ContextType } from '../types';
@@ -19,6 +19,7 @@ const Assignment = () => {
 
   let { assignmentId } = useParams();
   let location = useLocation().pathname.toLowerCase();
+  const navigate = useNavigate();
   // let assignment = assignments?.find(
   //   (assignment) => assignment.id === Number(assignmentId)
   // );
@@ -40,6 +41,7 @@ const Assignment = () => {
   }, [assignmentId, cookieToken]);
   //Add filter to render only assignments from the group that user is linked to.
 
+
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
@@ -52,7 +54,7 @@ const Assignment = () => {
                   buttonColor="white"
                   label="Edit Assignment"
                   type="button"
-                  onClick={() => {}}
+                  onClick={() => {navigate(`/assignments/${assignmentId}/update`)}}
                 />
               </div>
             )}
