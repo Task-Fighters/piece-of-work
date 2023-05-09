@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import ReactQuill from 'react-quill';
 import axios from 'axios';
@@ -19,6 +19,7 @@ const AddAssignment = () => {
   const [title, setTitle] = useState('');
   const [startDate, setStartDate] = useState('');
   const [description, setDescription] = useState('');
+  const navigate = useNavigate();
   const cookieToken: string | undefined = Cookies.get('token');
 
   let location = useLocation().pathname.toLowerCase();
@@ -53,7 +54,7 @@ const AddAssignment = () => {
         }
       )
       .then((response) => {
-        console.log(response.statusText);
+        navigate(`/assignments/${response.data.id}`);
       });
     const target = e.target as HTMLFormElement;
     target.reset();

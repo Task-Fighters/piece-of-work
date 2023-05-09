@@ -16,7 +16,6 @@ const Assignment = () => {
   const { user } = useContext(AppContext) as ContextType;
   const [assignment, setAssignment] = useState<IAssignment>({} as IAssignment);
   const cookieToken: string | undefined = Cookies.get('token');
-
   let { assignmentId } = useParams();
   let location = useLocation().pathname.toLowerCase();
   // let assignment = assignments?.find(
@@ -40,11 +39,24 @@ const Assignment = () => {
   }, [assignmentId, cookieToken]);
   //Add filter to render only assignments from the group that user is linked to.
 
+  // const date = new Date(assignment.startDate);
+  // console.log('DATE', date);
+  // const day = date.getDate();
+  // console.log('DAY', day);
+  // const month = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(
+  //   date
+  // );
+  // console.log('MONTH', month);
+  // const year = date.getFullYear();
+  // console.log('YEAR', year);
+
+  // const formattedDate = `${day} ${month} ${year}`;
+
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
       <div className="flex justify-center">
-        <div className="max-w-6xl mx-2">
+        <div className="max-w-6xl mx-2 w-full">
           <div className="flex justify-end">
             {user.role === 'admin' && (
               <div className="w-48 hidden md:flex">

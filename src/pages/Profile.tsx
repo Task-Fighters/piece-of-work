@@ -10,7 +10,11 @@ import { Button } from '../components/Button';
 import UserDetails from '../components/UserDetails';
 
 const Profile = () => {
-  const { user, assignments } = useContext(AppContext) as ContextType;
+  const { user, users, assignments } = useContext(AppContext) as ContextType;
+  let location = useLocation().pathname.toLowerCase();
+  const id: number = parseInt(location.split('/').pop() ?? '0');
+
+  const userDetail = users.find((user) => user.id === id);
 
   // let completedAssignments: any = [];
   // assignments.forEach((assignment) => {
@@ -21,15 +25,13 @@ const Profile = () => {
   //   });
   // });
 
-  let location = useLocation().pathname.toLowerCase();
-
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
       <div className="flex justify-center">
         <div className="max-w-6xl w-full md:mx-2 ">
           <div className="flex justify-end">
-            {user.role === 'admin' && (
+            {user.role === 'admin' && user.id === userDetail?.id && (
               <div className="w-48 hidden md:flex">
                 <Button
                   buttonColor="pink"
@@ -40,13 +42,14 @@ const Profile = () => {
               </div>
             )}
           </div>
-          <UserDetails
-            id={user.id}
-            name={user.fullName}
-            email={user.email}
-            imageUrl={user.imageUrl}
-            // groups={user.groupsId}
-          />
+          {userDetail && (
+            <UserDetails
+              id={userDetail.id}
+              name={userDetail.fullName}
+              email={userDetail.email}
+              imageUrl={userDetail.imageUrl}
+            />
+          )}
           <Title
             className="mx-2 md:mx-0 md:my-2"
             underline

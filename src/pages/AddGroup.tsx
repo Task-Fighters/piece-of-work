@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Input } from '../components/Input';
@@ -14,6 +14,7 @@ const AddGroup = () => {
   const { user } = useContext(AppContext) as ContextType;
   const [groupName, setGroupName] = useState('');
   let location = useLocation().pathname.toLowerCase();
+  const navigate = useNavigate();
   const cookieToken: string | undefined = Cookies.get('token');
 
   const addGroup = () => {
@@ -34,8 +35,8 @@ const AddGroup = () => {
         }
       )
       .then((response) => {
-        console.log(response);
         setGroupName('');
+        navigate(`/groups/${response.data.id}`);
       });
   };
 

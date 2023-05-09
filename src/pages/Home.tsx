@@ -14,7 +14,6 @@ const Home = () => {
   const navigate = useNavigate();
   let location = useLocation().pathname.toLowerCase();
 
-  // console.log(Date.now());
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
