@@ -12,6 +12,7 @@ const Home = () => {
   const { user, assignments } = useContext(AppContext) as ContextType;
   const navigate = useNavigate();
   let location = useLocation().pathname.toLowerCase();
+  // show newest assignment, do not show future ass. (only for students)
   const currentDate = new Date().toJSON();
   
   const newAssignments = assignments.sort((a: IAssignment, b: IAssignment) => {
@@ -22,8 +23,8 @@ const Home = () => {
   
   if (feature) {
     const index = newAssignments.indexOf(feature);
-    newAssignments.unshift(feature)
-    newAssignments.splice(index + 1, 1)
+    newAssignments.unshift(feature);
+    newAssignments.splice(index + 1, 1);
   }
 
   return (
