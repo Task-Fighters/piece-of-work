@@ -4,14 +4,14 @@ import axios from 'axios';
 import { IUser } from '../types';
 
 interface IState {
-  user: IUser,
-  status: string
+  user: IUser;
+  status: string;
 }
 
 const initialState: IState = {
   user: {} as IUser,
   status: ''
-}
+};
 
 export const loginUser = createAsyncThunk('milk/fetchMilk', async () => {
   const response = await axios.get('/milk');
@@ -28,10 +28,9 @@ export const userSlice = createSlice({
     }
   },
   extraReducers(builder) {
-    builder
-      .addCase(loginUser.fulfilled, (state, action) => {})
+    builder.addCase(loginUser.fulfilled, (state, action) => {});
   }
-})
+});
 
 export const selectUser = (state: RootState) => state.user;
 export const { loginReducer } = userSlice.actions;

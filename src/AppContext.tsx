@@ -100,6 +100,7 @@ const AppProvider = ({ children }: any) => {
         user,
         profile,
         setUser,
+        setUsers,
         setProfile,
         assignments,
         setGroups,
