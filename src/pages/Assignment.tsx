@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
 import { IAssignment, ContextType } from '../types';
@@ -18,6 +18,7 @@ const Assignment = () => {
   const cookieToken: string | undefined = Cookies.get('token');
   let { assignmentId } = useParams();
   let location = useLocation().pathname.toLowerCase();
+  const navigate = useNavigate();
   // let assignment = assignments?.find(
   //   (assignment) => assignment.id === Number(assignmentId)
   // );
@@ -39,18 +40,7 @@ const Assignment = () => {
   }, [assignmentId, cookieToken]);
   //Add filter to render only assignments from the group that user is linked to.
 
-  // const date = new Date(assignment.startDate);
-  // console.log('DATE', date);
-  // const day = date.getDate();
-  // console.log('DAY', day);
-  // const month = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(
-  //   date
-  // );
-  // console.log('MONTH', month);
-  // const year = date.getFullYear();
-  // console.log('YEAR', year);
 
-  // const formattedDate = `${day} ${month} ${year}`;
 
   return (
     <div className="container-xl">
@@ -64,7 +54,7 @@ const Assignment = () => {
                   buttonColor="white"
                   label="Edit Assignment"
                   type="button"
-                  onClick={() => {}}
+                  onClick={() => {navigate(`/assignments/${assignmentId}/update`)}}
                 />
               </div>
             )}

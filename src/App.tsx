@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Groups from './pages/Groups';
 import Group from './pages/Group';
+import User from './pages/User';
 import Users from './pages/Users';
 import Assignment from './pages/Assignment';
 import AddUser from './pages/AddUser';
@@ -23,7 +24,7 @@ function App() {
       <Route path="/groups/:groupId" element={<Group />} />
       <Route path="/groups/new" element={<AddGroup />} />
       <Route path="/users" element={<Users />} />
-      <Route path="/users/:userId" element={<Profile />} />
+      <Route path="/users/:userId" element={<User />} />
       <Route path="/users/:userId/update" element={<UpdateUser />} />
       <Route path="/users/new" element={<AddUser />} />
       <Route path="/assignments/:assignmentId" element={<Assignment />} />

@@ -14,6 +14,12 @@ const Users = () => {
   const navigate = useNavigate();
   let location = useLocation().pathname.toLowerCase();
 
+  const handleEditUser =(e:React.MouseEvent<HTMLButtonElement>, id: number) => {
+    e.preventDefault();
+    e.stopPropagation();    
+    navigate(`/users/${id}/update`)
+  }
+
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
@@ -44,6 +50,7 @@ const Users = () => {
                   title={person?.fullName}
                   route="/users"
                   iconEdit={user.role === 'user' ? false : true}
+                  onClickEditIcon={(e: any) => handleEditUser(e, person.id)}
                 />
               );
             })}

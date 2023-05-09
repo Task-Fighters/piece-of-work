@@ -4,7 +4,7 @@ import Title from '../components/Title';
 const meta = {
   title: 'Salty/Title',
   component: Title,
-  tags: ['autodocs'],
+  tags: ['autodocs']
 } satisfies Meta<typeof Title>;
 
 export default meta;
@@ -12,6 +12,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    title: 'Title',
-  },
+    title: 'Title'
+  }
 };
