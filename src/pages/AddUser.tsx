@@ -57,7 +57,7 @@ const AddUser = () => {
       role: role.toLowerCase(),
       location: userLocation,
       status: 'active',
-      groups: selectedGroupsIds
+      groupsId: selectedGroupsIds
     };
 
     axios

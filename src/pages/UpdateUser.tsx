@@ -9,7 +9,6 @@ import { Input } from '../components/Input';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Button } from '../components/Button';
-import { Card } from '../components/Card';
 import { MultiSelect } from 'react-multi-select-component';
 
 
@@ -72,6 +71,8 @@ const UpdateUser = () => {
     navigate(`/users/${userId}`)
   }
 
+  console.log(singleUser);
+
   const handleDeleteUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     axios
@@ -97,12 +98,12 @@ const UpdateUser = () => {
         <div className="max-w-6xl mx-2 w-full">
           <form>
             <Title underline title="Update User" />
-            <div className="bg-gray-100 mb-4">
-              <Card
-                description=""
-                subtitle={singleUser.email}
+            <div className="bg-gray-100 mb-4 px-4 pb-2 pt-1">
+              <Title
+                className="!mb-0 !text-lg font-bold !font-poppins"
                 title={singleUser.fullName}
               />
+              <p className='text-sm font-bold font-roboto'>{singleUser.email}</p>
             </div>
             <Input  value={userLocation} options={locationArr} select label="Location"  onChange={(e) => setUserLocation(e.target.value)} />
             {/* <Input options={groups} select multiple label="Group" /> */}
