@@ -16,7 +16,6 @@ const Assignment = () => {
   const { user } = useContext(AppContext) as ContextType;
   const [assignment, setAssignment] = useState<IAssignment>({} as IAssignment);
   const cookieToken: string | undefined = Cookies.get('token');
-
   let { assignmentId } = useParams();
   let location = useLocation().pathname.toLowerCase();
   const navigate = useNavigate();
@@ -42,11 +41,12 @@ const Assignment = () => {
   //Add filter to render only assignments from the group that user is linked to.
 
 
+
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
       <div className="flex justify-center">
-        <div className="max-w-6xl mx-2">
+        <div className="max-w-6xl mx-2 w-full">
           <div className="flex justify-end">
             {user.role === 'admin' && (
               <div className="w-48 hidden md:flex">

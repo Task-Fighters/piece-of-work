@@ -40,6 +40,17 @@ export const Card = ({
       break;
   }
 
+  const dateObj = new Date(Date.parse(subtitle));
+  const formattedDate = dateObj
+    .toLocaleDateString('en-UK', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    })
+    .replace(',', '');
+
+  subtitle = formattedDate;
+
   const classes = `${base_card} ${mode} py-2`;
 
   return cardType !== 'detailed' ? (
