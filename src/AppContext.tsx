@@ -59,10 +59,10 @@ const AppProvider = ({ children }: any) => {
         })
         .then((response) => {
           setGroups([...response.data]);
-          setUpdate(false);
+          // setUpdate(false);
         });
     }
-  }, [cookieToken, update]);
+  }, [cookieToken]);
 
   useEffect(() => {
     if (user.role === 'admin') {

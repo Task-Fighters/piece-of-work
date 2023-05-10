@@ -3,8 +3,7 @@ import Cookies from 'js-cookie';
 import React, { useContext, useState, useEffect } from 'react';
 import { useLocation, useParams,useNavigate } from 'react-router-dom';
 import { AppContext } from '../AppContext';
-import { ContextType, IAssignment} from '../types';
-// import { MultiSelect } from 'react-multi-select-component';
+import { ContextType} from '../types';
 import Select from 'react-select';
 import Title from '../components/Title';
 import { Input } from '../components/Input';
@@ -16,32 +15,33 @@ import ReactQuill from 'react-quill';
 import moment from 'moment';
 moment().format();
 
+const convertDate = (date:string) => {
+    let initialDate = new Date(date);
+    let convertedDate= moment(initialDate).format('YYYY-MM-DD')
+    return convertedDate;
+}
+
 const UpdateAssignment = () => {
   const { user, groups, assignments, setAssignments } = useContext(AppContext) as ContextType;
-  const [assignment, setAssignment] = useState<IAssignment>()
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState('');
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState("");
   const selectOptions = groups.map((item) => ({
     value: item.id,
     label: item.name
   }));
 
-  const [selectedOption, setSelectedOption] = useState({});
+  console.log(selectOptions, "initial options")
+  console.log(groups, "groups")
+  const [selectedOption, setSelectedOption] = useState<any>(null);
+
+
   const cookieToken: string | undefined = Cookies.get('token');
   let { assignmentId } = useParams();
   let location = useLocation().pathname.toLowerCase();
   const navigate = useNavigate();
-  const convertDate = (date:string) => {
-    let initialDate = new Date(date);
-    let convertedDate= moment(initialDate).format('YYYY-MM-DD')
-    return convertedDate;
-  }
-  
-
   const handleChange = (selectedOption: any) => {
     setSelectedOption(selectedOption);
-    console.log(`Option selected:`, selectedOption);
   };
 
   useEffect(() => {
@@ -56,17 +56,16 @@ const UpdateAssignment = () => {
         }
       )
       .then((response) => {
+        console.log(selectOptions, "dasha111")
 
-        const date = convertDate(response.data.startDate);
-        const prevSelectedOption = selectOptions.find(option => option.value === response.data.groupId);
-        setAssignment(response.data);
-        setTitle(response.data.title);
-        setStartDate(date);
-        console.log(prevSelectedOption)
-        setSelectedOption({...prevSelectedOption})
-        setDescription(response.data.description);
+      const prevSelectedOption = selectOptions.find(option => option.value === response.data.groupId);
+      const date = convertDate(response.data.startDate);
+      setTitle(response.data.title);
+      console.log(prevSelectedOption, "dasha")
+      setStartDate(date);
+      setSelectedOption({...prevSelectedOption})
+      setDescription(response.data?.description);
       });
-
   }, [assignmentId, cookieToken]);
 
   const handleUpdateAssignment: React.FormEventHandler<HTMLFormElement> =(e) => {
@@ -75,7 +74,7 @@ const UpdateAssignment = () => {
       title: title,
       startDate: startDate,
       description: description,
-      // groupId: selectedGroupsIds[0]
+      groupId: selectedOption.value,
     };
 
   
@@ -93,7 +92,7 @@ const UpdateAssignment = () => {
         }
       )
       .then((response) => {
-        console.log(response.statusText, "Result")
+        console.log(response.statusText, "Result Update")
         navigate(`/assignments/${assignmentId}`);
       }
   )}
@@ -111,7 +110,7 @@ const UpdateAssignment = () => {
         }
       )
       .then((response) => {
-        console.log(response.statusText, "Result")
+        console.log(response.statusText, "Result Delete")
         setAssignments(assignments.filter(assignment => assignment.id !== Number(assignmentId)));
         navigate(`/home`);
       }
@@ -132,23 +131,15 @@ const UpdateAssignment = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setStartDate(e.target.value)
               }/>
-            {/* <Input options={selectOptions} select label="Group" onChange={(e) => console.log(e.target.value, "change")}/> */}
             <div className=".dropdown-container">
-              {/* <MultiSelect
-                className="mb-4"
-                options={selectOptions}
-                value={selectedGroups}
-                onChange={setSelectedGroups}
-                labelledBy="Select"
-              /> */}
               <label className="text-pink-600 text-lg font-bold font-sans">
               Group
             </label>
             <Select
-        defaultValue={selectedOption}
-        // onChange={setSelectedOption(newValue)}
-        onChange={handleChange}
-        options={selectOptions}
+            // defaultValue={selectedOption}
+            onChange={handleChange}
+            options={selectOptions}
+            value={selectedOption}
       />
             </div>
             <label className="text-pink-600 text-lg font-bold font-sans">
@@ -158,7 +149,7 @@ const UpdateAssignment = () => {
               className="h-44 mb-14"
               theme="snow"
               value={description}
-              onChange={(e) => setDescription(e)}
+              onChange={(e: any) => setDescription(e)}
             />
             <div>
               <Button label="Update Assignment" type="submit" />
@@ -180,7 +171,4 @@ const UpdateAssignment = () => {
 };
 
 export default UpdateAssignment;
-function value(prevState: null): null {
-  throw new Error('Function not implemented.');
-}
 
