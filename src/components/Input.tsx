@@ -12,6 +12,7 @@ interface InputProps {
   value?: any;
   options?: IGroup[] | IRole[] | ILocation[];
   onChange?: (e: any) => void;
+
 }
 
 const BASE =
@@ -86,7 +87,7 @@ export const Input = ({
             value={value}
           />
           {icon && (
-            <BiSearch className="absolute inset-y-2.5 right-2 text-gray-500 text-2xl" />
+            <BiSearch className="absolute inset-y-2.5 right-2 text-gray-500 text-2xl"/>
           )}
         </div>
       )}
