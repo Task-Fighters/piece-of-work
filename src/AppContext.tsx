@@ -19,7 +19,6 @@ const AppProvider = ({ children }: any) => {
   const [update, setUpdate] = useState<Boolean>(false);
   let localUserId = secureLocalStorage.getItem("id");
 
-  console.log(user, "look for the name")
   useEffect(() => {
     axios
       .get(
@@ -106,6 +105,7 @@ const AppProvider = ({ children }: any) => {
         setUsers,
         setProfile,
         assignments,
+        setAssignments,
         setGroups,
         setUpdate,
         users
