@@ -2,7 +2,7 @@ import axios from 'axios';
 import { createContext, useEffect, useState } from 'react';
 import { IUser, IAssignment, IProfile, ContextType, IGroup } from './types';
 import Cookies from 'js-cookie';
-import  secureLocalStorage  from  "react-secure-storage";
+import secureLocalStorage from 'react-secure-storage';
 
 const AppContext = createContext<ContextType | null>(null);
 
@@ -17,9 +17,8 @@ const AppProvider = ({ children }: any) => {
   const [users, setUsers] = useState<IUser[]>([]);
   const [groups, setGroups] = useState<IGroup[]>([]);
   const [update, setUpdate] = useState<Boolean>(false);
-  let localUserId = secureLocalStorage.getItem("id");
+  let localUserId = secureLocalStorage.getItem('id');
 
-  console.log(user, "look for the name")
   useEffect(() => {
     axios
       .get(

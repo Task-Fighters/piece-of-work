@@ -39,7 +39,7 @@ const Groups = () => {
         <div className="max-w-6xl w-full mx-2">
           <div className="flex justify-end">
             {user.role === 'admin' && (
-              <div className="w-48 hidden md:flex">
+              <div className="md:w-48 md:flex xs:w-full">
                 <Button
                   buttonColor="white"
                   label="Add New Group"
