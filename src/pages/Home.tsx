@@ -12,23 +12,30 @@ const Home = () => {
   const { user, assignments } = useContext(AppContext) as ContextType;
   const navigate = useNavigate();
   let location = useLocation().pathname.toLowerCase();
-  // show newest assignment, do not show future ass. (only for students)
-  const currentDate = new Date().toJSON();
   const [search, setSearch] = useState('');
-  const newAssignments = assignments.sort((a: IAssignment, b: IAssignment) => {
-    return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
-  });
 
+  const currentDate = new Date().toJSON();
+  const newAssignments = assignments.sort((a: IAssignment, b: IAssignment) => {
+    return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+  });
+  
   const feature = newAssignments.find(
     (assignment) =>
-      new Date(assignment.startDate).getTime() > new Date(currentDate).getTime()
-  );
+    new Date(assignment.startDate).getTime() < new Date(currentDate).getTime()
+    );
 
-  if (feature) {
-    const index = newAssignments.indexOf(feature);
-    newAssignments.unshift(feature);
-    newAssignments.splice(index + 1, 1);
+  const nonFeatured = newAssignments.filter(assignment => assignment.startDate !== feature?.startDate);
+
+  const featured = newAssignments.filter(assignment => assignment.startDate === feature?.startDate);
+  let assignmentToShow: IAssignment[] = [];
+
+  if (user.role !== 'admin') {
+    const filtered = nonFeatured.filter(assignment =>  new Date(assignment.startDate).getTime() < new Date(currentDate).getTime());
+    assignmentToShow = featured.concat(filtered);
+  } else {
+    assignmentToShow = featured.concat(nonFeatured);
   }
+  
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
@@ -54,14 +61,14 @@ const Home = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
           <div className="flex flex-row flex-wrap justify-between mb-32">
-            {newAssignments.map((assignment, index) => {
+            {assignmentToShow?.map((assignment, index) => {
               if (
                 search === '' ||
                 assignment.title.toLowerCase().includes(search.toLowerCase())
               )
                 return (
                   <Card
-                    cardType={index === 0 ? 'feature' : 'card'}
+                    cardType={assignment.startDate === feature?.startDate ? 'feature' : 'card'}
                     id={assignment.id}
                     key={index}
                     description={assignment.description}
