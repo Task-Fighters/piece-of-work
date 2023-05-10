@@ -53,7 +53,6 @@ export interface IProfile {
   picture: string;
   id: string;
 }
-
 export type ContextType = {
   user: IUser;
   users: IUser[];

@@ -3,7 +3,9 @@ import Cookies from 'js-cookie';
 import React, { useContext, useState, useEffect } from 'react';
 import { useLocation, useParams,useNavigate } from 'react-router-dom';
 import { AppContext } from '../AppContext';
-import { ContextType} from '../types';
+import { ContextType, IAssignment} from '../types';
+// import { MultiSelect } from 'react-multi-select-component';
+import Select from 'react-select';
 import Title from '../components/Title';
 import { Input } from '../components/Input';
 import { Footer } from '../components/Footer';
@@ -16,24 +18,31 @@ moment().format();
 
 const UpdateAssignment = () => {
   const { user, groups, assignments, setAssignments } = useContext(AppContext) as ContextType;
+  const [assignment, setAssignment] = useState<IAssignment>()
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState('');
   const [description, setDescription] = useState('');
-  // let selectOptions = groups.map((item) => ({
-  //   label: item.name,
-  //   value: item.id
-  // }));
-  const [selectedGroups, setSelectedGroups] = useState<any>({});
+  const selectOptions = groups.map((item) => ({
+    value: item.id,
+    label: item.name
+  }));
+
+  const [selectedOption, setSelectedOption] = useState({});
   const cookieToken: string | undefined = Cookies.get('token');
   let { assignmentId } = useParams();
   let location = useLocation().pathname.toLowerCase();
   const navigate = useNavigate();
-
   const convertDate = (date:string) => {
     let initialDate = new Date(date);
     let convertedDate= moment(initialDate).format('YYYY-MM-DD')
     return convertedDate;
   }
+  
+
+  const handleChange = (selectedOption: any) => {
+    setSelectedOption(selectedOption);
+    console.log(`Option selected:`, selectedOption);
+  };
 
   useEffect(() => {
     axios
@@ -47,16 +56,14 @@ const UpdateAssignment = () => {
         }
       )
       .then((response) => {
+
         const date = convertDate(response.data.startDate);
+        const prevSelectedOption = selectOptions.find(option => option.value === response.data.groupId);
+        setAssignment(response.data);
         setTitle(response.data.title);
         setStartDate(date);
-        const selectedGroup = groups.find(group => group.id === response.data.groupId)
-        
-        const option = {
-          label: selectedGroup?.name,
-          value: selectedGroup?.id
-        }
-        setSelectedGroups({...option})
+        console.log(prevSelectedOption)
+        setSelectedOption({...prevSelectedOption})
         setDescription(response.data.description);
       });
 
@@ -68,10 +75,10 @@ const UpdateAssignment = () => {
       title: title,
       startDate: startDate,
       description: description,
-      groupId: selectedGroups.value
+      // groupId: selectedGroupsIds[0]
     };
 
-    console.log(updatedAssignment, "new updated ass")
+  
     axios
       .put(
         `https://project-salty-backend.azurewebsites.net/Assignments/${assignmentId}`,
@@ -111,6 +118,7 @@ const UpdateAssignment = () => {
   )}
 
 
+  console.log(selectedOption, "options ")
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
@@ -124,7 +132,25 @@ const UpdateAssignment = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setStartDate(e.target.value)
               }/>
-            <Input options={groups} select label="Group"/>
+            {/* <Input options={selectOptions} select label="Group" onChange={(e) => console.log(e.target.value, "change")}/> */}
+            <div className=".dropdown-container">
+              {/* <MultiSelect
+                className="mb-4"
+                options={selectOptions}
+                value={selectedGroups}
+                onChange={setSelectedGroups}
+                labelledBy="Select"
+              /> */}
+              <label className="text-pink-600 text-lg font-bold font-sans">
+              Group
+            </label>
+            <Select
+        defaultValue={selectedOption}
+        // onChange={setSelectedOption(newValue)}
+        onChange={handleChange}
+        options={selectOptions}
+      />
+            </div>
             <label className="text-pink-600 text-lg font-bold font-sans">
               Details
             </label>
@@ -154,3 +180,7 @@ const UpdateAssignment = () => {
 };
 
 export default UpdateAssignment;
+function value(prevState: null): null {
+  throw new Error('Function not implemented.');
+}
+
