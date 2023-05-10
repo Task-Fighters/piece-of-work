@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, {  useContext, useEffect } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
 import Login from './pages/Login';
 import Home from './pages/Home';
@@ -14,12 +14,39 @@ import Profile from './pages/Profile';
 import AddGroup from './pages/AddGroup';
 import UpdateUser from './pages/UpdateUser';
 import UpdateAssignment from './pages/UpdateAssignment';
+import { ContextType } from '../src/types';
 
+import { AppContext } from './AppContext';
+const PrivateRoute = ({pageComponent} : any) => {
+  const { user } = useContext(AppContext) as ContextType;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(user.id)
+    if(!user.id ) {
+      navigate('/')
+    }
+  }, )
+  return pageComponent;
+}
 function App() {
+
   return (
     <Routes>
+      {/* public routes  */}
       <Route path="/" element={<Login />} />
-      <Route path="/home" element={<Home />} />
+      {/* All private routes */}
+      <Route
+            path="/home"
+            element={<PrivateRoute pageComponent={<Home />} />}
+          />
+        
+        <Route
+            path="/groups"
+            element={<PrivateRoute pageComponent={<Groups />} />}
+          />
+      {/* <Route path="/home" element={<Home />} /> */}
+
       <Route path="/groups" element={<Groups />} />
       <Route path="/groups/:groupId" element={<Group />} />
       <Route path="/groups/new" element={<AddGroup />} />
