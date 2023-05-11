@@ -127,7 +127,9 @@ const Assignment = () => {
               onClick={addRepo}
             />
           </div>
-          <Title title={`Completed assignments (${repos?.length})`} />
+          {repos?.length > 0 && (
+            <Title title={`Completed assignments (${repos?.length})`} />
+          )}
           <ul className="flex flex-row flex-wrap justify-between">
             {repos?.map((repo) => {
               const userName = users.find(
