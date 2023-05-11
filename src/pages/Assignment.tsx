@@ -84,9 +84,6 @@ const Assignment = () => {
       });
   };
 
-  console.log('Users', users);
-  console.log('repos', repos);
-
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
