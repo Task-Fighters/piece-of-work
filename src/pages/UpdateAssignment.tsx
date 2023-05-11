@@ -31,16 +31,13 @@ const UpdateAssignment = () => {
     label: item.name
   }));
 
-  console.log(selectOptions, "initial options")
-  console.log(groups, "groups")
   const [selectedOption, setSelectedOption] = useState<any>(null);
-
-
   const cookieToken: string | undefined = Cookies.get('token');
   let { assignmentId } = useParams();
   let location = useLocation().pathname.toLowerCase();
   const navigate = useNavigate();
-  const handleChange = (selectedOption: any) => {
+
+  const handleChangeSelectedOption = (selectedOption: any) => {
     setSelectedOption(selectedOption);
   };
 
@@ -116,8 +113,6 @@ const UpdateAssignment = () => {
       }
   )}
 
-
-  console.log(selectedOption, "options ")
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
@@ -137,7 +132,7 @@ const UpdateAssignment = () => {
             </label>
             <Select
             // defaultValue={selectedOption}
-            onChange={handleChange}
+            onChange={handleChangeSelectedOption}
             options={selectOptions}
             value={selectedOption}
       />
