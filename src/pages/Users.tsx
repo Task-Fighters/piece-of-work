@@ -14,11 +14,14 @@ const Users = () => {
   const navigate = useNavigate();
   let location = useLocation().pathname.toLowerCase();
 
-  const handleEditUser =(e:React.MouseEvent<HTMLButtonElement>, id: number) => {
+  const handleEditUser = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: number
+  ) => {
     e.preventDefault();
-    e.stopPropagation();    
-    navigate(`/users/${id}/update`)
-  }
+    e.stopPropagation();
+    navigate(`/users/${id}/update`);
+  };
 
   return (
     <div className="container-xl">
@@ -27,7 +30,7 @@ const Users = () => {
         <div className="max-w-6xl w-full mx-2">
           <div className="flex justify-end">
             {user.role === 'admin' && (
-              <div className="w-48 hidden md:flex">
+              <div className="md:w-48 md:flex xs:w-full">
                 <Button
                   buttonColor="white"
                   label="Add User"
