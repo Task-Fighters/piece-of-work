@@ -128,7 +128,7 @@ const Assignment = () => {
             />
           </div>
           {repos?.length > 0 && (
-            <Title title={`Completed assignments (${repos?.length})`} />
+            <Title title={`Completed Assignments (${repos?.length})`} />
           )}
           <ul className="flex flex-row flex-wrap justify-between">
             {repos?.map((repo) => {

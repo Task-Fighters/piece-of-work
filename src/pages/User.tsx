@@ -99,7 +99,7 @@ const User = () => {
             <Title
               className="mx-2 md:mx-0 md:my-2"
               underline
-              title="Completed Assignments"
+              title={`Completed Assignments (${repos?.length})`}
             />
           )}
           <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
