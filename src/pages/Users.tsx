@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AppContext } from '../AppContext';
 import { ContextType } from '../types';
@@ -13,6 +13,7 @@ const Users = () => {
   const { user, users } = useContext(AppContext) as ContextType;
   const navigate = useNavigate();
   let location = useLocation().pathname.toLowerCase();
+  const [search, setSearch] = useState('')
 
   const handleEditUser = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -42,10 +43,14 @@ const Users = () => {
               </div>
             )}
           </div>
-          <Input icon placeholder="Search" />
+          <Input icon placeholder="Search" onChange={(e) => setSearch(e.target.value)}/>
           <Title underline title="Users" />
           <ul className="flex flex-row flex-wrap justify-between capitalize mb-32">
-            {users.map((person) => {
+            {users.map((person, index) => {
+              if (
+                search === '' ||
+                person?.fullName.toLowerCase().includes(search.toLowerCase())
+              )
               return (
                 <ListItem
                   key={person?.id}
@@ -56,6 +61,8 @@ const Users = () => {
                   onClickEditIcon={(e: any) => handleEditUser(e, person.id)}
                 />
               );
+              return (<div key ={index}></div>)
+
             })}
           </ul>
           <Footer role={user.role} image={user.imageUrl} />
