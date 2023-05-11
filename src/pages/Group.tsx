@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { AppContext } from '../AppContext';
 import { ContextType, IGroup } from '../types';
 import { Footer } from '../components/Footer';
@@ -12,12 +12,13 @@ import { Button } from '../components/Button';
 import Editable from '../components/Editable';
 
 const Group = () => {
-  const { user } = useContext(AppContext) as ContextType;
+  const { user, setUpdate } = useContext(AppContext) as ContextType;
   const [group, setGroup] = useState<IGroup>({} as IGroup);
   const [groupName, setGroupName] = useState('');
   let { groupId } = useParams();
   let location = useLocation().pathname.toLowerCase();
   const cookieToken: string | undefined = Cookies.get('token');
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -36,10 +37,9 @@ const Group = () => {
       });
   }, [cookieToken, groupId]);
 
-
   // const handleDeleteUserFromGroup = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
   //   e.preventDefault();
-  //   e.stopPropagation();   
+  //   e.stopPropagation();
   //   axios
   //     .put(
   //       `https://project-salty-backend.azurewebsites.net/Groups/${groupId}`,
@@ -54,7 +54,23 @@ const Group = () => {
   //       console.log(response.statusText);
   //     });
   // };
-
+  const handleDeleteGroup = (e: any, groupId: number) => {
+    e.preventDefault();
+    axios
+      .delete(
+        `https://project-salty-backend.azurewebsites.net/Groups/${groupId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
+          }
+        }
+      )
+      .then(() => {
+        setUpdate(true);
+        navigate('/groups');
+      });
+  };
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
@@ -73,6 +89,14 @@ const Group = () => {
           <Input label="User E-mail Address" />
           <div className="mb-4">
             <Button label="Add User to Group" type="button" />
+            <Button
+              label="Delete Group"
+              type="button"
+              className="bg-pink-600 border-pink-600 text-white border-"
+              onClick={(e) => {
+                handleDeleteGroup(e, Number(groupId));
+              }}
+            />
           </div>
           <ul className="flex flex-row flex-wrap justify-between capitalize">
             {group.users?.map((person) => {

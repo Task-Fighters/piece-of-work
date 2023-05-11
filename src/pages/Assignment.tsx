@@ -40,8 +40,6 @@ const Assignment = () => {
   }, [assignmentId, cookieToken]);
   //Add filter to render only assignments from the group that user is linked to.
 
-
-
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
@@ -54,7 +52,9 @@ const Assignment = () => {
                   buttonColor="white"
                   label="Edit Assignment"
                   type="button"
-                  onClick={() => {navigate(`/assignments/${assignmentId}/update`)}}
+                  onClick={() => {
+                    navigate(`/assignments/${assignmentId}/update`);
+                  }}
                 />
               </div>
             )}
@@ -67,16 +67,21 @@ const Assignment = () => {
               title={assignment.title}
             />
           )}
-          <Title title="Post completed assignment" />
-          <div className="flex flex-col md:flex-row">
-            <Input placeholder="Git Repository URL" />
-            <Button
-              className="md:w-1/4 md:ml-2"
-              label="Submit"
-              type="button"
-              onClick={() => {}}
-            />
-          </div>
+          {user.role === 'user' && (
+            <>
+              <Title title="Post completed assignment" />
+              <div className="flex flex-col md:flex-row">
+                <Input placeholder="Git Repository URL" />
+                <Button
+                  className="md:w-1/4 md:ml-2"
+                  label="Submit"
+                  type="button"
+                  onClick={() => {}}
+                />
+              </div>
+            </>
+          )}
+
           {/* <Title
             title={`Completed assignments (${assignment?.submission.length})`}
             // Correct the number of assignments after implementation on the backend ${assignment?.submission.length}
