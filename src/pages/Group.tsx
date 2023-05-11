@@ -34,7 +34,7 @@ const Group = () => {
         setGroup(response.data);
         setGroupName(response.data.name);
       });
-  });
+  }, [cookieToken, groupId]);
 
   // const handleDeleteUser = () => {
   //   axios
