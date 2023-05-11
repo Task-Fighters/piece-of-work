@@ -31,7 +31,7 @@ const UpdateAssignment = () => {
     label: item.name
   }));
 
-  const [selectedOption, setSelectedOption] = useState<any>(null);
+  const [selectedOption, setSelectedOption] = useState<any>();
   const cookieToken: string | undefined = Cookies.get('token');
   let { assignmentId } = useParams();
   let location = useLocation().pathname.toLowerCase();
@@ -53,17 +53,17 @@ const UpdateAssignment = () => {
         }
       )
       .then((response) => {
-        console.log(selectOptions, "dasha111")
+        console.log(response, "dasha111")
 
       const prevSelectedOption = selectOptions.find(option => option.value === response.data.groupId);
       const date = convertDate(response.data.startDate);
       setTitle(response.data.title);
-      console.log(prevSelectedOption, "dasha")
+      console.log(prevSelectedOption, "select")
       setStartDate(date);
-      setSelectedOption({...prevSelectedOption})
+      setSelectedOption(prevSelectedOption)
       setDescription(response.data?.description);
       });
-  }, [assignmentId, cookieToken]);
+  }, [assignmentId, cookieToken, groups]);
 
   const handleUpdateAssignment: React.FormEventHandler<HTMLFormElement> =(e) => {
     e.preventDefault();

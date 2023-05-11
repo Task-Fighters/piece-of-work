@@ -24,7 +24,6 @@ const PrivateRoute = ({ pageComponent }: any) => {
   let localUserId = secureLocalStorage.getItem('id');
 
   useEffect(() => {
-    console.log(user.id);
     if (!user.id && !localUserId) {
       navigate('/');
     }
