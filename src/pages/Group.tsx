@@ -36,14 +36,22 @@ const Group = () => {
       });
   }, [cookieToken, groupId]);
 
-  // const handleDeleteUser = () => {
+
+  // const handleDeleteUserFromGroup = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();   
   //   axios
-  //     .delete(
-  //       `https://project-salty-backend.azurewebsites.net/Groups/${groupId}`
+  //     .put(
+  //       `https://project-salty-backend.azurewebsites.net/Groups/${groupId}`,
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${cookieToken}`,
+  //         Accept: 'text/plain'
+  //       }
+  //     }
   //     )
   //     .then((response) => {
-  //       setGroup(response.data);
-  //       setGroupName(response.data.name);
+  //       console.log(response.statusText);
   //     });
   // };
 

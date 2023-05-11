@@ -105,6 +105,7 @@ const AppProvider = ({ children }: any) => {
         setUsers,
         setProfile,
         assignments,
+        setAssignments,
         setGroups,
         setUpdate,
         users

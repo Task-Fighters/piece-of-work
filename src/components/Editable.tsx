@@ -31,6 +31,7 @@ const Editable = ({
       })
       .then((response) => console.log('put request', response.statusText));
   };
+  
   return (
     <section
       {...props}

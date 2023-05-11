@@ -53,7 +53,6 @@ export interface IProfile {
   picture: string;
   id: string;
 }
-
 export type ContextType = {
   user: IUser;
   users: IUser[];
@@ -62,6 +61,7 @@ export type ContextType = {
   assignments: IAssignment[];
   setUser: (user: IUser) => void;
   setUsers: (users: IUser[]) => void;
+  setAssignments: (assignments: IAssignment[]) => void;
   setProfile: (profile: IProfile) => void;
   setGroups: (groups: IGroups[]) => void;
   setUpdate: (update: boolean) => void;

@@ -62,8 +62,8 @@ export const Input = ({
               data-te-select-init
               data-te-select-placeholder="Select option"
               data-te-select-size="lg"
-              onChange={onChange}
-            >
+              onChange={onChange}        
+              >
               {options?.map((option) => {
                 return (
                   <option
