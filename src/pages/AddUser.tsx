@@ -107,7 +107,7 @@ const AddUser = () => {
         console.log(response.statusText);
       });
     }
-    else {
+    else {//change this later into styled alert
     alert('Enter appliedtechnology email address')
     }
     const target = e.target as HTMLFormElement;
