@@ -1,10 +1,5 @@
-
-import { useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-
 import { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ContextType } from '../types';
 import { AppContext } from '../AppContext';
 import { Header } from '../components/Header';
@@ -13,22 +8,9 @@ import { Footer } from '../components/Footer';
 import Title from '../components/Title';
 import { Button } from '../components/Button';
 import UserDetails from '../components/UserDetails';
-
-import secureLocalStorage from 'react-secure-storage';
-
-const Profile = () => {
-  const { user, assignments } = useContext(AppContext) as ContextType;
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    secureLocalStorage.removeItem("id");
-    navigate("/")
-  }
-
-  let location = useLocation().pathname.toLowerCase();
-
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import secureLocalStorage from 'react-secure-storage';
 
 interface IRepo {
   id: number;
@@ -43,6 +25,11 @@ const Profile = () => {
   const cookieToken: string | undefined = Cookies.get('token');
   const [repos, setRepos] = useState<IRepo[]>([]);
   let location = useLocation().pathname.toLowerCase();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    secureLocalStorage.removeItem('id');
+    navigate('/');
+  };
 
   useEffect(() => {
     const fetchData = async () => {
