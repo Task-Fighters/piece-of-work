@@ -32,24 +32,23 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    if(user.id !== undefined) {
+    if (user.id !== undefined) {
       axios
-      .get(
-        `https://project-salty-backend.azurewebsites.net/Repos/User/${user.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-            Accept: 'text/plain'
+        .get(
+          `https://project-salty-backend.azurewebsites.net/Repos/User/${user.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+              Accept: 'text/plain'
+            }
           }
-        }
-      )
-      .then((response) => {
-        setRepos(response.data);
-        console.log(response, "dasha111")
-      })
+        )
+        .then((response) => {
+          setRepos(response.data);
+          console.log(response, 'dasha111');
+        });
     }
   }, [cookieToken, user.id]);
-    
 
   return (
     <div className="container-xl">
@@ -74,11 +73,13 @@ const Profile = () => {
             email={user.email}
             imageUrl={user.imageUrl}
           />
-          <Title
-            className="mx-2 md:mx-0 md:my-2"
-            underline
-            title={`Completed Assignments (${repos?.length})`}
-          />
+          {repos.length > 0 && (
+            <Title
+              className="mx-2 md:mx-0 md:my-2"
+              underline
+              title={`Completed Assignments (${repos?.length})`}
+            />
+          )}
           <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
             {repos?.map((repo, index) => {
               const name = assignments.find(
