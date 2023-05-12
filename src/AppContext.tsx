@@ -11,8 +11,6 @@ const AppProvider = ({ children }: any) => {
   const cookieUserId: string | undefined = Cookies.get('userId');
   const [user, setUser] = useState<IUser>({} as IUser);
   const [profile, setProfile] = useState<IProfile>({} as IProfile);
-  // const [userGroup, setUserGroup] = useState<IGroup[]>([]);
-  // const [userAssignments, setUserAssignments] = useState<IAssignment[]>();
   const [assignments, setAssignments] = useState<IAssignment[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [groups, setGroups] = useState<IGroup[]>([]);
@@ -20,33 +18,43 @@ const AppProvider = ({ children }: any) => {
   let localUserId = secureLocalStorage.getItem('id');
 
   useEffect(() => {
-    axios
-      .get(
-        `https://project-salty-backend.azurewebsites.net/Users/${localUserId}`,
-        {
+    if (localUserId !== undefined) {
+      axios
+        .get(
+          `https://project-salty-backend.azurewebsites.net/Users/${localUserId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+              Accept: 'text/plain'
+            }
+          }
+        )
+        .then((response) => {
+          setUser({ ...response.data });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [cookieToken, cookieUserId, localUserId]);
+
+  useEffect(() => {
+    if (localUserId !== undefined) {
+      axios
+        .get('https://project-salty-backend.azurewebsites.net/Users', {
           headers: {
             Authorization: `Bearer ${cookieToken}`,
             Accept: 'text/plain'
           }
-        }
-      )
-      .then((response) => {
-        setUser({ ...response.data });
-      });
-  }, [cookieToken, cookieUserId]);
-
-  useEffect(() => {
-    axios
-      .get('https://project-salty-backend.azurewebsites.net/Users', {
-        headers: {
-          Authorization: `Bearer ${cookieToken}`,
-          Accept: 'text/plain'
-        }
-      })
-      .then((response) => {
-        setUsers([...response.data]);
-      });
-  }, [cookieToken]);
+        })
+        .then((response) => {
+          setUsers([...response.data]);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [cookieToken, localUserId]);
 
   useEffect(() => {
     if (cookieToken) {
@@ -60,6 +68,9 @@ const AppProvider = ({ children }: any) => {
         .then((response) => {
           setGroups([...response.data]);
           setUpdate(false);
+        })
+        .catch((error) => {
+          console.error(error);
         });
     }
   }, [cookieToken, update]);
