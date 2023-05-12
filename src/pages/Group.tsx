@@ -100,6 +100,7 @@ const Group = () => {
           </div>
           <ul className="flex flex-row flex-wrap justify-between capitalize">
             {group.users?.map((person) => {
+              console.log(person);
               return (
                 <ListItem
                   key={person?.id}
