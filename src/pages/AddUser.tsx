@@ -53,8 +53,8 @@ const AddUser = () => {
 
   const getUserName = () => {
     if( email !== "") {
-    const string = email.split('@')[0];
     try{
+      const string = email.split('@')[0];
       const name = string.split(".");
       const firstName = name[0].charAt(0).toUpperCase() + name[0].slice(1);
       const lastName = name[1].charAt(0).toUpperCase() + name[1].slice(1);
@@ -62,7 +62,7 @@ const AddUser = () => {
       setFullName(fullName);
     return
     } catch(err){
-      console.log(err)
+      return
     }
      } 
      return
