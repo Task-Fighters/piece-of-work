@@ -126,11 +126,18 @@ const UpdateAssignment = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setStartDate(e.target.value)
               }/>
-            <div className=".dropdown-container">
-              <label className="text-pink-600 text-lg font-bold font-sans">
+              
+            <div >
+            <label className="text-pink-600 text-lg font-bold font-sans">
               Group
             </label>
             <Select
+            className="mb-4 "
+            classNamePrefix='single_select'
+            // className={{
+            //   control: (state) =>
+            //     state.isFocused ? 'border-red-600' : 'border-grey-300',
+            // }}
             // defaultValue={selectedOption}
             onChange={handleChangeSelectedOption}
             options={selectOptions}

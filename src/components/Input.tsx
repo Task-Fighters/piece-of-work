@@ -62,7 +62,7 @@ export const Input = ({
               data-te-select-init
               data-te-select-placeholder="Select option"
               data-te-select-size="lg"
-              onChange={onChange}        
+              onChange={onChange}     
               >
               {options?.map((option) => {
                 return (
@@ -85,6 +85,7 @@ export const Input = ({
             placeholder={placeholder}
             onChange={onChange}
             value={value}
+            required
           />
           {icon && (
             <BiSearch className="absolute inset-y-2.5 right-2 text-gray-500 text-2xl"/>
