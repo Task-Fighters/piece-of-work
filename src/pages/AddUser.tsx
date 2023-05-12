@@ -38,7 +38,7 @@ const locationArr: ILocation[] = [
 const AddUser = () => {
   const { user, groups } = useContext(AppContext) as ContextType;
   const [email, setEmail] = useState('');
-  const[fullName, setFullName] = useState('');
+  const [fullName, setFullName] = useState('');
   const [userLocation, setUserLocation] = useState('Amsterdam');
   const [role, setRole] = useState('pgp');
   const cookieToken: string | undefined = Cookies.get('token');
@@ -53,8 +53,8 @@ const AddUser = () => {
 
   const getUserName = () => {
     if( email !== "") {
-    const string = email.split('@')[0];
     try{
+      const string = email.split('@')[0];
       const name = string.split(".");
       const firstName = name[0].charAt(0).toUpperCase() + name[0].slice(1);
       const lastName = name[1].charAt(0).toUpperCase() + name[1].slice(1);
@@ -62,10 +62,16 @@ const AddUser = () => {
       setFullName(fullName);
     return
     } catch(err){
-      console.log(err)
+      return
     }
      } 
      return
+  }
+  
+
+  const isValidEmail = (email: string) : boolean=> {
+    const regex = /^[a-zA-Z0-9._%+-]+@appliedtechnology\.se$/;
+    return regex.test(email);
   }
   
   useEffect(()=> {
@@ -74,7 +80,6 @@ const AddUser = () => {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-  
     const newUser = {
       email: email,
       fullName: fullName,
@@ -83,7 +88,8 @@ const AddUser = () => {
       status: 'active',
       groupsId: selectedGroupsIds
     };
-    console.log(newUser);
+    console.log(newUser); 
+    if(isValidEmail(email)) {
     axios
       .post(
         `https://project-salty-backend.azurewebsites.net/Users`,
@@ -100,6 +106,10 @@ const AddUser = () => {
       .then((response) => {
         console.log(response.statusText);
       });
+    }
+    else {
+    alert('Enter appliedtechnology email address')
+    }
     const target = e.target as HTMLFormElement;
     target.reset();
     setEmail('');
