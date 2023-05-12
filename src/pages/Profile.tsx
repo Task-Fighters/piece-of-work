@@ -32,25 +32,24 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `https://project-salty-backend.azurewebsites.net/Repos/User/${user.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${cookieToken}`,
-              Accept: 'text/plain'
-            }
+    if(user.id !== undefined) {
+      axios
+      .get(
+        `https://project-salty-backend.azurewebsites.net/Repos/User/${user.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
           }
-        );
+        }
+      )
+      .then((response) => {
         setRepos(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
+        console.log(response, "dasha111")
+      })
+    }
   }, [cookieToken, user.id]);
+    
 
   return (
     <div className="container-xl">
