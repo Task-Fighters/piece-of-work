@@ -1,5 +1,10 @@
+
+import { useContext } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+
 import { ContextType } from '../types';
 import { AppContext } from '../AppContext';
 import { Header } from '../components/Header';
@@ -8,6 +13,20 @@ import { Footer } from '../components/Footer';
 import Title from '../components/Title';
 import { Button } from '../components/Button';
 import UserDetails from '../components/UserDetails';
+
+import secureLocalStorage from 'react-secure-storage';
+
+const Profile = () => {
+  const { user, assignments } = useContext(AppContext) as ContextType;
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    secureLocalStorage.removeItem("id");
+    navigate("/")
+  }
+
+  let location = useLocation().pathname.toLowerCase();
+
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -97,6 +116,7 @@ const Profile = () => {
                   label="Logout"
                   type="button"
                   className="bg-pink-600 border-pink-600 text-white border-"
+                  onClick={handleLogout}
                 />
               </div>
             )}
