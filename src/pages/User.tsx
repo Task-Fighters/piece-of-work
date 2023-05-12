@@ -5,23 +5,69 @@ import { IUser, ContextType } from '../types';
 import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
 import { Header } from '../components/Header';
-import { Card } from '../components/Card';
 import { Footer } from '../components/Footer';
 import Title from '../components/Title';
 import { Button } from '../components/Button';
 import UserDetails from '../components/UserDetails';
+import { Repo } from '../components/Repo';
+
+interface IRepo {
+  id: number;
+  assignmentId: number;
+  assignment: string;
+  url: string;
+  title: string;
+}
 
 const User = () => {
-  const { user, users, setUsers } = useContext(AppContext) as ContextType;
+  const { user, users, setUsers, assignments } = useContext(
+    AppContext
+  ) as ContextType;
   const [singleUser, setSingleUser] = useState<IUser>({} as IUser);
   let { userId } = useParams();
+  const [repos, setRepos] = useState<IRepo[]>([]);
   let location = useLocation().pathname.toLowerCase();
   const cookieToken: string | undefined = Cookies.get('token');
   const navigate = useNavigate();
 
   useEffect(() => {
     axios
-      .get(
+      .get(`https://project-salty-backend.azurewebsites.net/Users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+          Accept: 'text/plain'
+        }
+      })
+      .then((response) => {
+        setSingleUser(response.data);
+      });
+  }, [userId, cookieToken]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://project-salty-backend.azurewebsites.net/Repos/User/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+              Accept: 'text/plain'
+            }
+          }
+        );
+        setRepos(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [cookieToken, userId]);
+
+  const handleDeleteUser = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    axios
+      .delete(
         `https://project-salty-backend.azurewebsites.net/Users/${userId}`,
         {
           headers: {
@@ -31,29 +77,12 @@ const User = () => {
         }
       )
       .then((response) => {
-        setSingleUser(response.data);
+        console.log(response.statusText);
+        setUsers(users.filter((user) => user.id !== Number(userId)));
+        navigate('/users');
       });
-  }, [userId, cookieToken]);
+  };
 
-  const handleDeleteUser = (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      axios
-        .delete(
-          `https://project-salty-backend.azurewebsites.net/Users/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-            Accept: 'text/plain'
-          }
-        }
-        )
-        .then((response) => {
-          console.log(response.statusText);
-          setUsers(users.filter(user => user.id !== Number(userId)));
-          navigate("/users")
-        });
-    };
-  
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
@@ -66,36 +95,39 @@ const User = () => {
             imageUrl={singleUser.imageUrl}
             // groups={user.groupsId}
           />
-          <Title
-            className="mx-2 md:mx-0 md:my-2"
-            underline
-            title="Completed Assignments"
-          />
-          {/* <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
-            {assignments?.map((assignment, index) => {
+          {repos.length > 0 && (
+            <Title
+              className="mx-2 md:mx-0 md:my-2"
+              underline
+              title={`Completed Assignments (${repos?.length})`}
+            />
+          )}
+          <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
+            {repos?.map((repo, index) => {
+              const name = assignments.find(
+                (assign) => assign.id === repo.assignmentId
+              )?.title;
               return (
-                <Card
-                  cardType={'card'}
-                  id={assignment.id}
+                <Repo
+                  id={repo.id}
                   key={index}
-                  description={assignment.description}
-                  subtitle={assignment.startDate}
-                  title={assignment.title}
+                  assignment={name || ''}
+                  repoUrl={repo.url}
+                  assignmentUrl={repo.assignmentId}
                 />
               );
             })}
-          </div> */}
-          <div className="mb-32 mt-20 md:mt-0">
+          </div>
+          <div className="mb-32 mt-4 mx-2 md:mt-0">
             {user.role === 'admin' && (
-                <Button
-                  label="Delete user"
-                  type="button"
-                  className="bg-pink-600 border-pink-600 text-white border-"
-                  onClick={(e) => {
-                    handleDeleteUser(e)
-                  }}
-                />
-              
+              <Button
+                label="Delete user"
+                type="button"
+                className="bg-pink-600 border-pink-600 text-white border-"
+                onClick={(e) => {
+                  handleDeleteUser(e);
+                }}
+              />
             )}
           </div>
           <Footer role={user.role} image={singleUser.imageUrl} />

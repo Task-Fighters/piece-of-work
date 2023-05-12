@@ -1,27 +1,50 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ContextType } from '../types';
 import { AppContext } from '../AppContext';
 import { Header } from '../components/Header';
-import { Card } from '../components/Card';
+import { Repo } from '../components/Repo';
 import { Footer } from '../components/Footer';
 import Title from '../components/Title';
 import { Button } from '../components/Button';
 import UserDetails from '../components/UserDetails';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+
+interface IRepo {
+  id: number;
+  assignmentId: number;
+  assignment: string;
+  url: string;
+  title: string;
+}
 
 const Profile = () => {
   const { user, assignments } = useContext(AppContext) as ContextType;
-
-  // let completedAssignments: any = [];
-  // assignments.forEach((assignment) => {
-  //   assignment.submission.forEach((item) => {
-  //     if (item.userId === user.id) {
-  //       completedAssignments.push(assignment);
-  //     }
-  //   });
-  // });
-
+  const cookieToken: string | undefined = Cookies.get('token');
+  const [repos, setRepos] = useState<IRepo[]>([]);
   let location = useLocation().pathname.toLowerCase();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://project-salty-backend.azurewebsites.net/Repos/User/${user.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+              Accept: 'text/plain'
+            }
+          }
+        );
+        setRepos(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [cookieToken, user.id]);
 
   return (
     <div className="container-xl">
@@ -45,28 +68,29 @@ const Profile = () => {
             name={user.fullName}
             email={user.email}
             imageUrl={user.imageUrl}
-            // groups={user.groupsId}
           />
           <Title
             className="mx-2 md:mx-0 md:my-2"
             underline
-            title="Completed Assignments"
+            title={`Completed Assignments (${repos?.length})`}
           />
           <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
-            {assignments?.map((assignment, index) => {
+            {repos?.map((repo, index) => {
+              const name = assignments.find(
+                (assign) => assign.id === repo.assignmentId
+              )?.title;
               return (
-                <Card
-                  cardType={'card'}
-                  id={assignment.id}
+                <Repo
+                  id={repo.id}
                   key={index}
-                  description={assignment.description}
-                  subtitle={assignment.startDate}
-                  title={assignment.title}
+                  assignment={name || ''}
+                  repoUrl={repo.url}
+                  assignmentUrl={repo.assignmentId}
                 />
               );
             })}
           </div>
-          <div className="flex justify-center mx-2 mb-32">
+          <div className="flex justify-center mx-2 mt-4 mb-32">
             {user.role === 'admin' && (
               <div className="w-full md:hidden flex">
                 <Button
