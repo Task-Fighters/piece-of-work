@@ -10,18 +10,22 @@ import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Input } from '../components/Input';
 import Title from '../components/Title';
-// import { ListItem } from '../components/ListItem';
+import { ListItem } from '../components/ListItem';
+
+interface IRepo {
+  userId: number;
+  title: string;
+}
 
 const Assignment = () => {
-  const { user } = useContext(AppContext) as ContextType;
+  const { user, users } = useContext(AppContext) as ContextType;
   const [assignment, setAssignment] = useState<IAssignment>({} as IAssignment);
+  const [repoName, setRepoName] = useState<string>('');
+  const [repos, setRepos] = useState<IRepo[]>([]);
   const cookieToken: string | undefined = Cookies.get('token');
   let { assignmentId } = useParams();
   let location = useLocation().pathname.toLowerCase();
   const navigate = useNavigate();
-  // let assignment = assignments?.find(
-  //   (assignment) => assignment.id === Number(assignmentId)
-  // );
 
   useEffect(() => {
     axios
@@ -38,7 +42,49 @@ const Assignment = () => {
         setAssignment(response.data);
       });
   }, [assignmentId, cookieToken]);
-  //Add filter to render only assignments from the group that user is linked to.
+
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://project-salty-backend.azurewebsites.net/Repos/Assignment/${assignmentId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
+          }
+        }
+      )
+      .then((response) => {
+        setRepos(response.data);
+      });
+  }, [assignmentId, cookieToken, repoName]);
+
+  const addRepo = () => {
+    if (repoName?.trim() === '') {
+      return;
+    }
+    axios
+      .post(
+        `https://project-salty-backend.azurewebsites.net/Repos`,
+        {
+          url: repoName,
+          assignmentId: assignmentId,
+          userId: user.id
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
+          }
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        setRepoName('');
+      });
+  };
+
 
   return (
     <div className="container-xl">
@@ -67,6 +113,7 @@ const Assignment = () => {
               title={assignment.title}
             />
           )}
+
           {user.role === 'user' && (
             <>
               <Title title="Post completed assignment" />
@@ -88,16 +135,43 @@ const Assignment = () => {
           />
           <ul className="flex flex-row flex-wrap justify-between">
             {assignment?.submission.map((user) => {
+
+          <Title title="Post completed assignment" />
+          <div className="flex flex-col md:flex-row">
+            <Input
+              placeholder="Git Repository URL"
+              value={repoName}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setRepoName(e.target.value)
+              }
+            />
+            <Button
+              className="md:w-1/4 md:ml-2"
+              label="Submit"
+              type="button"
+              onClick={addRepo}
+            />
+          </div>
+          {repos?.length > 0 && (
+            <Title title={`Completed Assignments (${repos?.length})`} />
+          )}
+          <ul className="flex flex-row flex-wrap justify-between mb-32">
+            {repos?.map((repo) => {
+              const userName = users.find(
+                (user) => user.id === repo.userId
+              )?.fullName;
+
               return (
                 <ListItem
-                  key={user.userId}
-                  id={user.userId}
-                  title={user.name}
+                  key={repo.userId}
+                  id={repo.userId}
+                  title={userName || ''}
                   route="/users"
                 />
               );
             })}
-          </ul> */}
+          </ul>
+
           <Footer role={user.role} image={user.imageUrl} />
         </div>
       </div>
