@@ -43,7 +43,6 @@ const Assignment = () => {
       });
   }, [assignmentId, cookieToken]);
 
-
   useEffect(() => {
     axios
       .get(
@@ -85,7 +84,6 @@ const Assignment = () => {
       });
   };
 
-
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
@@ -113,29 +111,6 @@ const Assignment = () => {
               title={assignment.title}
             />
           )}
-
-          {user.role === 'user' && (
-            <>
-              <Title title="Post completed assignment" />
-              <div className="flex flex-col md:flex-row">
-                <Input placeholder="Git Repository URL" />
-                <Button
-                  className="md:w-1/4 md:ml-2"
-                  label="Submit"
-                  type="button"
-                  onClick={() => {}}
-                />
-              </div>
-            </>
-          )}
-
-          {/* <Title
-            title={`Completed assignments (${assignment?.submission.length})`}
-            // Correct the number of assignments after implementation on the backend ${assignment?.submission.length}
-          />
-          <ul className="flex flex-row flex-wrap justify-between">
-            {assignment?.submission.map((user) => {
-
           <Title title="Post completed assignment" />
           <div className="flex flex-col md:flex-row">
             <Input
@@ -160,7 +135,6 @@ const Assignment = () => {
               const userName = users.find(
                 (user) => user.id === repo.userId
               )?.fullName;
-
               return (
                 <ListItem
                   key={repo.userId}
