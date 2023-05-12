@@ -130,7 +130,7 @@ const Assignment = () => {
           {repos?.length > 0 && (
             <Title title={`Completed Assignments (${repos?.length})`} />
           )}
-          <ul className="flex flex-row flex-wrap justify-between">
+          <ul className="flex flex-row flex-wrap justify-between mb-32">
             {repos?.map((repo) => {
               const userName = users.find(
                 (user) => user.id === repo.userId

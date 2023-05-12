@@ -118,7 +118,7 @@ const User = () => {
               );
             })}
           </div>
-          <div className="mb-32 mt-20 md:mt-0">
+          <div className="mb-32 mt-4 mx-2 md:mt-0">
             {user.role === 'admin' && (
               <Button
                 label="Delete user"

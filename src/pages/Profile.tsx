@@ -90,7 +90,7 @@ const Profile = () => {
               );
             })}
           </div>
-          <div className="flex justify-center mx-2 mb-32">
+          <div className="flex justify-center mx-2 mt-4 mb-32">
             {user.role === 'admin' && (
               <div className="w-full md:hidden flex">
                 <Button
