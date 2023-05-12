@@ -60,7 +60,7 @@ const Groups = () => {
                   id={group?.id}
                   title={group?.name}
                   route="/groups"
-                  iconDelete={user.role === 'user' ? false : true}
+                  // iconDelete={user.role === 'user' ? false : true}
                   onClickDeleteIcon={(e: any) => handleDeleteGroup(e, group.id)}
                 />
               );
