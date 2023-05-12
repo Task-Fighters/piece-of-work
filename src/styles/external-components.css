@@ -21,3 +21,31 @@
   border-right-color: rgb(219 39 119);
   border-bottom-color: rgb(219 39 119);
 }
+
+/* .single_select__input-container{
+  padding: 2px;
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+} */
+/* .single_select__menu {
+  margin: 0.125rem auto;
+} */
+.single_select__control:focus-within {
+  outline: none !important;
+  border-radius: 0.25rem;
+  border: 1px solid #db2777 !important;
+  box-shadow: 0 0 2px #db2777 !important;
+}
+.single_select__control{
+  padding-left: 16px;
+  /* padding-top: 0.5rem;
+  padding-bottom: 0.5rem; */
+}
+.single_select__input-container, .single_select__placeholder, .single_select__value-container{
+  margin: 0px!important;
+  
+}
