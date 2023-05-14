@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import { Routes, Route, Outlet, Navigate, useLocation } from 'react-router-dom';
 import './App.css';
 import Login from './pages/Login';
@@ -15,30 +14,12 @@ import AddGroup from './pages/AddGroup';
 import UpdateUser from './pages/UpdateUser';
 import UpdateAssignment from './pages/UpdateAssignment';
 import secureLocalStorage from 'react-secure-storage';
-import { ContextType } from '../src/types';
-import { AppContext } from './AppContext';
-// import secureLocalStorage from 'react-secure-storage';
-
-// import { AppContext } from './AppContext';
-// const PrivateRoute = ({ pageComponent }: any) => {
-//   const { user } = useContext(AppContext) as ContextType;
-//   const navigate = useNavigate();
-//   let localUserId = secureLocalStorage.getItem('id');
-
-//   useEffect(() => {
-//     if (!user.id && !localUserId) {
-//       navigate('/');
-//     }
-//   });
-//   return pageComponent;
-// };
 
 const PrivateRoute = ({ allowedRoles }: { allowedRoles: string[] }) => {
-  const { user } = useContext(AppContext) as ContextType;
   const location = useLocation();
   const localUserRole = secureLocalStorage.getItem('role');
   //@ts-ignore
-  return allowedRoles.includes(localUserRole) && user.id ? (
+  return allowedRoles.includes(localUserRole) ? (
     <Outlet />
   ) : localUserRole ? (
     <Navigate to="/home" state={{ from: location }} replace />
