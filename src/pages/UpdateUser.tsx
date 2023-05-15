@@ -50,7 +50,7 @@ const UpdateUser = () => {
     label: item.name,
     value: item.id
   }));
-  const [selectedGroups, setSelectedGroups] = useState(selectOptions);
+  const [selectedGroups, setSelectedGroups] = useState<any>({});
 
   let { userId } = useParams();
   let location = useLocation().pathname.toLowerCase();
@@ -98,7 +98,7 @@ const UpdateUser = () => {
 
   const handleUpdateUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const selectedGroupsIds = selectedGroups.map((group) => group.value);
+    const selectedGroupsIds = selectedGroups.map((group: { value: any; }) => group.value);
     console.log(selectedGroupsIds, 'groups IDs in update user');
 
     console.log(selectedGroups, 'groups in update user');
@@ -157,6 +157,9 @@ const UpdateUser = () => {
     setSingleUserRole(selectedOption);
   };
 
+  const handleChangeSelectedBootcamp = (selectedOption: any) => {
+    setSelectedGroups(selectedOption);
+  };
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
@@ -187,15 +190,22 @@ const UpdateUser = () => {
             </div>
             {/* <Input options={groups} select multiple label="Group" /> */}
             <label className="text-pink-600 text-lg font-bold font-sans">
-              Group
+              Bootcamp
             </label>
             <div className=".dropdown-container">
-              <MultiSelect
+              {/* <MultiSelect
                 className="mb-4"
                 options={selectOptions}
                 value={selectedGroups}
                 onChange={setSelectedGroups}
                 labelledBy="Select"
+              /> */}
+              <Select
+                className="mb-4 "
+                classNamePrefix="single_select"
+                onChange={handleChangeSelectedBootcamp}
+                options={selectOptions}
+                value={selectedGroups}
               />
             </div>
             {/* <Input value={singleUserRole} options={roleArr} select label="Role"  onChange={(e) => setSingleUserRole(e.target.value)} /> */}
