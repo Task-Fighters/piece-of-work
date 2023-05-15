@@ -76,6 +76,7 @@ const Home = () => {
                     title={assignment.title}
                   />
                 );
+
                 return (<div key ={index}></div>)
             }
            )}

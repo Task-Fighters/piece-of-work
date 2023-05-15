@@ -12,7 +12,6 @@ import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 import '../styles/external-components.css';
-import { flushSync } from 'react-dom';
 
 const roleArr: IRole[] = [
   {
@@ -36,7 +35,7 @@ const locationArr: ILocation[] = [
 ];
 
 const AddUser = () => {
-  const { user, groups } = useContext(AppContext) as ContextType;
+  const { user, groups, setUpdate } = useContext(AppContext) as ContextType;
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
   const [userLocation, setUserLocation] = useState('Amsterdam');
@@ -88,6 +87,7 @@ const AddUser = () => {
       status: 'active',
       groupsId: selectedGroupsIds
     };
+
     console.log(newUser); 
     if(isValidEmail(email)) {
     axios
@@ -115,6 +115,7 @@ const AddUser = () => {
     setEmail('');
     setUserLocation('Amsterdam');
     setRole('PGP');
+    setUpdate(true)
   };
 
   return (
