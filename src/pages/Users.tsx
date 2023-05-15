@@ -13,7 +13,7 @@ const Users = () => {
   const { user, users } = useContext(AppContext) as ContextType;
   const navigate = useNavigate();
   let location = useLocation().pathname.toLowerCase();
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState('');
 
   const handleEditUser = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -43,7 +43,11 @@ const Users = () => {
               </div>
             )}
           </div>
-          <Input icon placeholder="Search" onChange={(e) => setSearch(e.target.value)}/>
+          <Input
+            icon
+            placeholder="Search"
+            onChange={(e) => setSearch(e.target.value)}
+          />
           <Title underline title="Users" />
           <ul className="flex flex-row flex-wrap justify-between capitalize mb-32">
             {users.map((person, index) => {
@@ -51,18 +55,17 @@ const Users = () => {
                 search === '' ||
                 person?.fullName.toLowerCase().includes(search.toLowerCase())
               )
-              return (
-                <ListItem
-                  key={person?.id}
-                  id={person?.id}
-                  title={person?.fullName}
-                  route="/users"
-                  iconEdit={user.role === 'user' ? false : true}
-                  onClickEditIcon={(e: any) => handleEditUser(e, person.id)}
-                />
-              );
-              return (<div key ={index}></div>)
-
+                return (
+                  <ListItem
+                    key={index}
+                    id={person?.id}
+                    title={person?.fullName}
+                    route="/users"
+                    iconEdit={user.role === 'user' ? false : true}
+                    onClickEditIcon={(e: any) => handleEditUser(e, person.id)}
+                  />
+                );
+              return <div key={index}></div>;
             })}
           </ul>
           <Footer role={user.role} image={user.imageUrl} />
