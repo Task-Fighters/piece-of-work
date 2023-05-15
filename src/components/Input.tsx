@@ -12,7 +12,6 @@ interface InputProps {
   value?: any;
   options?: IGroup[] | IRole[] | ILocation[];
   onChange?: (e: any) => void;
-
 }
 
 const BASE =
