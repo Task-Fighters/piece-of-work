@@ -12,7 +12,7 @@ import { Button } from '../components/Button';
 import Editable from '../components/Editable';
 
 const Group = () => {
-  const { user, setUpdate, users } = useContext(AppContext) as ContextType;
+  const { user, users, setUpdate } = useContext(AppContext) as ContextType;
   const [group, setGroup] = useState<IGroup>({} as IGroup);
   const [groupName, setGroupName] = useState('');
   const [emailUser, setEmailUser] = useState('');
@@ -141,11 +141,14 @@ const Group = () => {
           </div>
           <ul className="flex flex-row flex-wrap justify-between capitalize">
             {group.users?.map((person) => {
+              const fullName = users.find(
+                (user) => person.id === user.id
+              )?.fullName;
               return (
                 <ListItem
                   key={person?.id}
                   id={person?.id}
-                  title={person?.fullName}
+                  title={fullName || ''}
                   route="/users"
                   iconDelete={user.role === 'admin' ? true : false}
                 />

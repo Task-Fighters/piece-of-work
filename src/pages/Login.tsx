@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
-import  secureLocalStorage  from  "react-secure-storage";
+import secureLocalStorage from 'react-secure-storage';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
@@ -53,13 +53,11 @@ const Login = () => {
         })
         .then((res) => {
           setUser(res.data);
-          // Cookies.set('userId', res.data.id, {
-          //   expires: 30
-          // });
           Cookies.set('token', res.data.token, {
             expires: 30
           });
-          secureLocalStorage.setItem("id", res.data.id);
+          secureLocalStorage.setItem('id', res.data.id);
+          secureLocalStorage.setItem('role', res.data.role);
           navigate('/home');
         })
         .catch((err) => console.log(err));
