@@ -28,6 +28,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
     secureLocalStorage.removeItem('id');
+    secureLocalStorage.removeItem('role');
     navigate('/');
   };
 
@@ -62,6 +63,7 @@ const Profile = () => {
                   type="button"
                   label="Logout"
                   className=" hover:bg-pink-600 hover:text-white"
+                  onClick={handleLogout}
                 />
               </div>
             )}
@@ -70,6 +72,7 @@ const Profile = () => {
             id={user.id}
             name={user.fullName}
             email={user.email}
+            location={user.location}
             imageUrl={user.imageUrl}
           />
           {repos.length > 0 && (
