@@ -39,7 +39,6 @@ const User = () => {
         }
       })
       .then((response) => {
-        console.log(response.data)
         setSingleUser(response.data);
       });
   }, [userId, cookieToken]);

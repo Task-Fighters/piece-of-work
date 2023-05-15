@@ -16,7 +16,6 @@ const Group = () => {
   const [group, setGroup] = useState<IGroup>({} as IGroup);
   const [groupName, setGroupName] = useState('');
   const [emailUser, setEmailUser] = useState('');
-  // const [idUserToAdd, setIdUserToAdd] = useState<number>();
   let { groupId } = useParams();
   let location = useLocation().pathname.toLowerCase();
   const cookieToken: string | undefined = Cookies.get('token');
@@ -37,57 +36,60 @@ const Group = () => {
         setGroup(response.data);
         setGroupName(response.data.name);
       });
-  }, [cookieToken, groupId]);
-  // iliana.scalco@appliedtechnology.se
+  }, [cookieToken, groupId, group]);
+
   let idUserToAdd: number;
   if (emailUser.length > 0) {
-    const userToAdd = users.filter(user => user.email.includes(emailUser));
+    const userToAdd = users.filter((user) => user.email.includes(emailUser));
     if (userToAdd.length === 1) {
       idUserToAdd = userToAdd[0].id;
-      console.log(userToAdd);
-      const queryParam = `${groupId}?userId=${idUserToAdd}`;
-      console.log(queryParam);
     }
   }
-  
 
   const handleAddUserToGroup = () => {
     try {
       if (idUserToAdd) {
         const queryParam = `${groupId}?userId=${idUserToAdd}`;
-        console.log(queryParam);
         axios
-          .post(`https://project-salty-backend.azurewebsites.net/Groups/AddUser/${queryParam}`, 
-          {userId: idUserToAdd, id: groupId},
-          {
-            headers: {
-              Authorization: `Bearer ${cookieToken}`,
-              Accept: 'text/plain'
+          .post(
+            `https://project-salty-backend.azurewebsites.net/Groups/AddUser/${queryParam}`,
+            { userId: idUserToAdd, id: groupId },
+            {
+              headers: {
+                Authorization: `Bearer ${cookieToken}`,
+                Accept: 'text/plain'
+              }
             }
-          })
-          .then(res => console.log(res));
+          )
+          .then((res) => console.log(res));
       }
     } catch (error) {
       console.error();
     }
-  }
-  // const handleDeleteUserFromGroup = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   axios
-  //     .put(
-  //       `https://project-salty-backend.azurewebsites.net/Groups/${groupId}`,
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${cookieToken}`,
-  //         Accept: 'text/plain'
-  //       }
-  //     }
-  //     )
-  //     .then((response) => {
-  //       console.log(response.statusText);
-  //     });
-  // };
+  };
+
+  const handleRemoveUser = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: number
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    axios
+      .delete(
+        `https://project-salty-backend.azurewebsites.net/Groups/RemoveUser/${groupId}?userId=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
+          }
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        setGroup(res.data);
+      });
+  };
+
   const handleDeleteGroup = (e: any, groupId: number) => {
     e.preventDefault();
     axios
@@ -120,15 +122,15 @@ const Group = () => {
             />
           </Editable>
 
-          <Input 
-          label="User E-mail Address" 
-          onChange={e => setEmailUser(e.target.value)}
+          <Input
+            label="User E-mail Address"
+            onChange={(e) => setEmailUser(e.target.value)}
           />
           <div className="mb-4">
-            <Button 
-            label="Add User to Group" 
-            type="button" 
-            onClick={handleAddUserToGroup}
+            <Button
+              label="Add User to Group"
+              type="button"
+              onClick={handleAddUserToGroup}
             />
             <Button
               label="Delete Group"
@@ -151,6 +153,7 @@ const Group = () => {
                   title={fullName || ''}
                   route="/users"
                   iconDelete={user.role === 'admin' ? true : false}
+                  onClickDeleteIcon={(e: any) => handleRemoveUser(e, person.id)}
                 />
               );
             })}

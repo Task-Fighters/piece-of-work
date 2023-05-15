@@ -56,7 +56,6 @@ const UpdateUser = () => {
   let location = useLocation().pathname.toLowerCase();
   const navigate = useNavigate();
   const cookieToken: string | undefined = Cookies.get('token');
-  console.log(singleUser, 'initial user');
 
   useEffect(() => {
     axios
