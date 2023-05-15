@@ -18,8 +18,8 @@ import secureLocalStorage from 'react-secure-storage';
 const PrivateRoute = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const location = useLocation();
   const localUserRole = secureLocalStorage.getItem('role');
-  //@ts-ignore
-  return allowedRoles.includes(localUserRole) ? (
+  return typeof localUserRole === 'string' &&
+    allowedRoles.includes(localUserRole) ? (
     <Outlet />
   ) : localUserRole ? (
     <Navigate to="/home" state={{ from: location }} replace />
