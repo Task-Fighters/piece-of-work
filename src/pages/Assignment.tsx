@@ -14,6 +14,7 @@ import { ListItem } from '../components/ListItem';
 
 interface IRepo {
   userId: number;
+  id: number;
   title: string;
 }
 
@@ -137,7 +138,7 @@ const Assignment = () => {
               )?.fullName;
               return (
                 <ListItem
-                  key={repo.userId}
+                  key={repo.id}
                   id={repo.userId}
                   title={userName || ''}
                   route="/users"
