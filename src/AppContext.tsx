@@ -36,7 +36,7 @@ const AppProvider = ({ children }: any) => {
           console.error(error);
         });
     }
-  }, [cookieToken, cookieUserId, localUserId]);
+  }, [cookieToken, cookieUserId]);
 
   useEffect(() => {
     if (localUserId !== undefined) {
@@ -104,7 +104,7 @@ const AppProvider = ({ children }: any) => {
           });
       });
     }
-  }, [user, cookieToken]);
+  }, [user, cookieToken, assignments]);
 
   return (
     <AppContext.Provider
