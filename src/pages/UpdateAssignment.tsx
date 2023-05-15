@@ -134,11 +134,6 @@ const UpdateAssignment = () => {
             <Select
             className="mb-4 "
             classNamePrefix='single_select'
-            // className={{
-            //   control: (state) =>
-            //     state.isFocused ? 'border-red-600' : 'border-grey-300',
-            // }}
-            // defaultValue={selectedOption}
             onChange={handleChangeSelectedOption}
             options={selectOptions}
             value={selectedOption}

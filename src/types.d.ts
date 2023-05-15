@@ -47,6 +47,11 @@ export interface ISubmission {
   repo: string;
 }
 
+export interface IOption {
+  label: string;
+  value: string;
+}
+
 export interface IProfile {
   email: string;
   name: string;

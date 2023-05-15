@@ -16,7 +16,7 @@ const UserDetails = ({
   name,
   email,
   imageUrl,
-  location = 'Amsterdam',
+  location,
   groups
 }: UserDetailsProps) => {
   return (

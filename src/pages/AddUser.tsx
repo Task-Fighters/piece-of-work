@@ -12,7 +12,6 @@ import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 import '../styles/external-components.css';
-import { flushSync } from 'react-dom';
 
 const roleArr: IRole[] = [
   {
@@ -36,9 +35,9 @@ const locationArr: ILocation[] = [
 ];
 
 const AddUser = () => {
-  const { user, groups } = useContext(AppContext) as ContextType;
+  const { user, groups, setUpdate } = useContext(AppContext) as ContextType;
   const [email, setEmail] = useState('');
-  const[fullName, setFullName] = useState('');
+  const [fullName, setFullName] = useState('');
   const [userLocation, setUserLocation] = useState('Amsterdam');
   const [role, setRole] = useState('pgp');
   const cookieToken: string | undefined = Cookies.get('token');
@@ -68,13 +67,18 @@ const AddUser = () => {
      return
   }
   
+
+  const isValidEmail = (email: string) : boolean=> {
+    const regex = /^[a-zA-Z0-9._%+-]+@appliedtechnology\.se$/;
+    return regex.test(email);
+  }
+  
   useEffect(()=> {
     getUserName()
   },[email])
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-  
     const newUser = {
       email: email,
       fullName: fullName,
@@ -83,7 +87,9 @@ const AddUser = () => {
       status: 'active',
       groupsId: selectedGroupsIds
     };
-    console.log(newUser);
+
+    console.log(newUser); 
+    if(isValidEmail(email)) {
     axios
       .post(
         `https://project-salty-backend.azurewebsites.net/Users`,
@@ -100,11 +106,16 @@ const AddUser = () => {
       .then((response) => {
         console.log(response.statusText);
       });
+    }
+    else {//change this later into styled alert
+    alert('Enter appliedtechnology email address')
+    }
     const target = e.target as HTMLFormElement;
     target.reset();
     setEmail('');
     setUserLocation('Amsterdam');
     setRole('PGP');
+    setUpdate(true)
   };
 
   return (

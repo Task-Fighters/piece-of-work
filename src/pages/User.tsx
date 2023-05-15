@@ -39,6 +39,7 @@ const User = () => {
         }
       })
       .then((response) => {
+        console.log(response.data)
         setSingleUser(response.data);
       });
   }, [userId, cookieToken]);
@@ -93,6 +94,7 @@ const User = () => {
             name={singleUser.fullName}
             email={singleUser.email}
             imageUrl={singleUser.imageUrl}
+            location={singleUser.location}
             // groups={user.groupsId}
           />
           {repos.length > 0 && (

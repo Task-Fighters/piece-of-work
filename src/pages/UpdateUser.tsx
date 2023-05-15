@@ -2,34 +2,39 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useContext, useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { IUser, ContextType, IRole, ILocation} from '../types';
+import { IUser, ContextType, IOption} from '../types';
 import { AppContext } from '../AppContext';
 import Title from '../components/Title';
-import { Input } from '../components/Input';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 import { MultiSelect } from 'react-multi-select-component';
+import Select from 'react-select';
+import { RiCompassDiscoverLine } from 'react-icons/ri';
 
-
-const roleArr: IRole[] = [
+const roleArr:IOption[] = [
   {
-    name: 'PGP'
+    value: "PGP",
+    label: "PGP"
   },
   {
-    name: 'Admin'
+    value: 'Admin',
+    label: "Admin"
   }
 ];
 
-const locationArr: ILocation[] = [
+const locationArr:IOption[] = [
   {
-    name: 'Amsterdam'
+    value: "Amsterdam",
+    label: "Amsterdam"
   },
   {
-    name: 'Oslo'
+    value: "Oslo",
+    label: "Oslo"
   },
   {
-    name: 'Stockholm'
+    value: "Stockholm",
+    label: "Stockholm"
   }
 ];
 
@@ -37,32 +42,22 @@ const UpdateUser = () => {
   const { user, users, groups, setUsers } = useContext(AppContext) as ContextType;
   const [singleUser, setSingleUser] = useState<IUser>({} as IUser);
 
-  const [singleUserLocation, setSingleUserLocation] = useState("");
-  const [singleUserFullName, setSingleUserFullName] = useState("");
-  const [singleUserRole, setSingleUserRole] = useState("");
+  const [singleUserLocation, setSingleUserLocation] = useState<any>({});
+  const [singleUserRole, setSingleUserRole] = useState<any>({});
 
   const selectOptions = groups.map((item) => ({
     label: item.name,
     value: item.id
   }));
+  const [prevSelectedGroups, setPrevSelectedGroups] = useState({});
   const [selectedGroups, setSelectedGroups] = useState(selectOptions);
-  const selectedGroupsIds = selectedGroups.map((group) => group.value);
+  // const selectedGroupsIds = selectedGroups.map((group) => group.value);
 
   let { userId } = useParams();
   let location = useLocation().pathname.toLowerCase();
   const navigate = useNavigate();
   const cookieToken: string | undefined = Cookies.get('token');
-  const getUserName = () => {
-    if(singleUser.fullName === "string" || "") {
-    const name = singleUser.email.split('@')[0].split('.');
-    const firstName = name[0].charAt(0).toUpperCase() + name[0].slice(1);
-    const lastName = name[1].charAt(0).toUpperCase() + name[1].slice(1);
-    const fullName = `${firstName} ${lastName}`;
-    setSingleUserFullName(fullName)
-    return
-     } 
-     return
-  }
+  console.log(singleUser, "initial user")
 
   useEffect(() => {
     axios
@@ -77,31 +72,39 @@ const UpdateUser = () => {
       )
       .then((response) => {
         setSingleUser(response.data);
-        console.log(response.data);
-        setSingleUserLocation(response.data.location);
-        setSingleUserRole(response.data.role);
+        setSingleUserLocation(locationArr.find(location =>location.label.toLowerCase() === response.data.location.toLowerCase()));
+        setSingleUserRole(roleArr.find(item=> item.label.toLowerCase() === response.data.role.toLowerCase()));
+        const selectedGroupsBefore= response.data.groupsId.map((group: number) => {
+          let groupData = groups.find(item => item.id === group);
+          let selectedOption = {
+            label: groupData?.name,
+            value: group
+          }
+          return selectedOption
+          })
+
+        setSelectedGroups(selectedGroupsBefore)
       });
-  }, [userId, cookieToken]);
+  }, [userId, cookieToken, groups]);
 
-  useEffect(() => {
-    getUserName()
-  }, [singleUser]);
-
-
+  
   const handleUpdateUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    
+    const selectedGroupsIds = selectedGroups.map((group) => group.value);
+    console.log(selectedGroupsIds, "groups IDs in update user");
+
+    console.log(selectedGroups, "groups in update user");
+
     const updatedUser = {
       email: singleUser.email,
-      fullName: singleUserFullName,
+      fullName: singleUser.fullName,
       imageUrl: singleUser.imageUrl,
-      role: singleUserRole,
-      location: singleUserLocation,
+      role: singleUserRole.value,
+      location: singleUserLocation.value,
       status: singleUser.status,
       groupsId: [...selectedGroupsIds]
     }
-    console.log(updatedUser, "update")
-    console.log(singleUserLocation, "update")
+   
     axios
       .put(
         `https://project-salty-backend.azurewebsites.net/Users/update/${userId}`,
@@ -115,17 +118,11 @@ const UpdateUser = () => {
       )
       .then((response) => {
         console.log(response.statusText);
-        // setUsers(users.map(user => {
-        //   user.id === Number(userId)}));
         navigate(`/users/${userId}`)
       }
       );
 
   }
-
-  // console.log(singleUser, "initial user");
-  // console.log(singleUserRole, "single user role");
-  console.log(singleUser, "single user location");
 
   const handleDeleteUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -142,9 +139,18 @@ const UpdateUser = () => {
       .then((response) => {
         console.log(response.statusText);
         setUsers(users.filter(user => user.id !== Number(userId)));
-        navigate("/users")
+        navigate(`/users`)
       });
   };
+
+  const handleChangeSelectedLocation= (selectedOption: any) => {
+    setSingleUserLocation(selectedOption);
+  };
+
+  const handleChangeSelectedRole = (selectedOption: any) => {
+    setSingleUserRole(selectedOption);
+  };
+
 
   return (
     <div className="container-xl">
@@ -156,11 +162,22 @@ const UpdateUser = () => {
             <div className="bg-gray-100 mb-4 px-4 pb-2 pt-1">
               <Title
                 className="!mb-0 !text-lg font-bold !font-poppins"
-                title={singleUserFullName}
+                title={singleUser.fullName}
               />
               <p className='text-sm font-bold font-roboto'>{singleUser.email}</p>
             </div>
-            <Input value={singleUserLocation} options={locationArr} select label="Location"  onChange={(e) => setSingleUserLocation(e.target.value)} />
+            <div >
+            <label className="text-pink-600 text-lg font-bold font-sans">
+              Location
+            </label>
+            <Select
+            className="mb-4 "
+            classNamePrefix='single_select'
+            onChange={handleChangeSelectedLocation}
+            options={locationArr}
+            value={singleUserLocation}
+      />
+            </div>
             {/* <Input options={groups} select multiple label="Group" /> */}
             <label className="text-pink-600 text-lg font-bold font-sans">
               Group
@@ -174,7 +191,19 @@ const UpdateUser = () => {
                 labelledBy="Select"
               />
             </div>
-            <Input value={singleUserRole} options={roleArr} select label="Role"  onChange={(e) => setSingleUserRole(e.target.value)} />
+            {/* <Input value={singleUserRole} options={roleArr} select label="Role"  onChange={(e) => setSingleUserRole(e.target.value)} /> */}
+            <div >
+            <label className="text-pink-600 text-lg font-bold font-sans">
+              Role
+            </label>
+            <Select
+            className="mb-4 "
+            classNamePrefix='single_select'
+            onChange={handleChangeSelectedRole}
+            options={roleArr}
+            value={singleUserRole}
+      />
+            </div>
             <div>
               <Button label="Update User" type="button"  onClick={(e) => {handleUpdateUser(e)}}/>
             </div>
