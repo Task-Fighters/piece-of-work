@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -12,6 +12,7 @@ import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 import '../styles/external-components.css';
+import { flushSync } from 'react-dom';
 
 const roleArr: IRole[] = [
   {
@@ -37,6 +38,7 @@ const locationArr: ILocation[] = [
 const AddUser = () => {
   const { user, groups } = useContext(AppContext) as ContextType;
   const [email, setEmail] = useState('');
+  const[fullName, setFullName] = useState('');
   const [userLocation, setUserLocation] = useState('Amsterdam');
   const [role, setRole] = useState('pgp');
   const cookieToken: string | undefined = Cookies.get('token');
@@ -49,17 +51,39 @@ const AddUser = () => {
   const [selectedGroups, setSelectedGroups] = useState(selectOptions);
   const selectedGroupsIds = selectedGroups.map((group) => group.value);
 
+  const getUserName = () => {
+    if( email !== "") {
+    try{
+      const string = email.split('@')[0];
+      const name = string.split(".");
+      const firstName = name[0].charAt(0).toUpperCase() + name[0].slice(1);
+      const lastName = name[1].charAt(0).toUpperCase() + name[1].slice(1);
+      const fullName = `${firstName} ${lastName}`;
+      setFullName(fullName);
+    return
+    } catch(err){
+      return
+    }
+     } 
+     return
+  }
+  
+  useEffect(()=> {
+    getUserName()
+  },[email])
+
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+  
     const newUser = {
       email: email,
-      fullName: '',
+      fullName: fullName,
       role: role.toLowerCase(),
       location: userLocation,
       status: 'active',
       groupsId: selectedGroupsIds
     };
-
+    console.log(newUser);
     axios
       .post(
         `https://project-salty-backend.azurewebsites.net/Users`,
