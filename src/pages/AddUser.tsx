@@ -50,32 +50,30 @@ const AddUser = () => {
   const [selectedGroups, setSelectedGroups] = useState(selectOptions);
   const selectedGroupsIds = selectedGroups.map((group) => group.value);
 
-  const getUserName = () => {
-    if( email !== "") {
-    try{
-      const string = email.split('@')[0];
-      const name = string.split(".");
-      const firstName = name[0].charAt(0).toUpperCase() + name[0].slice(1);
-      const lastName = name[1].charAt(0).toUpperCase() + name[1].slice(1);
-      const fullName = `${firstName} ${lastName}`;
-      setFullName(fullName);
-    return
-    } catch(err){
-      return
-    }
-     } 
-     return
-  }
-  
-
-  const isValidEmail = (email: string) : boolean=> {
+  const isValidEmail = (email: string): boolean => {
     const regex = /^[a-zA-Z0-9._%+-]+@appliedtechnology\.se$/;
     return regex.test(email);
-  }
-  
-  useEffect(()=> {
-    getUserName()
-  },[email])
+  };
+
+  useEffect(() => {
+    const getUserName = () => {
+      if (email !== '') {
+        try {
+          const string = email.split('@')[0];
+          const name = string.split('.');
+          const firstName = name[0].charAt(0).toUpperCase() + name[0].slice(1);
+          const lastName = name[1].charAt(0).toUpperCase() + name[1].slice(1);
+          const fullName = `${firstName} ${lastName}`;
+          setFullName(fullName);
+          return;
+        } catch (err) {
+          return;
+        }
+      }
+      return;
+    };
+    getUserName();
+  }, [email]);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -88,34 +86,34 @@ const AddUser = () => {
       groupsId: selectedGroupsIds
     };
 
-    console.log(newUser); 
-    if(isValidEmail(email)) {
-    axios
-      .post(
-        `https://project-salty-backend.azurewebsites.net/Users`,
-        {
-          ...newUser
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-            Accept: 'text/plain'
+    console.log(newUser);
+    if (isValidEmail(email)) {
+      axios
+        .post(
+          `https://project-salty-backend.azurewebsites.net/Users`,
+          {
+            ...newUser
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+              Accept: 'text/plain'
+            }
           }
-        }
-      )
-      .then((response) => {
-        console.log(response.statusText);
-      });
-    }
-    else {//change this later into styled alert
-    alert('Enter appliedtechnology email address')
+        )
+        .then((response) => {
+          console.log(response.statusText);
+        });
+    } else {
+      //change this later into styled alert
+      alert('Enter appliedtechnology email address');
     }
     const target = e.target as HTMLFormElement;
     target.reset();
     setEmail('');
     setUserLocation('Amsterdam');
     setRole('PGP');
-    setUpdate(true)
+    setUpdate(true);
   };
 
   return (

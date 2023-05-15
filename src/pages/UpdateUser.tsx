@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useContext, useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { IUser, ContextType, IOption} from '../types';
+import { IUser, ContextType, IOption } from '../types';
 import { AppContext } from '../AppContext';
 import Title from '../components/Title';
 import { Footer } from '../components/Footer';
@@ -10,36 +10,37 @@ import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 import { MultiSelect } from 'react-multi-select-component';
 import Select from 'react-select';
-import { RiCompassDiscoverLine } from 'react-icons/ri';
 
-const roleArr:IOption[] = [
+const roleArr: IOption[] = [
   {
-    value: "PGP",
-    label: "PGP"
+    value: 'PGP',
+    label: 'PGP'
   },
   {
     value: 'Admin',
-    label: "Admin"
+    label: 'Admin'
   }
 ];
 
-const locationArr:IOption[] = [
+const locationArr: IOption[] = [
   {
-    value: "Amsterdam",
-    label: "Amsterdam"
+    value: 'Amsterdam',
+    label: 'Amsterdam'
   },
   {
-    value: "Oslo",
-    label: "Oslo"
+    value: 'Oslo',
+    label: 'Oslo'
   },
   {
-    value: "Stockholm",
-    label: "Stockholm"
+    value: 'Stockholm',
+    label: 'Stockholm'
   }
 ];
 
 const UpdateUser = () => {
-  const { user, users, groups, setUsers } = useContext(AppContext) as ContextType;
+  const { user, users, groups, setUsers } = useContext(
+    AppContext
+  ) as ContextType;
   const [singleUser, setSingleUser] = useState<IUser>({} as IUser);
 
   const [singleUserLocation, setSingleUserLocation] = useState<any>({});
@@ -49,51 +50,58 @@ const UpdateUser = () => {
     label: item.name,
     value: item.id
   }));
-  const [prevSelectedGroups, setPrevSelectedGroups] = useState({});
   const [selectedGroups, setSelectedGroups] = useState(selectOptions);
-  // const selectedGroupsIds = selectedGroups.map((group) => group.value);
 
   let { userId } = useParams();
   let location = useLocation().pathname.toLowerCase();
   const navigate = useNavigate();
   const cookieToken: string | undefined = Cookies.get('token');
-  console.log(singleUser, "initial user")
+  console.log(singleUser, 'initial user');
 
   useEffect(() => {
     axios
-      .get(
-        `https://project-salty-backend.azurewebsites.net/Users/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-            Accept: 'text/plain'
-          }
+      .get(`https://project-salty-backend.azurewebsites.net/Users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${cookieToken}`,
+          Accept: 'text/plain'
         }
-      )
+      })
       .then((response) => {
         setSingleUser(response.data);
-        setSingleUserLocation(locationArr.find(location =>location.label.toLowerCase() === response.data.location.toLowerCase()));
-        setSingleUserRole(roleArr.find(item=> item.label.toLowerCase() === response.data.role.toLowerCase()));
-        const selectedGroupsBefore= response.data.groupsId.map((group: number) => {
-          let groupData = groups.find(item => item.id === group);
-          let selectedOption = {
-            label: groupData?.name,
-            value: group
+        setSingleUserLocation(
+          locationArr.find(
+            (location) =>
+              location.label.toLowerCase() ===
+              response.data.location.toLowerCase()
+          )
+        );
+        setSingleUserRole(
+          roleArr.find(
+            (item) =>
+              item.label.toLowerCase() === response.data.role.toLowerCase()
+          )
+        );
+        const selectedGroupsBefore = response.data.groupsId.map(
+          (group: number) => {
+            let groupData = groups.find((item) => item.id === group);
+            let selectedOption = {
+              label: groupData?.name,
+              value: group
+            };
+            return selectedOption;
           }
-          return selectedOption
-          })
+        );
 
-        setSelectedGroups(selectedGroupsBefore)
+        setSelectedGroups(selectedGroupsBefore);
       });
   }, [userId, cookieToken, groups]);
 
-  
   const handleUpdateUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const selectedGroupsIds = selectedGroups.map((group) => group.value);
-    console.log(selectedGroupsIds, "groups IDs in update user");
+    console.log(selectedGroupsIds, 'groups IDs in update user');
 
-    console.log(selectedGroups, "groups in update user");
+    console.log(selectedGroups, 'groups in update user');
 
     const updatedUser = {
       email: singleUser.email,
@@ -103,54 +111,51 @@ const UpdateUser = () => {
       location: singleUserLocation.value,
       status: singleUser.status,
       groupsId: [...selectedGroupsIds]
-    }
-   
+    };
+
     axios
       .put(
         `https://project-salty-backend.azurewebsites.net/Users/update/${userId}`,
-        {...updatedUser},
-      {
-        headers: {
-          Authorization: `Bearer ${cookieToken}`,
-          Accept: 'text/plain'
+        { ...updatedUser },
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
+          }
         }
-      }
       )
       .then((response) => {
         console.log(response.statusText);
-        navigate(`/users/${userId}`)
-      }
-      );
-
-  }
+        navigate(`/users/${userId}`);
+      });
+  };
 
   const handleDeleteUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     axios
       .delete(
         `https://project-salty-backend.azurewebsites.net/Users/${userId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${cookieToken}`,
-          Accept: 'text/plain'
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
+          }
         }
-      }
       )
       .then((response) => {
         console.log(response.statusText);
-        setUsers(users.filter(user => user.id !== Number(userId)));
-        navigate(`/users`)
+        setUsers(users.filter((user) => user.id !== Number(userId)));
+        navigate(`/users`);
       });
   };
 
-  const handleChangeSelectedLocation= (selectedOption: any) => {
+  const handleChangeSelectedLocation = (selectedOption: any) => {
     setSingleUserLocation(selectedOption);
   };
 
   const handleChangeSelectedRole = (selectedOption: any) => {
     setSingleUserRole(selectedOption);
   };
-
 
   return (
     <div className="container-xl">
@@ -164,19 +169,21 @@ const UpdateUser = () => {
                 className="!mb-0 !text-lg font-bold !font-poppins"
                 title={singleUser.fullName}
               />
-              <p className='text-sm font-bold font-roboto'>{singleUser.email}</p>
+              <p className="text-sm font-bold font-roboto">
+                {singleUser.email}
+              </p>
             </div>
-            <div >
-            <label className="text-pink-600 text-lg font-bold font-sans">
-              Location
-            </label>
-            <Select
-            className="mb-4 "
-            classNamePrefix='single_select'
-            onChange={handleChangeSelectedLocation}
-            options={locationArr}
-            value={singleUserLocation}
-      />
+            <div>
+              <label className="text-pink-600 text-lg font-bold font-sans">
+                Location
+              </label>
+              <Select
+                className="mb-4 "
+                classNamePrefix="single_select"
+                onChange={handleChangeSelectedLocation}
+                options={locationArr}
+                value={singleUserLocation}
+              />
             </div>
             {/* <Input options={groups} select multiple label="Group" /> */}
             <label className="text-pink-600 text-lg font-bold font-sans">
@@ -192,25 +199,36 @@ const UpdateUser = () => {
               />
             </div>
             {/* <Input value={singleUserRole} options={roleArr} select label="Role"  onChange={(e) => setSingleUserRole(e.target.value)} /> */}
-            <div >
-            <label className="text-pink-600 text-lg font-bold font-sans">
-              Role
-            </label>
-            <Select
-            className="mb-4 "
-            classNamePrefix='single_select'
-            onChange={handleChangeSelectedRole}
-            options={roleArr}
-            value={singleUserRole}
-      />
+            <div>
+              <label className="text-pink-600 text-lg font-bold font-sans">
+                Role
+              </label>
+              <Select
+                className="mb-4 "
+                classNamePrefix="single_select"
+                onChange={handleChangeSelectedRole}
+                options={roleArr}
+                value={singleUserRole}
+              />
             </div>
             <div>
-              <Button label="Update User" type="button"  onClick={(e) => {handleUpdateUser(e)}}/>
+              <Button
+                label="Update User"
+                type="button"
+                onClick={(e) => {
+                  handleUpdateUser(e);
+                }}
+              />
             </div>
             <div className="mb-32">
-              <Button buttonColor="pink" label="Delete User" type="button"  onClick={(e) => {
-                    handleDeleteUser(e)
-                  }}/>
+              <Button
+                buttonColor="pink"
+                label="Delete User"
+                type="button"
+                onClick={(e) => {
+                  handleDeleteUser(e);
+                }}
+              />
             </div>
           </form>
         </div>

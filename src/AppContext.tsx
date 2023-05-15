@@ -36,7 +36,7 @@ const AppProvider = ({ children }: any) => {
           console.error(error);
         });
     }
-  }, [cookieToken, cookieUserId]);
+  }, [cookieToken, cookieUserId, localUserId]);
 
   useEffect(() => {
     if (localUserId !== undefined) {

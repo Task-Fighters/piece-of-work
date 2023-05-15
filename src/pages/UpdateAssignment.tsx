@@ -1,9 +1,9 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useContext, useState, useEffect } from 'react';
-import { useLocation, useParams,useNavigate } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { AppContext } from '../AppContext';
-import { ContextType} from '../types';
+import { ContextType } from '../types';
 import Select from 'react-select';
 import Title from '../components/Title';
 import { Input } from '../components/Input';
@@ -15,17 +15,19 @@ import ReactQuill from 'react-quill';
 import moment from 'moment';
 moment().format();
 
-const convertDate = (date:string) => {
-    let initialDate = new Date(date);
-    let convertedDate= moment(initialDate).format('YYYY-MM-DD')
-    return convertedDate;
-}
+const convertDate = (date: string) => {
+  let initialDate = new Date(date);
+  let convertedDate = moment(initialDate).format('YYYY-MM-DD');
+  return convertedDate;
+};
 
 const UpdateAssignment = () => {
-  const { user, groups, assignments, setAssignments } = useContext(AppContext) as ContextType;
-  const [title, setTitle] = useState("");
+  const { user, groups, assignments, setAssignments } = useContext(
+    AppContext
+  ) as ContextType;
+  const [title, setTitle] = useState('');
   const [startDate, setStartDate] = useState('');
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState('');
   const selectOptions = groups.map((item) => ({
     value: item.id,
     label: item.name
@@ -53,28 +55,31 @@ const UpdateAssignment = () => {
         }
       )
       .then((response) => {
-        console.log(response, "dasha111")
+        console.log(response, 'dasha111');
 
-      const prevSelectedOption = selectOptions.find(option => option.value === response.data.groupId);
-      const date = convertDate(response.data.startDate);
-      setTitle(response.data.title);
-      console.log(prevSelectedOption, "select")
-      setStartDate(date);
-      setSelectedOption(prevSelectedOption)
-      setDescription(response.data?.description);
+        const prevSelectedOption = selectOptions.find(
+          (option) => option.value === response.data.groupId
+        );
+        const date = convertDate(response.data.startDate);
+        setTitle(response.data.title);
+        console.log(prevSelectedOption, 'select');
+        setStartDate(date);
+        setSelectedOption(prevSelectedOption);
+        setDescription(response.data?.description);
       });
-  }, [assignmentId, cookieToken, groups]);
+  }, [assignmentId, cookieToken, groups, selectOptions]);
 
-  const handleUpdateAssignment: React.FormEventHandler<HTMLFormElement> =(e) => {
+  const handleUpdateAssignment: React.FormEventHandler<HTMLFormElement> = (
+    e
+  ) => {
     e.preventDefault();
-      const updatedAssignment = {
+    const updatedAssignment = {
       title: title,
       startDate: startDate,
       description: description,
-      groupId: selectedOption.value,
+      groupId: selectedOption.value
     };
 
-  
     axios
       .put(
         `https://project-salty-backend.azurewebsites.net/Assignments/${assignmentId}`,
@@ -89,12 +94,12 @@ const UpdateAssignment = () => {
         }
       )
       .then((response) => {
-        console.log(response.statusText, "Result Update")
+        console.log(response.statusText, 'Result Update');
         navigate(`/assignments/${assignmentId}`);
-      }
-  )}
+      });
+  };
 
-  const handleDeleteAssignment=(e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDeleteAssignment = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     axios
       .delete(
@@ -107,11 +112,15 @@ const UpdateAssignment = () => {
         }
       )
       .then((response) => {
-        console.log(response.statusText, "Result Delete")
-        setAssignments(assignments.filter(assignment => assignment.id !== Number(assignmentId)));
+        console.log(response.statusText, 'Result Delete');
+        setAssignments(
+          assignments.filter(
+            (assignment) => assignment.id !== Number(assignmentId)
+          )
+        );
         navigate(`/home`);
-      }
-  )}
+      });
+  };
 
   return (
     <div className="container-xl">
@@ -120,24 +129,29 @@ const UpdateAssignment = () => {
         <div className="max-w-6xl mx-2 w-full">
           <form onSubmit={handleUpdateAssignment}>
             <Title underline title="Update Assignment" />
-            <Input label="Title"  onChange={(e) => setTitle(e.target.value)}
-              value={title} />
-            <Datepicker  value={startDate}
+            <Input
+              label="Title"
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
+            />
+            <Datepicker
+              value={startDate}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setStartDate(e.target.value)
-              }/>
-              
-            <div >
-            <label className="text-pink-600 text-lg font-bold font-sans">
-              Group
-            </label>
-            <Select
-            className="mb-4 "
-            classNamePrefix='single_select'
-            onChange={handleChangeSelectedOption}
-            options={selectOptions}
-            value={selectedOption}
-      />
+              }
+            />
+
+            <div>
+              <label className="text-pink-600 text-lg font-bold font-sans">
+                Group
+              </label>
+              <Select
+                className="mb-4 "
+                classNamePrefix="single_select"
+                onChange={handleChangeSelectedOption}
+                options={selectOptions}
+                value={selectedOption}
+              />
             </div>
             <label className="text-pink-600 text-lg font-bold font-sans">
               Details
@@ -168,4 +182,3 @@ const UpdateAssignment = () => {
 };
 
 export default UpdateAssignment;
-
