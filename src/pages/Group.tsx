@@ -12,9 +12,11 @@ import { Button } from '../components/Button';
 import Editable from '../components/Editable';
 
 const Group = () => {
-  const { user, setUpdate } = useContext(AppContext) as ContextType;
+  const { user, setUpdate, users } = useContext(AppContext) as ContextType;
   const [group, setGroup] = useState<IGroup>({} as IGroup);
   const [groupName, setGroupName] = useState('');
+  const [emailUser, setEmailUser] = useState('');
+  // const [idUserToAdd, setIdUserToAdd] = useState<number>();
   let { groupId } = useParams();
   let location = useLocation().pathname.toLowerCase();
   const cookieToken: string | undefined = Cookies.get('token');
@@ -36,7 +38,39 @@ const Group = () => {
         setGroupName(response.data.name);
       });
   }, [cookieToken, groupId]);
+  // iliana.scalco@appliedtechnology.se
+  let idUserToAdd: number;
+  if (emailUser.length > 0) {
+    const userToAdd = users.filter(user => user.email.includes(emailUser));
+    if (userToAdd.length === 1) {
+      idUserToAdd = userToAdd[0].id;
+      console.log(userToAdd);
+      const queryParam = `${groupId}?userId=${idUserToAdd}`;
+      console.log(queryParam);
+    }
+  }
+  
 
+  const handleAddUserToGroup = () => {
+    try {
+      if (idUserToAdd) {
+        const queryParam = `${groupId}?userId=${idUserToAdd}`;
+        console.log(queryParam);
+        axios
+          .post(`https://project-salty-backend.azurewebsites.net/Groups/AddUser/${queryParam}`, 
+          {userId: idUserToAdd, id: groupId},
+          {
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+              Accept: 'text/plain'
+            }
+          })
+          .then(res => console.log(res));
+      }
+    } catch (error) {
+      console.error();
+    }
+  }
   // const handleDeleteUserFromGroup = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
   //   e.preventDefault();
   //   e.stopPropagation();
@@ -86,9 +120,16 @@ const Group = () => {
             />
           </Editable>
 
-          <Input label="User E-mail Address" />
+          <Input 
+          label="User E-mail Address" 
+          onChange={e => setEmailUser(e.target.value)}
+          />
           <div className="mb-4">
-            <Button label="Add User to Group" type="button" />
+            <Button 
+            label="Add User to Group" 
+            type="button" 
+            onClick={handleAddUserToGroup}
+            />
             <Button
               label="Delete Group"
               type="button"
@@ -100,7 +141,6 @@ const Group = () => {
           </div>
           <ul className="flex flex-row flex-wrap justify-between capitalize">
             {group.users?.map((person) => {
-              console.log(person);
               return (
                 <ListItem
                   key={person?.id}
