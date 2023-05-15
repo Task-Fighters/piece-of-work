@@ -18,7 +18,7 @@ const AppProvider = ({ children }: any) => {
   let localUserId = secureLocalStorage.getItem('id');
 
   useEffect(() => {
-    if (localUserId !== undefined) {
+    if (localUserId !== null) {
       axios
         .get(
           `https://project-salty-backend.azurewebsites.net/Users/${localUserId}`,
@@ -39,7 +39,7 @@ const AppProvider = ({ children }: any) => {
   }, [cookieToken, cookieUserId, localUserId]);
 
   useEffect(() => {
-    if (localUserId !== undefined) {
+    if (localUserId !== null) {
       axios
         .get('https://project-salty-backend.azurewebsites.net/Users', {
           headers: {
