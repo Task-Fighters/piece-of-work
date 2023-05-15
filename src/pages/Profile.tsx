@@ -45,7 +45,6 @@ const Profile = () => {
         )
         .then((response) => {
           setRepos(response.data);
-          console.log(response, 'dasha111');
         });
     }
   }, [cookieToken, user.id]);

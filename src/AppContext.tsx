@@ -45,8 +45,9 @@ const AppProvider = ({ children }: any) => {
       })
       .then((response) => {
         setUsers([...response.data]);
+        setUpdate(false)
       });
-  }, [cookieToken]);
+  }, [cookieToken, update]);
 
   useEffect(() => {
     if (cookieToken) {
