@@ -3,8 +3,7 @@ import Cookies from 'js-cookie';
 import React, { useContext, useState, useEffect } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { AppContext } from '../AppContext';
-import { ContextType } from '../types';
-import Select from 'react-select';
+import { ContextType, IGroup } from '../types';
 import Title from '../components/Title';
 import { Input } from '../components/Input';
 import { Footer } from '../components/Footer';
@@ -28,20 +27,11 @@ const UpdateAssignment = () => {
   const [title, setTitle] = useState('');
   const [startDate, setStartDate] = useState('');
   const [description, setDescription] = useState('');
-  const selectOptions = groups.map((item) => ({
-    value: item.id,
-    label: item.name
-  }));
-
-  const [selectedOption, setSelectedOption] = useState<any>();
+  const [group, setGroup] = useState<IGroup>();
   const cookieToken: string | undefined = Cookies.get('token');
   let { assignmentId } = useParams();
   let location = useLocation().pathname.toLowerCase();
   const navigate = useNavigate();
-
-  const handleChangeSelectedOption = (selectedOption: any) => {
-    setSelectedOption(selectedOption);
-  };
 
   useEffect(() => {
     axios
@@ -55,13 +45,14 @@ const UpdateAssignment = () => {
         }
       )
       .then((response) => {
-        const prevSelectedOption = selectOptions.find(
-          (option) => option.value === response.data.groupId
+        const group= groups.find(
+          (group) => group.id === response.data.groupId
         );
+        console.log(group);
         const date = convertDate(response.data.startDate);
         setTitle(response.data.title);
         setStartDate(date);
-        setSelectedOption(prevSelectedOption);
+        setGroup(group);
         setDescription(response.data?.description);
       });
   }, [assignmentId, cookieToken, groups]);
@@ -74,7 +65,7 @@ const UpdateAssignment = () => {
       title: title,
       startDate: startDate,
       description: description,
-      groupId: selectedOption.value
+      groupId: group?.id
     };
 
     axios
@@ -124,6 +115,7 @@ const UpdateAssignment = () => {
       <Header role={user.role} location={location} />
       <div className="flex justify-center">
         <div className="max-w-6xl mx-2 w-full">
+       
           <form onSubmit={handleUpdateAssignment}>
             <Title underline title="Update Assignment" />
             <Input
@@ -138,18 +130,13 @@ const UpdateAssignment = () => {
               }
             />
 
-            <div>
-              <label className="text-pink-600 text-lg font-bold font-sans">
-                Group
-              </label>
-              <Select
-                className="mb-4 "
-                classNamePrefix="single_select"
-                onChange={handleChangeSelectedOption}
-                options={selectOptions}
-                value={selectedOption}
-              />
-            </div>
+            <Input
+              label="Group"
+              disabled={true}
+              placeholder={group?.name}
+              value={group?.name}
+            />
+            
             <label className="text-pink-600 text-lg font-bold font-sans">
               Details
             </label>

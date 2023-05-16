@@ -9,6 +9,7 @@ interface InputProps {
   multiple?: Boolean;
   date?: Boolean;
   placeholder?: string;
+  disabled?: Boolean;
   value?: any;
   options?: IGroup[] | IRole[] | ILocation[];
   onChange?: (e: any) => void;
@@ -23,6 +24,7 @@ export const Input = ({
   select,
   date,
   placeholder,
+  disabled,
   multiple,
   onChange,
   value,
@@ -38,42 +40,56 @@ export const Input = ({
       <label className="text-pink-600 text-lg font-bold font-sans">
         {label}
       </label>
-      {select ? (
-        <div className="inline-block relative w-full focus-within:outline-none focus-within:ring-1 focus-within:ring-pink-600 mb-4">
-          {multiple ? (
-            <select 
-              data-te-select-init
-              data-te-select-placeholder="Select option"
-              multiple
-              data-te-select-size="lg"
-              onChange={onChange}
-            >
-              {options?.map((option) => {
-                return (
-                  <option key={option.id} value={option.name}>
-                    {option.name}
-                  </option>
-                );
-              })}
-            </select>
-          ) : (
-            <select
-              data-te-select-init
-              data-te-select-placeholder="Select option"
-              data-te-select-size="lg"
-              onChange={onChange}     
-              >
-              {options?.map((option) => {
-                return (
-                  <option
-                    key={`${option.name} ${option.id}`}
-                    value={label !== 'group' ? option.name : option.id}
-                  >
-                    {option.name}
-                  </option>
-                );
-              })}
-            </select>
+      {disabled ? (
+        // <div className="inline-block relative w-full focus-within:outline-none focus-within:ring-1 focus-within:ring-pink-600 mb-4">
+        //   {multiple ? (
+        //     <select 
+        //       data-te-select-init
+        //       data-te-select-placeholder="Select option"
+        //       multiple
+        //       data-te-select-size="lg"
+        //       onChange={onChange}
+        //     >
+        //       {options?.map((option) => {
+        //         return (
+        //           <option key={option.id} value={option.name}>
+        //             {option.name}
+        //           </option>
+        //         );
+        //       })}
+        //     </select>
+        //   ) : (
+        //     <select
+        //       data-te-select-init
+        //       data-te-select-placeholder="Select option"
+        //       data-te-select-size="lg"
+        //       onChange={onChange}     
+        //       >
+        //       {options?.map((option) => {
+        //         return (
+        //           <option
+        //             key={`${option.name} ${option.id}`}
+        //             value={label !== 'group' ? option.name : option.id}
+        //           >
+        //             {option.name}
+        //           </option>
+        //         );
+        //       })}
+        //     </select>
+        //   )}
+        // </div>
+        <div className="inline-block relative w-full">
+          <input
+            type={date ? 'date' : 'text'}
+            className={BASE}
+            placeholder={placeholder}
+            onChange={onChange}
+            value={value}
+            required
+            disabled
+          />
+          {icon && (
+            <BiSearch className="absolute inset-y-2.5 right-2 text-gray-500 text-2xl"/>
           )}
         </div>
       ) : (
