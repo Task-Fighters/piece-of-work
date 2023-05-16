@@ -8,7 +8,6 @@ import Title from '../components/Title';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Button } from '../components/Button';
-import { MultiSelect } from 'react-multi-select-component';
 import Select from 'react-select';
 
 const roleArr: IOption[] = [

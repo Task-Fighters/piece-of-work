@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { MultiSelect } from 'react-multi-select-component';
 import { AppContext } from '../AppContext';
 import { ContextType } from '../types';
 import { IRole, ILocation } from '../types';
