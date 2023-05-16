@@ -1,13 +1,12 @@
 import axios from 'axios';
 import { useContext, useState, useEffect } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { IUser, ContextType } from '../types';
 import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import Title from '../components/Title';
-import { Button } from '../components/Button';
 import UserDetails from '../components/UserDetails';
 import { Repo } from '../components/Repo';
 
@@ -20,15 +19,12 @@ interface IRepo {
 }
 
 const User = () => {
-  const { user, users, setUsers, assignments } = useContext(
-    AppContext
-  ) as ContextType;
+  const { user, assignments } = useContext(AppContext) as ContextType;
   const [singleUser, setSingleUser] = useState<IUser>({} as IUser);
   let { userId } = useParams();
   const [repos, setRepos] = useState<IRepo[]>([]);
   let location = useLocation().pathname.toLowerCase();
   const cookieToken: string | undefined = Cookies.get('token');
-  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -64,25 +60,6 @@ const User = () => {
     fetchData();
   }, [cookieToken, userId]);
 
-  const handleDeleteUser = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    axios
-      .delete(
-        `https://project-salty-backend.azurewebsites.net/Users/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-            Accept: 'text/plain'
-          }
-        }
-      )
-      .then((response) => {
-        console.log(response.statusText);
-        setUsers(users.filter((user) => user.id !== Number(userId)));
-        navigate('/users');
-      });
-  };
-
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
@@ -94,7 +71,6 @@ const User = () => {
             email={singleUser.email}
             imageUrl={singleUser.imageUrl}
             location={singleUser.location}
-            // groups={user.groupsId}
           />
           {repos.length > 0 && (
             <Title
@@ -118,18 +94,6 @@ const User = () => {
                 />
               );
             })}
-          </div>
-          <div className="mb-32 mt-4 mx-2 md:mt-0">
-            {user.role === 'admin' && (
-              <Button
-                label="Delete user"
-                type="button"
-                className="bg-pink-600 border-pink-600 text-white border-"
-                onClick={(e) => {
-                  handleDeleteUser(e);
-                }}
-              />
-            )}
           </div>
           <Footer role={user.role} image={singleUser.imageUrl} />
         </div>

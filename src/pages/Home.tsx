@@ -18,24 +18,32 @@ const Home = () => {
   const newAssignments = assignments.sort((a: IAssignment, b: IAssignment) => {
     return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
   });
-  
+
   const feature = newAssignments.find(
     (assignment) =>
-    new Date(assignment.startDate).getTime() < new Date(currentDate).getTime()
-    );
+      new Date(assignment.startDate).getTime() < new Date(currentDate).getTime()
+  );
 
-  const nonFeatured = newAssignments.filter(assignment => assignment.startDate !== feature?.startDate);
+  const nonFeatured = newAssignments.filter(
+    (assignment) => assignment.startDate !== feature?.startDate
+  );
 
-  const featured = newAssignments.filter(assignment => assignment.startDate === feature?.startDate);
+  const featured = newAssignments.filter(
+    (assignment) => assignment.startDate === feature?.startDate
+  );
   let assignmentToShow: IAssignment[] = [];
 
   if (user.role !== 'admin') {
-    const filtered = nonFeatured.filter(assignment =>  new Date(assignment.startDate).getTime() < new Date(currentDate).getTime());
+    const filtered = nonFeatured.filter(
+      (assignment) =>
+        new Date(assignment.startDate).getTime() <
+        new Date(currentDate).getTime()
+    );
     assignmentToShow = featured.concat(filtered);
   } else {
     assignmentToShow = featured.concat(nonFeatured);
   }
-  
+
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
@@ -68,7 +76,11 @@ const Home = () => {
               )
                 return (
                   <Card
-                    cardType={assignment.startDate === feature?.startDate ? 'feature' : 'card'}
+                    cardType={
+                      assignment.startDate === feature?.startDate
+                        ? 'feature'
+                        : 'card'
+                    }
                     id={assignment.id}
                     key={index}
                     description={assignment.description}
@@ -77,9 +89,8 @@ const Home = () => {
                   />
                 );
 
-                return (<div key ={index}></div>)
-            }
-           )}
+              return <div key={index}></div>;
+            })}
           </div>
           <Footer role={user.role} image={user.imageUrl} />
         </div>
