@@ -12,6 +12,8 @@ import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 import '../styles/external-components.css';
+import Select from 'react-select';
+
 
 const roleArr: IRole[] = [
   {
@@ -47,8 +49,7 @@ const AddUser = () => {
     label: item.name,
     value: item.id
   }));
-  const [selectedGroups, setSelectedGroups] = useState(selectOptions);
-  const selectedGroupsIds = selectedGroups.map((group) => group.value);
+  const [selectedGroups, setSelectedGroups] = useState<any>({});
 
   const isValidEmail = (email: string): boolean => {
     const regex = /^[a-zA-Z0-9._%+-]+@appliedtechnology\.se$/;
@@ -75,8 +76,14 @@ const AddUser = () => {
     getUserName();
   }, [email]);
 
+  const handleChangeBootcamo = (selectedOption: any) => {
+    setSelectedGroups(selectedOption);
+  };
+
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    const selectedGroupsIds = selectedGroups.map((group: { value: any; }) => group.value);
+
     const newUser = {
       email: email,
       fullName: fullName,
@@ -136,16 +143,25 @@ const AddUser = () => {
               onChange={(e) => setUserLocation(e.target.value)}
             />
             <label className="text-pink-600 text-lg font-bold font-sans">
-              Group
+              Bootcamp
             </label>
             <div className=".dropdown-container">
-              <MultiSelect
+              {/* <MultiSelect
                 className="mb-4"
                 options={selectOptions}
                 value={selectedGroups}
                 onChange={setSelectedGroups}
                 labelledBy="Select"
+              /> */}
+
+              <Select
+                className="mb-4 "
+                classNamePrefix="single_select"
+                onChange={handleChangeBootcamo}
+                options={selectOptions}
+                value={selectedGroups}
               />
+              
             </div>
             <Input
               options={roleArr}
