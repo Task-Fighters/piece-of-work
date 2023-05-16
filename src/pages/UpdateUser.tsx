@@ -1,12 +1,10 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useContext, useState, useEffect } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { IUser, ContextType, IOption } from '../types';
 import { AppContext } from '../AppContext';
 import Title from '../components/Title';
-import { Footer } from '../components/Footer';
-import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 import Select from 'react-select';
 
@@ -37,9 +35,7 @@ const locationArr: IOption[] = [
 ];
 
 const UpdateUser = () => {
-  const { user, users, groups, setUsers } = useContext(
-    AppContext
-  ) as ContextType;
+  const { users, groups, setUsers } = useContext(AppContext) as ContextType;
   const [singleUser, setSingleUser] = useState<IUser>({} as IUser);
 
   const [singleUserLocation, setSingleUserLocation] = useState<any>({});
@@ -52,7 +48,6 @@ const UpdateUser = () => {
   const [selectedGroups, setSelectedGroups] = useState<any>({});
 
   let { userId } = useParams();
-  let location = useLocation().pathname.toLowerCase();
   const navigate = useNavigate();
   const cookieToken: string | undefined = Cookies.get('token');
 
@@ -96,7 +91,9 @@ const UpdateUser = () => {
 
   const handleUpdateUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const selectedGroupsIds = selectedGroups.map((group: { value: any; }) => group.value);
+    const selectedGroupsIds = selectedGroups.map(
+      (group: { value: any }) => group.value
+    );
     console.log(singleUserRole.value, 'role user');
 
     const updatedUser = {
@@ -157,90 +154,73 @@ const UpdateUser = () => {
     setSelectedGroups(selectedOption);
   };
   return (
-    <div className="container-xl">
-      <Header role={user.role} location={location} />
-      <div className="flex justify-center">
-        <div className="max-w-6xl mx-2 w-full">
-          <form>
-            <Title underline title="Update User" />
-            <div className="bg-gray-100 mb-4 px-4 pb-2 pt-1">
-              <Title
-                className="!mb-0 !text-lg font-bold !font-poppins"
-                title={singleUser.fullName}
-              />
-              <p className="text-sm font-bold font-roboto">
-                {singleUser.email}
-              </p>
-            </div>
-            <div>
-              <label className="text-pink-600 text-lg font-bold font-sans">
-                Location
-              </label>
-              <Select
-                className="mb-4 "
-                classNamePrefix="single_select"
-                onChange={handleChangeSelectedLocation}
-                options={locationArr}
-                value={singleUserLocation}
-              />
-            </div>
-            {/* <Input options={groups} select multiple label="Group" /> */}
-            <label className="text-pink-600 text-lg font-bold font-sans">
-              Bootcamp
-            </label>
-            <div className=".dropdown-container">
-              {/* <MultiSelect
-                className="mb-4"
-                options={selectOptions}
-                value={selectedGroups}
-                onChange={setSelectedGroups}
-                labelledBy="Select"
-              /> */}
-              <Select
-                className="mb-4 "
-                classNamePrefix="single_select"
-                onChange={handleChangeSelectedBootcamp}
-                options={selectOptions}
-                value={selectedGroups}
-              />
-            </div>
-            {/* <Input value={singleUserRole} options={roleArr} select label="Role"  onChange={(e) => setSingleUserRole(e.target.value)} /> */}
-            <div>
-              <label className="text-pink-600 text-lg font-bold font-sans">
-                Role
-              </label>
-              <Select
-                className="mb-4 "
-                classNamePrefix="single_select"
-                onChange={handleChangeSelectedRole}
-                options={roleArr}
-                value={singleUserRole}
-              />
-            </div>
-            <div>
-              <Button
-                label="Update User"
-                type="button"
-                onClick={(e) => {
-                  handleUpdateUser(e);
-                }}
-              />
-            </div>
-            <div className="mb-32">
-              <Button
-                buttonColor="pink"
-                label="Delete User"
-                type="button"
-                onClick={(e) => {
-                  handleDeleteUser(e);
-                }}
-              />
-            </div>
-          </form>
+    <>
+      <form>
+        <Title underline title="Update User" />
+        <div className="bg-gray-100 mb-4 px-4 pb-2 pt-1">
+          <Title
+            className="!mb-0 !text-lg font-bold !font-poppins"
+            title={singleUser.fullName}
+          />
+          <p className="text-sm font-bold font-roboto">{singleUser.email}</p>
         </div>
-        <Footer role={user.role} image={user.imageUrl} />
-      </div>
-    </div>
+        <div>
+          <label className="text-pink-600 text-lg font-bold font-sans">
+            Location
+          </label>
+          <Select
+            className="mb-4 "
+            classNamePrefix="single_select"
+            onChange={handleChangeSelectedLocation}
+            options={locationArr}
+            value={singleUserLocation}
+          />
+        </div>
+        <label className="text-pink-600 text-lg font-bold font-sans">
+          Bootcamp
+        </label>
+        <div className=".dropdown-container">
+          <Select
+            className="mb-4 "
+            classNamePrefix="single_select"
+            onChange={handleChangeSelectedBootcamp}
+            options={selectOptions}
+            value={selectedGroups}
+          />
+        </div>
+        <div>
+          <label className="text-pink-600 text-lg font-bold font-sans">
+            Role
+          </label>
+          <Select
+            className="mb-4 "
+            classNamePrefix="single_select"
+            onChange={handleChangeSelectedRole}
+            options={roleArr}
+            value={singleUserRole}
+          />
+        </div>
+        <div>
+          <Button
+            label="Update User"
+            type="button"
+            onClick={(e) => {
+              handleUpdateUser(e);
+            }}
+          />
+        </div>
+        <div className="mb-32">
+          <Button
+            buttonColor="pink"
+            label="Delete User"
+            type="button"
+            onClick={(e) => {
+              handleDeleteUser(e);
+            }}
+          />
+        </div>
+      </form>
+    </>
   );
 };
 

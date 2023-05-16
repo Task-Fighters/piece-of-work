@@ -1,13 +1,11 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useContext, useState, useEffect } from 'react';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { AppContext } from '../AppContext';
 import { ContextType, IGroup } from '../types';
 import Title from '../components/Title';
 import { Input } from '../components/Input';
-import { Footer } from '../components/Footer';
-import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 import Datepicker from '../components/Datepicker';
 import ReactQuill from 'react-quill';
@@ -21,7 +19,7 @@ const convertDate = (date: string) => {
 };
 
 const UpdateAssignment = () => {
-  const { user, groups, assignments, setAssignments } = useContext(
+  const { groups, assignments, setAssignments } = useContext(
     AppContext
   ) as ContextType;
   const [title, setTitle] = useState('');
@@ -30,7 +28,6 @@ const UpdateAssignment = () => {
   const [group, setGroup] = useState<IGroup>();
   const cookieToken: string | undefined = Cookies.get('token');
   let { assignmentId } = useParams();
-  let location = useLocation().pathname.toLowerCase();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,7 +42,7 @@ const UpdateAssignment = () => {
         }
       )
       .then((response) => {
-        const group= groups.find(
+        const group = groups.find(
           (group) => group.id === response.data.groupId
         );
         console.log(group);
@@ -111,57 +108,50 @@ const UpdateAssignment = () => {
   };
 
   return (
-    <div className="container-xl">
-      <Header role={user.role} location={location} />
-      <div className="flex justify-center">
-        <div className="max-w-6xl mx-2 w-full">
-       
-          <form onSubmit={handleUpdateAssignment}>
-            <Title underline title="Update Assignment" />
-            <Input
-              label="Title"
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
-            />
-            <Datepicker
-              value={startDate}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setStartDate(e.target.value)
-              }
-            />
+    <>
+      <form onSubmit={handleUpdateAssignment}>
+        <Title underline title="Update Assignment" />
+        <Input
+          label="Title"
+          onChange={(e) => setTitle(e.target.value)}
+          value={title}
+        />
+        <Datepicker
+          value={startDate}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setStartDate(e.target.value)
+          }
+        />
 
-            <Input
-              label="Group"
-              disabled={true}
-              placeholder={group?.name}
-              value={group?.name}
-            />
-            
-            <label className="text-pink-600 text-lg font-bold font-sans">
-              Details
-            </label>
-            <ReactQuill
-              className="h-44 mb-14"
-              theme="snow"
-              value={description}
-              onChange={(e: any) => setDescription(e)}
-            />
-            <div>
-              <Button label="Update Assignment" type="submit" />
-            </div>
-            <div className="mb-32">
-              <Button
-                buttonColor="pink"
-                label="Delete Assignment"
-                type="button"
-                onClick={handleDeleteAssignment}
-              />
-            </div>
-          </form>
+        <Input
+          label="Group"
+          disabled={true}
+          placeholder={group?.name}
+          value={group?.name}
+        />
+
+        <label className="text-pink-600 text-lg font-bold font-sans">
+          Details
+        </label>
+        <ReactQuill
+          className="h-44 mb-14"
+          theme="snow"
+          value={description}
+          onChange={(e: any) => setDescription(e)}
+        />
+        <div>
+          <Button label="Update Assignment" type="submit" />
         </div>
-        <Footer role={user.role} image={user.imageUrl} />
-      </div>
-    </div>
+        <div className="mb-32">
+          <Button
+            buttonColor="pink"
+            label="Delete Assignment"
+            type="button"
+            onClick={handleDeleteAssignment}
+          />
+        </div>
+      </form>
+    </>
   );
 };
 
