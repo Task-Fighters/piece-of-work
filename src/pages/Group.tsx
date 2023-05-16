@@ -16,6 +16,7 @@ const Group = () => {
   const [group, setGroup] = useState<IGroup>({} as IGroup);
   const [groupName, setGroupName] = useState('');
   const [emailUser, setEmailUser] = useState('');
+  const [idUserToAdd, setIdUserToAdd] = useState<number>();
   let { groupId } = useParams();
   let location = useLocation().pathname.toLowerCase();
   const cookieToken: string | undefined = Cookies.get('token');
@@ -38,21 +39,24 @@ const Group = () => {
       });
   }, [cookieToken, groupId, group]);
 
-  let idUserToAdd: number;
-  if (emailUser.length > 0) {
-    const userToAdd = users.filter((user) => user.email.includes(emailUser));
-    if (userToAdd.length === 1) {
-      idUserToAdd = userToAdd[0].id;
+  useEffect(() => {
+    if (emailUser.length > 0) {
+      const userToAdd = users.filter((user) => user.email.includes(emailUser));
+      if (userToAdd.length === 1) {
+        setIdUserToAdd(userToAdd[0].id);
+        // console.log(userToAdd);
+        // const queryParam = `${groupId}?userId=${idUserToAdd}`;
+        // console.log(queryParam);
+      }
     }
-  }
+  }, [users, emailUser]);
 
   const handleAddUserToGroup = () => {
     try {
       if (idUserToAdd) {
-        const queryParam = `${groupId}?userId=${idUserToAdd}`;
         axios
           .post(
-            `https://project-salty-backend.azurewebsites.net/Groups/AddUser/${queryParam}`,
+            `https://project-salty-backend.azurewebsites.net/Groups/AddUser/${groupId}?userId=${idUserToAdd}`,
             { userId: idUserToAdd, id: groupId },
             {
               headers: {
@@ -61,7 +65,9 @@ const Group = () => {
               }
             }
           )
-          .then((res) => console.log(res));
+          .then((res) => {
+            setEmailUser('');
+          });
       }
     } catch (error) {
       console.error();
@@ -124,6 +130,7 @@ const Group = () => {
 
           <Input
             label="User E-mail Address"
+            value={emailUser}
             onChange={(e) => setEmailUser(e.target.value)}
           />
           <div className="mb-4">
