@@ -87,5 +87,3 @@ const Login = () => {
 };
 
 export default Login;
-
-// https://project-salty-backend.azurewebsites.net/Users

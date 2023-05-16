@@ -37,24 +37,11 @@ const Group = () => {
         setGroup(response.data);
         setGroupName(response.data.name);
       });
-  }, [cookieToken, groupId]);
-  // iliana.scalco@appliedtechnology.se
+  }, [cookieToken, groupId, group]);
 
-
-  // let idUserToAdd: number;
-  // if (emailUser.length > 0) {
-  //   const userToAdd = users.filter(user => user.email.includes(emailUser));
-  //   if (userToAdd.length === 1) {
-  //     idUserToAdd = userToAdd[0].id;
-  //     console.log(userToAdd);
-  //     const queryParam = `${groupId}?userId=${idUserToAdd}`;
-  //     console.log(queryParam);
-  //   }
-  // }
-  
   useEffect(() => {
     if (emailUser.length > 0) {
-      const userToAdd = users.filter(user => user.email.includes(emailUser));
+      const userToAdd = users.filter((user) => user.email.includes(emailUser));
       if (userToAdd.length === 1) {
         setIdUserToAdd(userToAdd[0].id);
         // console.log(userToAdd);
@@ -62,34 +49,52 @@ const Group = () => {
         // console.log(queryParam);
       }
     }
-  },[users, emailUser])
+  }, [users, emailUser]);
 
   const handleAddUserToGroup = () => {
     try {
       if (idUserToAdd) {
-        // const queryParam = `${groupId}?userId=${idUserToAdd}`;
-        // console.log(queryParam);
         axios
-          .post(`https://project-salty-backend.azurewebsites.net/Groups/AddUser/${groupId}?userId=${idUserToAdd}`, 
-          {userId: idUserToAdd, id: groupId},
-          {
-            headers: {
-              Authorization: `Bearer ${cookieToken}`,
-              Accept: 'text/plain'
+          .post(
+            `https://project-salty-backend.azurewebsites.net/Groups/AddUser/${groupId}?userId=${idUserToAdd}`,
+            { userId: idUserToAdd, id: groupId },
+            {
+              headers: {
+                Authorization: `Bearer ${cookieToken}`,
+                Accept: 'text/plain'
+              }
             }
-          })
-          .then(res => {
+          )
+          .then((res) => {
             setEmailUser('');
-            console.log(res, "dasha")
           });
-          
       }
     } catch (error) {
       console.error();
     }
-  }
+  };
 
-
+  const handleRemoveUser = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: number
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    axios
+      .delete(
+        `https://project-salty-backend.azurewebsites.net/Groups/RemoveUser/${groupId}?userId=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
+          }
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        setGroup(res.data);
+      });
+  };
 
   const handleDeleteGroup = (e: any, groupId: number) => {
     e.preventDefault();
@@ -123,16 +128,16 @@ const Group = () => {
             />
           </Editable>
 
-          <Input 
-          label="User E-mail Address" 
-          value={emailUser}
-          onChange={e => setEmailUser(e.target.value)}
+          <Input
+            label="User E-mail Address"
+            value={emailUser}
+            onChange={(e) => setEmailUser(e.target.value)}
           />
           <div className="mb-4">
-            <Button 
-            label="Add User to Group" 
-            type="button" 
-            onClick={handleAddUserToGroup}
+            <Button
+              label="Add User to Group"
+              type="button"
+              onClick={handleAddUserToGroup}
             />
             <Button
               label="Delete Group"
@@ -155,6 +160,7 @@ const Group = () => {
                   title={fullName || ''}
                   route="/users"
                   iconDelete={user.role === 'admin' ? true : false}
+                  onClickDeleteIcon={(e: any) => handleRemoveUser(e, person.id)}
                 />
               );
             })}
