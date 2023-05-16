@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import ReactQuill from 'react-quill';
 import axios from 'axios';
-import { MultiSelect } from 'react-multi-select-component';
 import { ContextType } from '../types';
 import Title from '../components/Title';
 import { Input } from '../components/Input';
@@ -13,6 +12,7 @@ import { AppContext } from '../AppContext';
 import { Button } from '../components/Button';
 import Datepicker from '../components/Datepicker';
 import 'react-quill/dist/quill.snow.css';
+import Select from 'react-select';
 
 const AddAssignment = () => {
   const { user, groups } = useContext(AppContext) as ContextType;
@@ -63,6 +63,11 @@ const AddAssignment = () => {
     setDescription('');
   };
 
+  const handleChangeGroup = (selectedOption: any) => {
+    setSelectedGroups(selectedOption);
+  };
+
+
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
@@ -85,12 +90,12 @@ const AddAssignment = () => {
               Group
             </label>
             <div className=".dropdown-container">
-              <MultiSelect
-                className="mb-4"
+            <Select
+                className="mb-4 "
+                classNamePrefix="single_select"
+                onChange={handleChangeGroup}
                 options={selectOptions}
                 value={selectedGroups}
-                onChange={setSelectedGroups}
-                labelledBy="Select"
               />
             </div>
             <label className="text-pink-600 text-lg font-bold font-sans">

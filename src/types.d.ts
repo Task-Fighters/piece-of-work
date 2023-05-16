@@ -4,6 +4,7 @@ export interface IUser {
   googleId?: string;
   email: string;
   fullName: string;
+  bootcamp: string;
   role: string;
   location: string;
   imageUrl: string;

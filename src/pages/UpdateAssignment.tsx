@@ -45,10 +45,9 @@ const UpdateAssignment = () => {
         }
       )
       .then((response) => {
-        const group= groups.find(
+        const group = groups.find(
           (group) => group.id === response.data.groupId
         );
-        console.log(group);
         const date = convertDate(response.data.startDate);
         setTitle(response.data.title);
         setStartDate(date);
@@ -81,8 +80,7 @@ const UpdateAssignment = () => {
           }
         }
       )
-      .then((response) => {
-        console.log(response.statusText, 'Result Update');
+      .then(() => {
         navigate(`/assignments/${assignmentId}`);
       });
   };
@@ -99,8 +97,7 @@ const UpdateAssignment = () => {
           }
         }
       )
-      .then((response) => {
-        console.log(response.statusText, 'Result Delete');
+      .then(() => {
         setAssignments(
           assignments.filter(
             (assignment) => assignment.id !== Number(assignmentId)
@@ -115,7 +112,6 @@ const UpdateAssignment = () => {
       <Header role={user.role} location={location} />
       <div className="flex justify-center">
         <div className="max-w-6xl mx-2 w-full">
-       
           <form onSubmit={handleUpdateAssignment}>
             <Title underline title="Update Assignment" />
             <Input
@@ -129,14 +125,7 @@ const UpdateAssignment = () => {
                 setStartDate(e.target.value)
               }
             />
-
-            <Input
-              label="Group"
-              disabled={true}
-              placeholder={group?.name}
-              value={group?.name}
-            />
-            
+            <Input label="Group" disabled={true} placeholder={group?.name} />
             <label className="text-pink-600 text-lg font-bold font-sans">
               Details
             </label>
