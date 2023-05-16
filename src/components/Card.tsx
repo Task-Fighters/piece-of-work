@@ -37,7 +37,7 @@ export const Card = ({
       featureText = description;
       break;
     case 'card':
-      mode = 'text-black border-black bg-gray-100 md:w-128';
+      mode = 'text-black border-black bg-gray-100 md:w-129';
       featureText = '';
       break;
   }

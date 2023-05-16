@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import whiteLogo from '../assets/Saltwhite.svg';
 import blackLogo from '../assets/Saltblack.svg';
-// import { MdEdit, MdAddCircleOutline } from 'react-icons/md';
 
 interface HeaderProps {
   role: string;

@@ -10,6 +10,7 @@ import { Input } from '../components/Input';
 import { ListItem } from '../components/ListItem';
 import { Button } from '../components/Button';
 import Editable from '../components/Editable';
+import Title from '../components/Title';
 
 const Group = () => {
   const { user, users, setUpdate } = useContext(AppContext) as ContextType;
@@ -139,15 +140,8 @@ const Group = () => {
               type="button"
               onClick={handleAddUserToGroup}
             />
-            <Button
-              label="Delete Group"
-              type="button"
-              className="bg-pink-600 border-pink-600 text-white border-"
-              onClick={(e) => {
-                handleDeleteGroup(e, Number(groupId));
-              }}
-            />
           </div>
+          <Title title="Group Users" />
           <ul className="flex flex-row flex-wrap justify-between capitalize">
             {group.users?.map((person) => {
               const fullName = users.find(
@@ -165,6 +159,14 @@ const Group = () => {
               );
             })}
           </ul>
+          <Button
+            label="Delete Group"
+            type="button"
+            className="bg-pink-600 border-pink-600 text-white border-"
+            onClick={(e) => {
+              handleDeleteGroup(e, Number(groupId));
+            }}
+          />
           <Footer role={user.role} image={user.imageUrl} />
         </div>
       </div>
