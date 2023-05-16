@@ -74,6 +74,7 @@ const Profile = () => {
             email={user.email}
             location={user.location}
             imageUrl={user.imageUrl}
+            bootcamp={user.role === "admin" ? "Instructors group" : user.bootcamp}
           />
           {repos.length > 0 && (
             <Title

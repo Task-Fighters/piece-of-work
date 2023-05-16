@@ -189,13 +189,6 @@ const UpdateUser = () => {
               Bootcamp
             </label>
             <div className=".dropdown-container">
-              {/* <MultiSelect
-                className="mb-4"
-                options={selectOptions}
-                value={selectedGroups}
-                onChange={setSelectedGroups}
-                labelledBy="Select"
-              /> */}
               <Select
                 className="mb-4 "
                 classNamePrefix="single_select"

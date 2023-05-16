@@ -4,7 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
 import { ContextType } from '../types';
-import { IRole, ILocation } from '../types';
+import { IRole, ILocation, IOption } from '../types';
 import Title from '../components/Title';
 import { Input } from '../components/Input';
 import { Footer } from '../components/Footer';
@@ -14,26 +14,32 @@ import '../styles/external-components.css';
 import Select from 'react-select';
 
 
-const roleArr: IRole[] = [
+const roleArr: IOption[] = [
   {
-    name: 'PGP'
+    value: 'PGP',
+    label: 'PGP'
   },
   {
-    name: 'Admin'
+    value: 'Admin',
+    label: 'Admin'
   }
 ];
 
-const locationArr: ILocation[] = [
+const locationArr: IOption[] = [
   {
-    name: 'Amsterdam'
+    value: 'Amsterdam',
+    label: 'Amsterdam'
   },
   {
-    name: 'Oslo'
+    value: 'Oslo',
+    label: 'Oslo'
   },
   {
-    name: 'Stockholm'
+    value: 'Stockholm',
+    label: 'Stockholm'
   }
 ];
+
 
 const AddUser = () => {
   const { user, groups, setUpdate } = useContext(AppContext) as ContextType;
@@ -52,6 +58,7 @@ const AddUser = () => {
 
   const isValidEmail = (email: string): boolean => {
     const regex = /^[a-zA-Z0-9._%+-]+@appliedtechnology\.se$/;
+    console.log(regex.test(email))
     return regex.test(email);
   };
 
@@ -75,13 +82,14 @@ const AddUser = () => {
     getUserName();
   }, [email]);
 
-  const handleChangeBootcamo = (selectedOption: any) => {
+  const handleChangeBootcamp = (selectedOption: any) => {
     setSelectedGroups(selectedOption);
+
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    const selectedGroupsIds = selectedGroups.map((group: { value: any; }) => group.value);
+    console.log(selectedGroups)
 
     const newUser = {
       email: email,
@@ -89,7 +97,8 @@ const AddUser = () => {
       role: role.toLowerCase(),
       location: userLocation,
       status: 'active',
-      groupsId: selectedGroupsIds
+      groupsId: [selectedGroups.value],
+      bootcamp: selectedGroups.label
     };
 
     console.log(newUser);
@@ -121,7 +130,13 @@ const AddUser = () => {
     setRole('PGP');
     setUpdate(true);
   };
+  const handleChangeLocation = (selectedOption: any) => {
+    setUserLocation(selectedOption.label);
+  };
 
+  const handleChangeRole = (selectedOption: any) => {
+    setRole(selectedOption.label);
+  };
   return (
     <div className="container-xl">
       <Header role={user.role} location={urlLocation} />
@@ -134,41 +149,43 @@ const AddUser = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <Input
-              options={locationArr}
-              select
-              label="Location"
-              value={userLocation}
-              onChange={(e) => setUserLocation(e.target.value)}
-            />
+
+            <div>
+              <label className="text-pink-600 text-lg font-bold font-sans">
+                Location
+              </label>
+              <Select
+                className="mb-4 "
+                classNamePrefix="single_select"
+                onChange={handleChangeLocation}
+                options={locationArr}
+                defaultValue={locationArr[0]}
+              />
+            </div>
             <label className="text-pink-600 text-lg font-bold font-sans">
               Bootcamp
             </label>
             <div className=".dropdown-container">
-              {/* <MultiSelect
-                className="mb-4"
-                options={selectOptions}
-                value={selectedGroups}
-                onChange={setSelectedGroups}
-                labelledBy="Select"
-              /> */}
-
               <Select
                 className="mb-4 "
                 classNamePrefix="single_select"
-                onChange={handleChangeBootcamo}
+                onChange={handleChangeBootcamp}
                 options={selectOptions}
-                value={selectedGroups}
               />
               
             </div>
-            <Input
-              options={roleArr}
-              select
-              label="Role"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            />
+            <div>
+              <label className="text-pink-600 text-lg font-bold font-sans">
+                Role
+              </label>
+              <Select
+                className="mb-4 "
+                classNamePrefix="single_select"
+                onChange={handleChangeRole}
+                options={roleArr}
+                defaultValue={roleArr[0]}
+              />
+            </div>
             <div className="mb-32">
               <Button label="Add User" type="submit" />
             </div>

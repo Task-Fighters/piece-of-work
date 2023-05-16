@@ -8,6 +8,7 @@ interface UserDetailsProps {
   imageUrl?: string;
   location?: string;
   groups?: string[];
+  bootcamp?: string;
 }
 const baseIcon = 'text-lg text-pink-600 mr-1';
 
@@ -17,13 +18,14 @@ const UserDetails = ({
   email,
   imageUrl,
   location,
+  bootcamp,
   groups
 }: UserDetailsProps) => {
   return (
     <div className="max-w-6xl bg-pink-600 bg-opacity-10 mb-4 px-4 pb-3 py-2 relative">
       <div className="border-b-2 border-pink-600 pb-0 mr-6 mb-1">
         <p className="text-sm text-pink-600 mb-1 mt-1 font-bold font-poppins">
-          JSFS Fall 2022
+          {bootcamp}
         </p>
       </div>
       <div>
