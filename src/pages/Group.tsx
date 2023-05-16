@@ -16,7 +16,7 @@ const Group = () => {
   const [group, setGroup] = useState<IGroup>({} as IGroup);
   const [groupName, setGroupName] = useState('');
   const [emailUser, setEmailUser] = useState('');
-  // const [idUserToAdd, setIdUserToAdd] = useState<number>();
+  const [idUserToAdd, setIdUserToAdd] = useState<number>();
   let { groupId } = useParams();
   let location = useLocation().pathname.toLowerCase();
   const cookieToken: string | undefined = Cookies.get('token');
@@ -39,25 +39,38 @@ const Group = () => {
       });
   }, [cookieToken, groupId]);
   // iliana.scalco@appliedtechnology.se
-  let idUserToAdd: number;
-  if (emailUser.length > 0) {
-    const userToAdd = users.filter(user => user.email.includes(emailUser));
-    if (userToAdd.length === 1) {
-      idUserToAdd = userToAdd[0].id;
-      console.log(userToAdd);
-      const queryParam = `${groupId}?userId=${idUserToAdd}`;
-      console.log(queryParam);
-    }
-  }
+
+
+  // let idUserToAdd: number;
+  // if (emailUser.length > 0) {
+  //   const userToAdd = users.filter(user => user.email.includes(emailUser));
+  //   if (userToAdd.length === 1) {
+  //     idUserToAdd = userToAdd[0].id;
+  //     console.log(userToAdd);
+  //     const queryParam = `${groupId}?userId=${idUserToAdd}`;
+  //     console.log(queryParam);
+  //   }
+  // }
   
+  useEffect(() => {
+    if (emailUser.length > 0) {
+      const userToAdd = users.filter(user => user.email.includes(emailUser));
+      if (userToAdd.length === 1) {
+        setIdUserToAdd(userToAdd[0].id);
+        // console.log(userToAdd);
+        // const queryParam = `${groupId}?userId=${idUserToAdd}`;
+        // console.log(queryParam);
+      }
+    }
+  },[users, emailUser])
 
   const handleAddUserToGroup = () => {
     try {
       if (idUserToAdd) {
-        const queryParam = `${groupId}?userId=${idUserToAdd}`;
-        console.log(queryParam);
+        // const queryParam = `${groupId}?userId=${idUserToAdd}`;
+        // console.log(queryParam);
         axios
-          .post(`https://project-salty-backend.azurewebsites.net/Groups/AddUser/${queryParam}`, 
+          .post(`https://project-salty-backend.azurewebsites.net/Groups/AddUser/${groupId}?userId=${idUserToAdd}`, 
           {userId: idUserToAdd, id: groupId},
           {
             headers: {
@@ -65,29 +78,19 @@ const Group = () => {
               Accept: 'text/plain'
             }
           })
-          .then(res => console.log(res));
+          .then(res => {
+            setEmailUser('');
+            console.log(res, "dasha")
+          });
+          
       }
     } catch (error) {
       console.error();
     }
   }
-  // const handleDeleteUserFromGroup = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   axios
-  //     .put(
-  //       `https://project-salty-backend.azurewebsites.net/Groups/${groupId}`,
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${cookieToken}`,
-  //         Accept: 'text/plain'
-  //       }
-  //     }
-  //     )
-  //     .then((response) => {
-  //       console.log(response.statusText);
-  //     });
-  // };
+
+
+
   const handleDeleteGroup = (e: any, groupId: number) => {
     e.preventDefault();
     axios
@@ -122,6 +125,7 @@ const Group = () => {
 
           <Input 
           label="User E-mail Address" 
+          value={emailUser}
           onChange={e => setEmailUser(e.target.value)}
           />
           <div className="mb-4">

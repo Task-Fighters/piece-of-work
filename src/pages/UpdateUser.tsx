@@ -56,7 +56,6 @@ const UpdateUser = () => {
   let location = useLocation().pathname.toLowerCase();
   const navigate = useNavigate();
   const cookieToken: string | undefined = Cookies.get('token');
-  console.log(singleUser, 'initial user');
 
   useEffect(() => {
     axios
@@ -99,15 +98,13 @@ const UpdateUser = () => {
   const handleUpdateUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const selectedGroupsIds = selectedGroups.map((group: { value: any; }) => group.value);
-    console.log(selectedGroupsIds, 'groups IDs in update user');
-
-    console.log(selectedGroups, 'groups in update user');
+    console.log(singleUserRole.value, 'role user');
 
     const updatedUser = {
       email: singleUser.email,
       fullName: singleUser.fullName,
       imageUrl: singleUser.imageUrl,
-      role: singleUserRole.value,
+      role: singleUserRole.value.toLowerCase(),
       location: singleUserLocation.value,
       status: singleUser.status,
       groupsId: [...selectedGroupsIds]

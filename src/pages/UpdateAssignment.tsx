@@ -55,19 +55,16 @@ const UpdateAssignment = () => {
         }
       )
       .then((response) => {
-        console.log(response, 'dasha111');
-
         const prevSelectedOption = selectOptions.find(
           (option) => option.value === response.data.groupId
         );
         const date = convertDate(response.data.startDate);
         setTitle(response.data.title);
-        console.log(prevSelectedOption, 'select');
         setStartDate(date);
         setSelectedOption(prevSelectedOption);
         setDescription(response.data?.description);
       });
-  }, [assignmentId, cookieToken, groups, selectOptions]);
+  }, [assignmentId, cookieToken, groups]);
 
   const handleUpdateAssignment: React.FormEventHandler<HTMLFormElement> = (
     e
