@@ -9,6 +9,7 @@ import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 import Select from 'react-select';
+import { Input } from '../components/Input';
 
 const roleArr: IOption[] = [
   {
@@ -41,16 +42,8 @@ const UpdateUser = () => {
     AppContext
   ) as ContextType;
   const [singleUser, setSingleUser] = useState<IUser>({} as IUser);
-
   const [singleUserLocation, setSingleUserLocation] = useState<any>({});
   const [singleUserRole, setSingleUserRole] = useState<any>({});
-
-  const selectOptions = groups.map((item) => ({
-    label: item.name,
-    value: item.id
-  }));
-  const [selectedGroups, setSelectedGroups] = useState<any>({});
-
   let { userId } = useParams();
   let location = useLocation().pathname.toLowerCase();
   const navigate = useNavigate();
@@ -79,26 +72,11 @@ const UpdateUser = () => {
               item.label.toLowerCase() === response.data.role.toLowerCase()
           )
         );
-        const selectedGroupsBefore = response.data.groupsId.map(
-          (group: number) => {
-            let groupData = groups.find((item) => item.id === group);
-            let selectedOption = {
-              label: groupData?.name,
-              value: group
-            };
-            return selectedOption;
-          }
-        );
-
-        setSelectedGroups(selectedGroupsBefore);
       });
   }, [userId, cookieToken, groups]);
 
   const handleUpdateUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const selectedGroupsIds = selectedGroups.map((group: { value: any; }) => group.value);
-    console.log(singleUserRole.value, 'role user');
-
     const updatedUser = {
       email: singleUser.email,
       fullName: singleUser.fullName,
@@ -106,7 +84,8 @@ const UpdateUser = () => {
       role: singleUserRole.value.toLowerCase(),
       location: singleUserLocation.value,
       status: singleUser.status,
-      groupsId: [...selectedGroupsIds]
+      bootcamp:  singleUser.bootcamp,
+      groupsId: singleUser.groupsId
     };
 
     axios
@@ -153,9 +132,6 @@ const UpdateUser = () => {
     setSingleUserRole(selectedOption);
   };
 
-  const handleChangeSelectedBootcamp = (selectedOption: any) => {
-    setSelectedGroups(selectedOption);
-  };
   return (
     <div className="container-xl">
       <Header role={user.role} location={location} />
@@ -184,20 +160,7 @@ const UpdateUser = () => {
                 value={singleUserLocation}
               />
             </div>
-            {/* <Input options={groups} select multiple label="Group" /> */}
-            <label className="text-pink-600 text-lg font-bold font-sans">
-              Bootcamp
-            </label>
-            <div className=".dropdown-container">
-              <Select
-                className="mb-4 "
-                classNamePrefix="single_select"
-                onChange={handleChangeSelectedBootcamp}
-                options={selectOptions}
-                value={selectedGroups}
-              />
-            </div>
-            {/* <Input value={singleUserRole} options={roleArr} select label="Role"  onChange={(e) => setSingleUserRole(e.target.value)} /> */}
+            <Input label="Bootcamp" disabled={true} placeholder={singleUser?.bootcamp} />
             <div>
               <label className="text-pink-600 text-lg font-bold font-sans">
                 Role
