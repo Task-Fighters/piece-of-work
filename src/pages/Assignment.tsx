@@ -58,9 +58,11 @@ const Assignment = () => {
   }, [assignmentId, cookieToken, repoName]);
 
   const addRepo = () => {
-    if (repoName?.trim() === '') {
+    if (repoName?.trim() === '' )  {
       return;
     }
+    if(repoName.match(/^(https?:\/\/)(www\.)?github\.com\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+$/)) {
+    console.log("repositiory is git repo")
     axios
       .post(
         `https://project-salty-backend.azurewebsites.net/Repos`,
@@ -79,7 +81,8 @@ const Assignment = () => {
       .then((response) => {
         console.log(response.data);
         setRepoName('');
-      });
+      })
+    };
   };
 
   return (
