@@ -15,7 +15,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    role: 'user',
+    role: 'pgp',
     location: '/home'
   }
 };

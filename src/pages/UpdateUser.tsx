@@ -1,12 +1,10 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useContext, useState, useEffect } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { IUser, ContextType, IOption } from '../types';
 import { AppContext } from '../AppContext';
 import Title from '../components/Title';
-import { Footer } from '../components/Footer';
-import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 import Select from 'react-select';
 import { Input } from '../components/Input';
@@ -38,14 +36,11 @@ const locationArr: IOption[] = [
 ];
 
 const UpdateUser = () => {
-  const { user, users, groups, setUsers } = useContext(
-    AppContext
-  ) as ContextType;
+  const { users, groups, setUsers } = useContext(AppContext) as ContextType;
   const [singleUser, setSingleUser] = useState<IUser>({} as IUser);
   const [singleUserLocation, setSingleUserLocation] = useState<any>({});
   const [singleUserRole, setSingleUserRole] = useState<any>({});
   let { userId } = useParams();
-  let location = useLocation().pathname.toLowerCase();
   const navigate = useNavigate();
   const cookieToken: string | undefined = Cookies.get('token');
 
@@ -133,11 +128,8 @@ const UpdateUser = () => {
   };
 
   return (
-    <div className="container-xl">
-      <Header role={user.role} location={location} />
-      <div className="flex justify-center">
-        <div className="max-w-6xl mx-2 w-full">
-          <form>
+    <>
+      <form>
             <Title underline title="Update User" />
             <div className="bg-gray-100 mb-4 px-4 pb-2 pt-1">
               <Title
@@ -193,10 +185,7 @@ const UpdateUser = () => {
               />
             </div>
           </form>
-        </div>
-        <Footer role={user.role} image={user.imageUrl} />
-      </div>
-    </div>
+    </>
   );
 };
 

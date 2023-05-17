@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
@@ -7,12 +6,9 @@ import { ContextType } from '../types';
 import { IOption } from '../types';
 import Title from '../components/Title';
 import { Input } from '../components/Input';
-import { Footer } from '../components/Footer';
-import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 import '../styles/external-components.css';
 import Select from 'react-select';
-
 
 const roleArr: IOption[] = [
   {
@@ -42,14 +38,13 @@ const locationArr: IOption[] = [
 
 
 const AddUser = () => {
-  const { user, groups, setUpdate } = useContext(AppContext) as ContextType;
+  const { groups, setUpdate } = useContext(AppContext) as ContextType;
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
   const [userLocation, setUserLocation] = useState('Amsterdam');
   const [role, setRole] = useState('pgp');
   const cookieToken: string | undefined = Cookies.get('token');
 
-  let urlLocation = useLocation().pathname.toLowerCase();
   const selectOptions = groups.map((item) => ({
     label: item.name,
     value: item.id
@@ -140,10 +135,6 @@ const AddUser = () => {
     setRole(selectedOption.label);
   };
   return (
-    <div className="container-xl">
-      <Header role={user.role} location={urlLocation} />
-      <div className="flex justify-center">
-        <div className="max-w-6xl mx-2 w-full">
           <form onSubmit={handleSubmit}>
             <Title underline title="Add New User" />
             <Input
@@ -193,10 +184,6 @@ const AddUser = () => {
               <Button label="Add User" type="submit" />
             </div>
           </form>
-        </div>
-        <Footer role={user.role} image={user.imageUrl} />
-      </div>
-    </div>
   );
 };
 

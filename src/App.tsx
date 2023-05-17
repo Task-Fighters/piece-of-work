@@ -14,6 +14,11 @@ import AddGroup from './pages/AddGroup';
 import UpdateUser from './pages/UpdateUser';
 import UpdateAssignment from './pages/UpdateAssignment';
 import secureLocalStorage from 'react-secure-storage';
+import { Header } from './components/Header';
+import { useContext } from 'react';
+import { ContextType } from './types';
+import { AppContext } from './AppContext';
+import { Footer } from './components/Footer';
 
 const PrivateRoute = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const location = useLocation();
@@ -29,29 +34,43 @@ const PrivateRoute = ({ allowedRoles }: { allowedRoles: string[] }) => {
 };
 
 function App() {
+  let location = useLocation().pathname.toLowerCase();
+  const { user } = useContext(AppContext) as ContextType;
+  const isRootPage = location === '/';
   return (
-    <Routes>
-      <Route path="/" element={<Login />} />
-      <Route element={<PrivateRoute allowedRoles={['pgp', 'admin']} />}>
-        <Route path="/home" element={<Home />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/assignments/:assignmentId" element={<Assignment />} />
-      </Route>
-      <Route element={<PrivateRoute allowedRoles={['admin']} />}>
-        <Route path="/groups" element={<Groups />} />
-        <Route path="/groups/:groupId" element={<Group />} />
-        <Route path="/groups/new" element={<AddGroup />} />
-        <Route path="/users/:userId" element={<User />} />
-        <Route path="/users/:userId/update" element={<UpdateUser />} />
-        <Route path="/users/new" element={<AddUser />} />
-        <Route
-          path="/assignments/:assignmentId/update"
-          element={<UpdateAssignment />}
-        />
-        <Route path="/assignments/new" element={<AddAssignment />} />
-      </Route>
-    </Routes>
+    <div className="container-xl">
+      {!isRootPage && <Header role={user.role} location={location} />}
+      <div className="flex justify-center">
+        <div className="max-w-6xl mx-2 w-full">
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route element={<PrivateRoute allowedRoles={['pgp', 'admin']} />}>
+              <Route path="/home" element={<Home />} />
+              <Route path="/users" element={<Users />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route
+                path="/assignments/:assignmentId"
+                element={<Assignment />}
+              />
+            </Route>
+            <Route element={<PrivateRoute allowedRoles={['admin']} />}>
+              <Route path="/groups" element={<Groups />} />
+              <Route path="/groups/:groupId" element={<Group />} />
+              <Route path="/groups/new" element={<AddGroup />} />
+              <Route path="/users/:userId" element={<User />} />
+              <Route path="/users/:userId/update" element={<UpdateUser />} />
+              <Route path="/users/new" element={<AddUser />} />
+              <Route
+                path="/assignments/:assignmentId/update"
+                element={<UpdateAssignment />}
+              />
+              <Route path="/assignments/new" element={<AddAssignment />} />
+            </Route>
+          </Routes>
+        </div>
+        {!isRootPage && <Footer role={user.role} image={user.imageUrl} />}
+      </div>
+    </div>
   );
 }
 

@@ -1,11 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AppContext } from '../AppContext';
 import { ContextType, IGroup } from '../types';
-import { Footer } from '../components/Footer';
-import { Header } from '../components/Header';
 import { Input } from '../components/Input';
 import { ListItem } from '../components/ListItem';
 import { Button } from '../components/Button';
@@ -21,7 +19,6 @@ const Group = () => {
   const [emailUser, setEmailUser] = useState('');
   const [idUserToAdd, setIdUserToAdd] = useState<number>();
   let { groupId } = useParams();
-  let location = useLocation().pathname.toLowerCase();
   const cookieToken: string | undefined = Cookies.get('token');
   const navigate = useNavigate();
 
@@ -126,62 +123,56 @@ const Group = () => {
       });
   };
   return (
-    <div className="container-xl">
-      <Header role={user.role} location={location} />
-      <div className="flex justify-center">
-        <div className="max-w-6xl w-full mx-2">
-          <Editable text={groupName} groupId={Number(groupId)} type="input">
-            <input
-              type="text"
-              name="task"
-              value={groupName}
-              className="focus:outline-none w-96"
-              onChange={(e) => setGroupName(e.target.value)}
-            />
-          </Editable>
+    <>
+      <Editable text={groupName} groupId={Number(groupId)} type="input">
+        <input
+          type="text"
+          name="task"
+          value={groupName}
+          className="focus:outline-none w-96"
+          onChange={(e) => setGroupName(e.target.value)}
+        />
+      </Editable>
 
-          <Input
-            label="User E-mail Address"
-            value={emailUser}
-            onChange={(e) => setEmailUser(e.target.value)}
-          />
-          <div className="mb-4">
-            <Button
-              label="Add User to Group"
-              type="button"
-              onClick={handleAddUserToGroup}
-            />
-          </div>
-          <Title title="Group Users" />
-          <ul className="flex flex-row flex-wrap justify-between capitalize">
-            {group.users?.map((person) => {
-              const fullName = users.find(
-                (user) => person.id === user.id
-              )?.fullName;
-              return (
-                <ListItem
-                  key={person?.id}
-                  id={person?.id}
-                  title={fullName || ''}
-                  route="/users"
-                  iconDelete={user.role === 'admin' ? true : false}
-                  onClickDeleteIcon={(e: any) => handleRemoveUser(e, person.id)}
-                />
-              );
-            })}
-          </ul>
-          <Button
-            label="Delete Group"
-            type="button"
-            className="bg-pink-600 border-pink-600 text-white border-"
-            onClick={(e) => {
-              handleDeleteGroup(e, Number(groupId));
-            }}
-          />
-          <Footer role={user.role} image={user.imageUrl} />
-        </div>
+      <Input
+        label="User E-mail Address"
+        value={emailUser}
+        onChange={(e) => setEmailUser(e.target.value)}
+      />
+      <div className="mb-4">
+        <Button
+          label="Add User to Group"
+          type="button"
+          onClick={handleAddUserToGroup}
+        />
       </div>
-    </div>
+      <Title title="Group Users" />
+      <ul className="flex flex-row flex-wrap justify-between capitalize">
+        {group.users?.map((person) => {
+          const fullName = users.find(
+            (user) => person.id === user.id
+          )?.fullName;
+          return (
+            <ListItem
+              key={person?.id}
+              id={person?.id}
+              title={fullName || ''}
+              route="/users"
+              iconDelete={user.role === 'admin' ? true : false}
+              onClickDeleteIcon={(e: any) => handleRemoveUser(e, person.id)}
+            />
+          );
+        })}
+      </ul>
+      <Button
+        label="Delete Group"
+        type="button"
+        className="bg-pink-600 border-pink-600 text-white border-"
+        onClick={(e) => {
+          handleDeleteGroup(e, Number(groupId));
+        }}
+      />
+    </>
   );
 };
 
