@@ -17,7 +17,7 @@ interface IRepo {
 }
 
 const User = () => {
-  const { assignments } = useContext(AppContext) as ContextType;
+  const { user } = useContext(AppContext) as ContextType;
   const [singleUser, setSingleUser] = useState<IUser>({} as IUser);
   let { userId } = useParams();
   const [repos, setRepos] = useState<IRepo[]>([]);
@@ -59,23 +59,23 @@ const User = () => {
 
   return (
     <>
-          <UserDetails
-            id={singleUser.id}
-            name={singleUser.fullName}
-            email={singleUser.email}
-            imageUrl={singleUser.imageUrl}
-            location={singleUser.location}
-            bootcamp={singleUser.role === "admin" ? "Instructors group" : user.bootcamp}
-          />
-          {repos.length > 0 && (
-            <Title
-              className="mx-2 md:mx-0 md:my-2"
-              underline
-              title={`Completed Assignments (${repos?.length})`}
-            />
-          );
-        })}
-      </div>
+      <UserDetails
+        id={singleUser.id}
+        name={singleUser.fullName}
+        email={singleUser.email}
+        imageUrl={singleUser.imageUrl}
+        location={singleUser.location}
+        bootcamp={
+          singleUser.role === 'admin' ? 'Instructors group' : user.bootcamp
+        }
+      />
+      {repos.length > 0 && (
+        <Title
+          className="mx-2 md:mx-0 md:my-2"
+          underline
+          title={`Completed Assignments (${repos?.length})`}
+        />
+      )}
     </>
   );
 };
