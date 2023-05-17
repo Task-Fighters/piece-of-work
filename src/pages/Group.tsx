@@ -11,6 +11,8 @@ import { ListItem } from '../components/ListItem';
 import { Button } from '../components/Button';
 import Editable from '../components/Editable';
 import Title from '../components/Title';
+import { MultiSelect } from 'react-multi-select-component';
+
 
 const Group = () => {
   const { user, users, setUpdate } = useContext(AppContext) as ContextType;
@@ -22,6 +24,15 @@ const Group = () => {
   let location = useLocation().pathname.toLowerCase();
   const cookieToken: string | undefined = Cookies.get('token');
   const navigate = useNavigate();
+
+
+  // const selectUserOptions = users.map((user) => ({
+  //   label: user.email,
+  //   value: user.id
+  // }));
+  // const [selectedUsers, setSelectedUsers] = useState(selectUserOptions);
+  // const selectedGroupsIds = selectedGroups.map((group) => group.value);
+
 
   useEffect(() => {
     axios

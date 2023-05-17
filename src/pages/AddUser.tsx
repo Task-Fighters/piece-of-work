@@ -4,7 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
 import { ContextType } from '../types';
-import { IRole, ILocation, IOption } from '../types';
+import { IOption } from '../types';
 import Title from '../components/Title';
 import { Input } from '../components/Input';
 import { Footer } from '../components/Footer';
@@ -89,8 +89,6 @@ const AddUser = () => {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    console.log(selectedGroups)
-
     const newUser = {
       email: email,
       fullName: fullName,
@@ -101,7 +99,6 @@ const AddUser = () => {
       bootcamp: selectedGroups.label
     };
 
-    console.log(newUser);
     if (isValidEmail(email)) {
       axios
         .post(
@@ -128,6 +125,11 @@ const AddUser = () => {
     setEmail('');
     setUserLocation('Amsterdam');
     setRole('PGP');
+    setSelectedGroups({
+      label: "",
+      value: ""
+    })
+    
     setUpdate(true);
   };
   const handleChangeLocation = (selectedOption: any) => {
@@ -171,6 +173,7 @@ const AddUser = () => {
                 classNamePrefix="single_select"
                 onChange={handleChangeBootcamp}
                 options={selectOptions}
+                value={selectedGroups}
               />
               
             </div>

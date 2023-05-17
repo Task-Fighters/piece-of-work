@@ -88,10 +88,10 @@ const AppProvider = ({ children }: any) => {
           setAssignments([...response.data]);
         });
     } else {
-      user?.groups?.forEach((group) => {
+      user?.groupsId?.forEach((group) => {
         axios
           .get(
-            `https://project-salty-backend.azurewebsites.net/Assignments/group/${group.groupsId}`,
+            `https://project-salty-backend.azurewebsites.net/Assignments/group/${group}`,
             {
               headers: {
                 Authorization: `Bearer ${cookieToken}`,

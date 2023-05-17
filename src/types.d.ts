@@ -9,7 +9,7 @@ export interface IUser {
   location: string;
   imageUrl: string;
   status: string;
-  groups?: IUserGroups[];
+  groupsId?: number[];
 }
 
 export interface IUserGroups {
