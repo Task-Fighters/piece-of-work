@@ -7,6 +7,7 @@ import { AppContext } from '../AppContext';
 import Title from '../components/Title';
 import { Button } from '../components/Button';
 import Select from 'react-select';
+import { Input } from '../components/Input';
 
 const roleArr: IOption[] = [
   {
@@ -37,16 +38,8 @@ const locationArr: IOption[] = [
 const UpdateUser = () => {
   const { users, groups, setUsers } = useContext(AppContext) as ContextType;
   const [singleUser, setSingleUser] = useState<IUser>({} as IUser);
-
   const [singleUserLocation, setSingleUserLocation] = useState<any>({});
   const [singleUserRole, setSingleUserRole] = useState<any>({});
-
-  const selectOptions = groups.map((item) => ({
-    label: item.name,
-    value: item.id
-  }));
-  const [selectedGroups, setSelectedGroups] = useState<any>({});
-
   let { userId } = useParams();
   const navigate = useNavigate();
   const cookieToken: string | undefined = Cookies.get('token');
@@ -74,28 +67,11 @@ const UpdateUser = () => {
               item.label.toLowerCase() === response.data.role.toLowerCase()
           )
         );
-        const selectedGroupsBefore = response.data.groupsId.map(
-          (group: number) => {
-            let groupData = groups.find((item) => item.id === group);
-            let selectedOption = {
-              label: groupData?.name,
-              value: group
-            };
-            return selectedOption;
-          }
-        );
-
-        setSelectedGroups(selectedGroupsBefore);
       });
   }, [userId, cookieToken, groups]);
 
   const handleUpdateUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const selectedGroupsIds = selectedGroups.map(
-      (group: { value: any }) => group.value
-    );
-    console.log(singleUserRole.value, 'role user');
-
     const updatedUser = {
       email: singleUser.email,
       fullName: singleUser.fullName,
@@ -103,7 +79,8 @@ const UpdateUser = () => {
       role: singleUserRole.value.toLowerCase(),
       location: singleUserLocation.value,
       status: singleUser.status,
-      groupsId: [...selectedGroupsIds]
+      bootcamp:  singleUser.bootcamp,
+      groupsId: singleUser.groupsId
     };
 
     axios
@@ -150,76 +127,64 @@ const UpdateUser = () => {
     setSingleUserRole(selectedOption);
   };
 
-  const handleChangeSelectedBootcamp = (selectedOption: any) => {
-    setSelectedGroups(selectedOption);
-  };
   return (
     <>
       <form>
-        <Title underline title="Update User" />
-        <div className="bg-gray-100 mb-4 px-4 pb-2 pt-1">
-          <Title
-            className="!mb-0 !text-lg font-bold !font-poppins"
-            title={singleUser.fullName}
-          />
-          <p className="text-sm font-bold font-roboto">{singleUser.email}</p>
-        </div>
-        <div>
-          <label className="text-pink-600 text-lg font-bold font-sans">
-            Location
-          </label>
-          <Select
-            className="mb-4 "
-            classNamePrefix="single_select"
-            onChange={handleChangeSelectedLocation}
-            options={locationArr}
-            value={singleUserLocation}
-          />
-        </div>
-        <label className="text-pink-600 text-lg font-bold font-sans">
-          Bootcamp
-        </label>
-        <div className=".dropdown-container">
-          <Select
-            className="mb-4 "
-            classNamePrefix="single_select"
-            onChange={handleChangeSelectedBootcamp}
-            options={selectOptions}
-            value={selectedGroups}
-          />
-        </div>
-        <div>
-          <label className="text-pink-600 text-lg font-bold font-sans">
-            Role
-          </label>
-          <Select
-            className="mb-4 "
-            classNamePrefix="single_select"
-            onChange={handleChangeSelectedRole}
-            options={roleArr}
-            value={singleUserRole}
-          />
-        </div>
-        <div>
-          <Button
-            label="Update User"
-            type="button"
-            onClick={(e) => {
-              handleUpdateUser(e);
-            }}
-          />
-        </div>
-        <div className="mb-32">
-          <Button
-            buttonColor="pink"
-            label="Delete User"
-            type="button"
-            onClick={(e) => {
-              handleDeleteUser(e);
-            }}
-          />
-        </div>
-      </form>
+            <Title underline title="Update User" />
+            <div className="bg-gray-100 mb-4 px-4 pb-2 pt-1">
+              <Title
+                className="!mb-0 !text-lg font-bold !font-poppins"
+                title={singleUser.fullName}
+              />
+              <p className="text-sm font-bold font-roboto">
+                {singleUser.email}
+              </p>
+            </div>
+            <div>
+              <label className="text-pink-600 text-lg font-bold font-sans">
+                Location
+              </label>
+              <Select
+                className="mb-4 "
+                classNamePrefix="single_select"
+                onChange={handleChangeSelectedLocation}
+                options={locationArr}
+                value={singleUserLocation}
+              />
+            </div>
+            <Input label="Bootcamp" disabled={true} placeholder={singleUser?.bootcamp} />
+            <div>
+              <label className="text-pink-600 text-lg font-bold font-sans">
+                Role
+              </label>
+              <Select
+                className="mb-4 "
+                classNamePrefix="single_select"
+                onChange={handleChangeSelectedRole}
+                options={roleArr}
+                value={singleUserRole}
+              />
+            </div>
+            <div>
+              <Button
+                label="Update User"
+                type="button"
+                onClick={(e) => {
+                  handleUpdateUser(e);
+                }}
+              />
+            </div>
+            <div className="mb-32">
+              <Button
+                buttonColor="pink"
+                label="Delete User"
+                type="button"
+                onClick={(e) => {
+                  handleDeleteUser(e);
+                }}
+              />
+            </div>
+          </form>
     </>
   );
 };

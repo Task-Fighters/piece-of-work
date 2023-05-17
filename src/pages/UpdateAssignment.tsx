@@ -45,7 +45,6 @@ const UpdateAssignment = () => {
         const group = groups.find(
           (group) => group.id === response.data.groupId
         );
-        console.log(group);
         const date = convertDate(response.data.startDate);
         setTitle(response.data.title);
         setStartDate(date);
@@ -78,8 +77,7 @@ const UpdateAssignment = () => {
           }
         }
       )
-      .then((response) => {
-        console.log(response.statusText, 'Result Update');
+      .then(() => {
         navigate(`/assignments/${assignmentId}`);
       });
   };
@@ -96,8 +94,7 @@ const UpdateAssignment = () => {
           }
         }
       )
-      .then((response) => {
-        console.log(response.statusText, 'Result Delete');
+      .then(() => {
         setAssignments(
           assignments.filter(
             (assignment) => assignment.id !== Number(assignmentId)

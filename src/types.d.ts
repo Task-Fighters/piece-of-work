@@ -4,11 +4,12 @@ export interface IUser {
   googleId?: string;
   email: string;
   fullName: string;
+  bootcamp: string;
   role: string;
   location: string;
   imageUrl: string;
   status: string;
-  groups?: IUserGroups[];
+  groupsId?: number[];
 }
 
 export interface IUserGroups {
