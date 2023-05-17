@@ -39,6 +39,7 @@ export interface IAssignment {
   title: string;
   startDate: string;
   description: string;
+  groupId: number;
   submission: ISubmission[];
 }
 

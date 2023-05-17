@@ -7,6 +7,7 @@ interface CardProps {
   id?: number;
   subtitle: string;
   description: string;
+  group?: string;
   onClick?: (e: any) => void;
 }
 
@@ -17,6 +18,7 @@ export const Card = ({
   title,
   subtitle,
   description,
+  group,
   cardType = 'card',
   onClick
 }: CardProps) => {
@@ -60,6 +62,9 @@ export const Card = ({
     <div className={classes} onClick={handleNavigate}>
       <div className="px-4 pt-1">
         <h1 className="text-lg font-bold font-poppins">{title}</h1>
+        <h4 className="text-xs font-bold text-pink-600 mb-1 font-poppins">
+          {group}
+        </h4>
         <h3 className="text-sm font-bold font-roboto">{subtitle}</h3>
       </div>
       <div className="px-4 py-1">
@@ -70,6 +75,9 @@ export const Card = ({
     <div className={classes}>
       <div className="px-4 pt-1">
         <h2 className="text-lg font-bold font-poppins">{title}</h2>
+        <h4 className="text-xs font-bold text-pink-600 mb-1 font-poppins">
+          {group}
+        </h4>
         <h3 className="text-sm font-bold font-roboto">{subtitle}</h3>
       </div>
       <div className="border-b-2 mt-2 mb-1 border-pink-600"></div>

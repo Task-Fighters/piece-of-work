@@ -7,7 +7,7 @@ import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 
 const Home = () => {
-  const { user, assignments } = useContext(AppContext) as ContextType;
+  const { user, assignments, groups } = useContext(AppContext) as ContextType;
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
 
@@ -64,6 +64,9 @@ const Home = () => {
       />
       <div className="flex flex-row flex-wrap justify-between mb-32">
         {assignmentToShow?.map((assignment, index) => {
+          const groupName = groups.find(
+            (group) => group.id === assignment.groupId
+          )?.name;
           if (
             search === '' ||
             assignment.title.toLowerCase().includes(search.toLowerCase())
@@ -80,6 +83,7 @@ const Home = () => {
                 description={assignment.description}
                 subtitle={assignment.startDate}
                 title={assignment.title}
+                group={groupName}
               />
             );
 

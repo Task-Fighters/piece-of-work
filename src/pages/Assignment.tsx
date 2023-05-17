@@ -17,7 +17,7 @@ interface IRepo {
 }
 
 const Assignment = () => {
-  const { user, users } = useContext(AppContext) as ContextType;
+  const { user, users, groups } = useContext(AppContext) as ContextType;
   const [assignment, setAssignment] = useState<IAssignment>({} as IAssignment);
   const [repoName, setRepoName] = useState<string>('');
   const [repos, setRepos] = useState<IRepo[]>([]);
@@ -82,6 +82,10 @@ const Assignment = () => {
       });
   };
 
+  const groupName = groups.find(
+    (group) => group.id === assignment.groupId
+  )?.name;
+
   return (
     <>
       <div className="flex justify-end">
@@ -104,6 +108,7 @@ const Assignment = () => {
           description={assignment.description}
           subtitle={assignment.startDate}
           title={assignment.title}
+          group={groupName}
         />
       )}
       <Title title="Post completed assignment" />
