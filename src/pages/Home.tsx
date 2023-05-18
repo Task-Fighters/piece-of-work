@@ -5,16 +5,35 @@ import { AppContext } from '../AppContext';
 import { Input } from '../components/Input';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
+import Title from '../components/Title';
 
 const Home = () => {
   const { user, assignments, groups } = useContext(AppContext) as ContextType;
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
-
   const currentDate = new Date().toJSON();
-  const newAssignments = assignments.sort((a: IAssignment, b: IAssignment) => {
-    return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
-  });
+
+  const newAssignments = assignments
+    .filter(
+      (assignment) =>
+        new Date(assignment.startDate).getTime() < new Date().getTime()
+    )
+    .sort((a: IAssignment, b: IAssignment) => {
+      if (a.startDate === b.startDate) {
+        //@ts-ignore
+        return b.featured - a.featured;
+      }
+      return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+    });
+
+  const upcomingAssignments = assignments
+    .filter(
+      (assignment) =>
+        new Date(assignment.startDate).getTime() >= new Date().getTime()
+    )
+    .sort((a: IAssignment, b: IAssignment) => {
+      return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+    });
 
   const feature = newAssignments.find(
     (assignment) =>
@@ -28,6 +47,7 @@ const Home = () => {
   const featured = newAssignments.filter(
     (assignment) => assignment.startDate === feature?.startDate
   );
+
   let assignmentToShow: IAssignment[] = [];
 
   if (user.role !== 'admin') {
@@ -62,15 +82,24 @@ const Home = () => {
         placeholder="Search"
         onChange={(e) => setSearch(e.target.value)}
       />
-      <div className="flex flex-row flex-wrap justify-between mb-32">
-        {assignmentToShow?.map((assignment, index) => {
-          const groupName = groups.find(
-            (group) => group.id === assignment.groupId
-          )?.name;
-          if (
-            search === '' ||
-            assignment.title.toLowerCase().includes(search.toLowerCase())
-          )
+      <div
+        className={
+          upcomingAssignments?.length > 0
+            ? 'flex flex-row flex-wrap justify-between mb-6'
+            : 'flex flex-row flex-wrap justify-between mb-32'
+        }
+      >
+        {assignmentToShow
+          .filter((assignment) => {
+            return (
+              search === '' ||
+              assignment.title.toLowerCase().includes(search.toLowerCase())
+            );
+          })
+          .map((assignment, index) => {
+            const groupName = groups.find(
+              (group) => group.id === assignment.groupId
+            )?.name;
             return (
               <Card
                 cardType={
@@ -86,10 +115,44 @@ const Home = () => {
                 group={groupName}
               />
             );
-
-          return <div key={index}></div>;
-        })}
+          })}
       </div>
+      {user.role === 'admin' && (
+        <Title
+          className="mx-2 md:mx-0 md:my-2"
+          underline
+          title={`Upcoming Assignments (${upcomingAssignments?.length})`}
+        />
+      )}
+      {user.role === 'admin' && (
+        <div className="flex flex-row flex-wrap justify-between mb-32">
+          {upcomingAssignments
+            .filter((assignment) => {
+              return (
+                new Date(assignment.startDate).getTime() >
+                  new Date(currentDate).getTime() &&
+                (search === '' ||
+                  assignment.title.toLowerCase().includes(search.toLowerCase()))
+              );
+            })
+            .map((assignment, index) => {
+              const groupName = groups.find(
+                (group) => group.id === assignment.groupId
+              )?.name;
+              return (
+                <Card
+                  cardType={'card'}
+                  id={assignment.id}
+                  key={index}
+                  description={assignment.description}
+                  subtitle={assignment.startDate}
+                  title={assignment.title}
+                  group={groupName}
+                />
+              );
+            })}
+        </div>
+      )}
     </>
   );
 };
