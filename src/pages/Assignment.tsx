@@ -29,7 +29,8 @@ const Assignment = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
+    setTimeout(() => {
+      axios
       .get(
         `https://project-salty-backend.azurewebsites.net/Assignments/${assignmentId}`,
         {
@@ -44,6 +45,8 @@ const Assignment = () => {
     setIsLoading(false);
 
       });
+    }, 500)
+    
   }, [assignmentId, cookieToken]);
 
   useEffect(() => {
