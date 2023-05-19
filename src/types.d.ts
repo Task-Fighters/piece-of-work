@@ -12,6 +12,11 @@ export interface IUser {
   groupsId?: number[];
 }
 
+export interface IUserGroup {
+  id: number;
+  email: string;
+}
+
 export interface IUserGroups {
   groupsId: number;
   name: string;
@@ -20,7 +25,7 @@ export interface IUserGroups {
 export interface IGroup {
   id: number;
   name: string;
-  users: IUser[];
+  users: IUserGroup[];
   assignments: IAssignment[];
 }
 

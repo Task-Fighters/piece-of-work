@@ -4,7 +4,7 @@
 
 .dropdown-container:focus-within {
   outline: none !important;
-  border: 2px solid #db2777 !important;
+  border: 1px solid #db2777 !important;
   box-shadow: 0 0 2px #db2777 !important;
 }
 

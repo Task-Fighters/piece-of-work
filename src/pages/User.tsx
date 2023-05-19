@@ -7,7 +7,6 @@ import { AppContext } from '../AppContext';
 import Title from '../components/Title';
 import UserDetails from '../components/UserDetails';
 import { Repo } from '../components/Repo';
-import { Button } from '../components/Button';
 
 interface IRepo {
   id: number;
