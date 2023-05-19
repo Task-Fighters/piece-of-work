@@ -9,6 +9,8 @@ import { Card } from '../components/Card';
 import { Input } from '../components/Input';
 import Title from '../components/Title';
 import { ListItem } from '../components/ListItem';
+import Skeleton from 'react-loading-skeleton';
+import SkeletonCard from '../components/SkeletonCard';
 
 interface IRepo {
   userId: number;
@@ -21,6 +23,7 @@ const Assignment = () => {
   const [assignment, setAssignment] = useState<IAssignment>({} as IAssignment);
   const [repoName, setRepoName] = useState<string>('');
   const [repos, setRepos] = useState<IRepo[]>([]);
+  const [isLoading,setIsLoading] = useState(true);
   const cookieToken: string | undefined = Cookies.get('token');
   let { assignmentId } = useParams();
   const navigate = useNavigate();
@@ -38,10 +41,13 @@ const Assignment = () => {
       )
       .then((response) => {
         setAssignment(response.data);
+    setIsLoading(false);
+
       });
   }, [assignmentId, cookieToken]);
 
   useEffect(() => {
+
     axios
       .get(
         `https://project-salty-backend.azurewebsites.net/Repos/Assignment/${assignmentId}`,
@@ -61,25 +67,34 @@ const Assignment = () => {
     if (repoName?.trim() === '') {
       return;
     }
-    axios
-      .post(
-        `https://project-salty-backend.azurewebsites.net/Repos`,
-        {
-          url: repoName,
-          assignmentId: assignmentId,
-          userId: user.id
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-            Accept: 'text/plain'
-          }
-        }
+    if (
+      repoName.match(
+        /^(https?:\/\/)(www\.)?github\.com\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+$/
       )
-      .then((response) => {
-        console.log(response.data);
-        setRepoName('');
-      });
+    ) {
+      axios
+        .post(
+          `https://project-salty-backend.azurewebsites.net/Repos`,
+          {
+            url: repoName,
+            assignmentId: assignmentId,
+            userId: user.id
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+              Accept: 'text/plain'
+            }
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          setRepoName('');
+        });
+    }
+    else{
+      alert("Please enter a valid git repo Url")
+    }
   };
 
   return (
@@ -98,14 +113,18 @@ const Assignment = () => {
           </div>
         )}
       </div>
-      {assignment && (
+      
+      {!isLoading ? assignment &&(
         <Card
           cardType="detailed"
           description={assignment.description}
           subtitle={assignment.startDate}
           title={assignment.title}
         />
-      )}
+      ): <SkeletonCard
+      title=''
+      subtitle=''
+      description='' />}
       <Title title="Post completed assignment" />
       <div className="flex flex-col md:flex-row">
         <Input
