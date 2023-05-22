@@ -44,7 +44,7 @@ export const Footer = ({ role, image }: FooterProps) => {
         </li>
         <li className={`${baseListItem}`}>
           <a href="/profile" className={`${baseLink}`}>
-            {image === '' || image === null ? (
+            {image === '' || image === null || image === undefined ? (
               <MdPerson2 className={`${baseIcon}`} />
             ) : (
               <img

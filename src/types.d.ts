@@ -21,12 +21,17 @@ export interface IUserGroups {
   groupsId: number;
   name: string;
 }
+export interface IAssignmentGroup {
+  groupsId: number;
+  title: string;
+}
+
 
 export interface IGroup {
   id: number;
   name: string;
   users: IUserGroup[];
-  assignments: IAssignment[];
+  assignments: IAssignmentGroup[];
 }
 
 export interface IRole {
