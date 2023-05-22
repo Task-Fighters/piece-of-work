@@ -13,6 +13,7 @@ import Profile from './pages/Profile';
 import AddGroup from './pages/AddGroup';
 import UpdateUser from './pages/UpdateUser';
 import UpdateAssignment from './pages/UpdateAssignment';
+import AssignAssignmentToGroup from './pages/AssignAssignmentToGroup';
 import secureLocalStorage from 'react-secure-storage';
 import { Header } from './components/Header';
 import { useContext } from 'react';
@@ -63,6 +64,10 @@ function App() {
               <Route
                 path="/assignments/:assignmentId/update"
                 element={<UpdateAssignment />}
+              />
+              <Route
+                path="/assignments/:assignmentId/assign"
+                element={<AssignAssignmentToGroup />}
               />
               <Route path="/assignments/new" element={<AddAssignment />} />
             </Route>

@@ -40,11 +40,11 @@ export interface ILocation {
 }
 
 export interface IAssignment {
-  id: number;
+  id: number | undefined;
   title: string;
   startDate: string;
   description: string;
-  submission: ISubmission[];
+  groupId: number| undefined;
 }
 
 export interface ISubmission {

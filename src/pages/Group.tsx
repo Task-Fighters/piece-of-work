@@ -9,16 +9,13 @@ import { Button } from '../components/Button';
 import Editable from '../components/Editable';
 import Title from '../components/Title';
 import { MultiSelect } from 'react-multi-select-component';
-import { Input } from '../components/Input';
 
 
 const Group = () => {
   const { user, users, setUpdate } = useContext(AppContext) as ContextType;
   const [group, setGroup] = useState<IGroup>({} as IGroup);
   const [groupName, setGroupName] = useState('');
-  const [emailUser, setEmailUser] = useState('');
-  const [idUserToAdd, setIdUserToAdd] = useState<number>();
-
+  
   const selectOptions = users?.map(item => (
       {
         label: item.email,
@@ -30,7 +27,9 @@ const Group = () => {
   selectOptions.map(item => {
     if (group.users?.some((user) => user.id === item.value) ) {
      item.disabled = true ;
+     return item;
     }
+    return item;
   })
   const [selected, setSelected] = useState([]);
   const selectedUsersIds = selected.map((user: { value: any; }) => user.value);
