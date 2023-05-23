@@ -53,9 +53,7 @@ const Login = () => {
         })
         .then((res) => {
           setUser(res.data);
-          Cookies.set('token', res.data.token, {
-            expires: 30
-          });
+          Cookies.set('token', res.data.token);
           secureLocalStorage.setItem('id', res.data.id);
           secureLocalStorage.setItem('role', res.data.role);
           navigate('/home');
