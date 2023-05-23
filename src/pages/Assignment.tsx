@@ -61,25 +61,34 @@ const Assignment = () => {
     if (repoName?.trim() === '') {
       return;
     }
-    axios
-      .post(
-        `https://project-salty-backend.azurewebsites.net/Repos`,
-        {
-          url: repoName,
-          assignmentId: assignmentId,
-          userId: user.id
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-            Accept: 'text/plain'
-          }
-        }
+    if (
+      repoName.match(
+        /^(https?:\/\/)(www\.)?github\.com\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+$/
       )
-      .then((response) => {
-        console.log(response.data);
-        setRepoName('');
-      });
+    ) {
+      axios
+        .post(
+          `https://project-salty-backend.azurewebsites.net/Repos`,
+          {
+            url: repoName,
+            assignmentId: assignmentId,
+            userId: user.id
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+              Accept: 'text/plain'
+            }
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          setRepoName('');
+        });
+    }
+    else{
+      alert("Please enter a valid git repo Url")
+    }
   };
 
   const groupName = groups.find(
