@@ -79,13 +79,18 @@ export const Card = ({
   ) : (
     <div className={classes}>
       <div className="px-4 pt-1">
-        <div className='flex flex-row w-full justify-between'>
+        <div className="flex flex-row w-full justify-between">
           <h2 className="text-lg font-bold font-poppins">{title}</h2>
-          {iconEdit && <MdEdit className={'text-2xl text-pink-600'} onClick={onClickEditIcon}/>}
-          <h4 className="text-xs font-bold text-pink-600 mb-1 font-poppins">
+          {iconEdit && (
+            <MdEdit
+              className={'text-2xl text-pink-600'}
+              onClick={onClickEditIcon}
+            />
+          )}
+        </div>
+        <h4 className="text-xs font-bold text-pink-600 mb-1 font-poppins">
           {group}
         </h4>
-        </div>
         <h3 className="text-sm font-bold font-roboto">{subtitle}</h3>
       </div>
       <div className="border-b-2 mt-2 mb-1 border-pink-600"></div>

@@ -127,7 +127,6 @@ const Assignment = () => {
           </>
         )}
       </div>
-        
       {!isLoading ? (
         assignment && (
           <Card
