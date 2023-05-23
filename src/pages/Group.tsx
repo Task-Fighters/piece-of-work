@@ -4,28 +4,36 @@ import Cookies from 'js-cookie';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppContext } from '../AppContext';
 import { ContextType, IGroup } from '../types';
-import { Input } from '../components/Input';
 import { ListItem } from '../components/ListItem';
 import { Button } from '../components/Button';
 import Editable from '../components/Editable';
 import Title from '../components/Title';
+import { MultiSelect } from 'react-multi-select-component';
 
 const Group = () => {
   const { user, users, setUpdate } = useContext(AppContext) as ContextType;
   const [group, setGroup] = useState<IGroup>({} as IGroup);
   const [groupName, setGroupName] = useState('');
-  const [emailUser, setEmailUser] = useState('');
-  const [idUserToAdd, setIdUserToAdd] = useState<number>();
+
+  const selectOptions = users?.map((item) => ({
+    label: item.email,
+    value: item.id,
+    disabled: false
+  }));
+
+  selectOptions.map((item) => {
+    if (group.users?.some((user) => user.id === item.value)) {
+      item.disabled = true;
+      return item;
+    }
+    return item;
+  });
+  const [selected, setSelected] = useState([]);
+  const selectedUsersIds = selected.map((user: { value: any }) => user.value);
+
   let { groupId } = useParams();
   const cookieToken: string | undefined = Cookies.get('token');
   const navigate = useNavigate();
-
-  // const selectUserOptions = users.map((user) => ({
-  //   label: user.email,
-  //   value: user.id
-  // }));
-  // const [selectedUsers, setSelectedUsers] = useState(selectUserOptions);
-  // const selectedGroupsIds = selectedGroups.map((group) => group.value);
 
   useEffect(() => {
     axios
@@ -42,38 +50,25 @@ const Group = () => {
         setGroup(response.data);
         setGroupName(response.data.name);
       });
-  }, [cookieToken, groupId, group]);
+  }, [cookieToken, groupId]);
 
-  useEffect(() => {
-    if (emailUser.length > 0) {
-      const userToAdd = users.filter((user) => user.email.includes(emailUser));
-      if (userToAdd.length === 1) {
-        setIdUserToAdd(userToAdd[0].id);
-        // console.log(userToAdd);
-        // const queryParam = `${groupId}?userId=${idUserToAdd}`;
-        // console.log(queryParam);
-      }
-    }
-  }, [users, emailUser]);
-
-  const handleAddUserToGroup = () => {
+  const handleAddUserToGroup = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     try {
-      if (idUserToAdd) {
-        axios
-          .post(
-            `https://project-salty-backend.azurewebsites.net/Groups/AddUser/${groupId}?userId=${idUserToAdd}`,
-            { userId: idUserToAdd, id: groupId },
-            {
-              headers: {
-                Authorization: `Bearer ${cookieToken}`,
-                Accept: 'text/plain'
-              }
+      axios
+        .post(
+          `https://project-salty-backend.azurewebsites.net/Groups/AddUser/${groupId}`,
+          { users: [...selectedUsersIds], id: groupId },
+          {
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+              Accept: 'text/plain'
             }
-          )
-          .then((res) => {
-            setEmailUser('');
-          });
-      }
+          }
+        )
+        .then((res) => {
+          console.log(res.statusText);
+        });
     } catch (error) {
       console.error();
     }
@@ -97,7 +92,6 @@ const Group = () => {
       )
       .then((res) => {
         console.log(res.data);
-        setGroup(res.data);
       });
   };
 
@@ -129,13 +123,18 @@ const Group = () => {
           onChange={(e) => setGroupName(e.target.value)}
         />
       </Editable>
-
-      <Input
-        label="User E-mail Address"
-        value={emailUser}
-        onChange={(e) => setEmailUser(e.target.value)}
-      />
-      <div className="mb-4">
+      <label className="text-pink-600 text-lg font-bold font-sans">
+        User E-mail Address
+      </label>
+      <div className=".dropdown-container">
+        <MultiSelect
+          options={selectOptions}
+          value={selected}
+          onChange={setSelected}
+          labelledBy="Select"
+        />
+      </div>
+      <div className="mb-4 mt-4">
         <Button
           label="Add User to Group"
           type="button"
