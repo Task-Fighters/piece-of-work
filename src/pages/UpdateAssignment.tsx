@@ -25,7 +25,12 @@ const UpdateAssignment = () => {
   const [title, setTitle] = useState('');
   const [startDate, setStartDate] = useState('');
   const [description, setDescription] = useState('');
-  const [group, setGroup] = useState<IGroup>();
+  const [group, setGroup] = useState<IGroup>({
+    id: 0,
+  name: "",
+  users: [],
+  assignments: []
+  });
   const cookieToken: string | undefined = Cookies.get('token');
   let { assignmentId } = useParams();
   const navigate = useNavigate();
@@ -48,7 +53,7 @@ const UpdateAssignment = () => {
         const date = convertDate(response.data.startDate);
         setTitle(response.data.title);
         setStartDate(date);
-        setGroup(group);
+        group && setGroup(group);
         setDescription(response.data?.description);
       });
   }, [assignmentId, cookieToken, groups]);

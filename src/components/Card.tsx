@@ -1,4 +1,5 @@
 import parse from 'html-react-parser';
+import { MdEdit } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
 interface CardProps {
@@ -7,7 +8,10 @@ interface CardProps {
   id?: number;
   subtitle: string;
   description: string;
+  group?: string;
+  iconEdit?: Boolean;
   onClick?: (e: any) => void;
+  onClickEditIcon?: (e: any) => void;
 }
 
 const base_card = 'text-left border-b-2 leading-tight mb-4 w-full';
@@ -17,7 +21,10 @@ export const Card = ({
   title,
   subtitle,
   description,
+  group,
+  iconEdit,
   cardType = 'card',
+  onClickEditIcon,
   onClick
 }: CardProps) => {
   const navigate = useNavigate();
@@ -60,6 +67,9 @@ export const Card = ({
     <div className={classes} onClick={handleNavigate}>
       <div className="px-4 pt-1">
         <h1 className="text-lg font-bold font-poppins">{title}</h1>
+        <h4 className="text-xs font-bold text-pink-600 mb-1 font-poppins">
+          {group}
+        </h4>
         <h3 className="text-sm font-bold font-roboto">{subtitle}</h3>
       </div>
       <div className="px-4 py-1">
@@ -69,7 +79,13 @@ export const Card = ({
   ) : (
     <div className={classes}>
       <div className="px-4 pt-1">
-        <h2 className="text-lg font-bold font-poppins">{title}</h2>
+        <div className='flex flex-row w-full justify-between'>
+          <h2 className="text-lg font-bold font-poppins">{title}</h2>
+          {iconEdit && <MdEdit className={'text-2xl text-pink-600'} onClick={onClickEditIcon}/>}
+          <h4 className="text-xs font-bold text-pink-600 mb-1 font-poppins">
+          {group}
+        </h4>
+        </div>
         <h3 className="text-sm font-bold font-roboto">{subtitle}</h3>
       </div>
       <div className="border-b-2 mt-2 mb-1 border-pink-600"></div>

@@ -104,7 +104,7 @@ const AppProvider = ({ children }: any) => {
           });
       });
     }
-  }, [user, cookieToken, assignments]);
+  }, [user, cookieToken]);
 
   return (
     <AppContext.Provider

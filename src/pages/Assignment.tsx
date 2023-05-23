@@ -19,7 +19,7 @@ interface IRepo {
 }
 
 const Assignment = () => {
-  const { user, users } = useContext(AppContext) as ContextType;
+  const { user, users, groups } = useContext(AppContext) as ContextType;
   const [assignment, setAssignment] = useState<IAssignment>({} as IAssignment);
   const [repoName, setRepoName] = useState<string>('');
   const [repos, setRepos] = useState<IRepo[]>([]);
@@ -100,21 +100,38 @@ const Assignment = () => {
     }
   };
 
+  const groupName = groups.find(
+    (group) => group.id === assignment.groupId
+  )?.name;
+
   return (
     <>
       <div className="flex justify-end">
         {user.role === 'admin' && (
-          <div className="w-48 hidden md:flex">
+          <>
+          <div className="md:hidden w-full">
             <Button
               buttonColor="white"
-              label="Edit Assignment"
+              label="Assign to group"
               type="button"
               onClick={() => {
-                navigate(`/assignments/${assignmentId}/update`);
+                navigate(`/assignments/${assignmentId}/assign`);
               }}
             />
           </div>
-        )}
+          <div className="w-48 hidden md:flex md:flex-col">
+            <Button
+              buttonColor="white"
+              label="Assign to group"
+              type="button"
+              onClick={() => {
+                navigate(`/assignments/${assignmentId}/assign`);
+              }}
+            />
+          </div>
+          </>
+        )
+        }
       </div>
       
       {!isLoading ? assignment &&(
@@ -123,11 +140,17 @@ const Assignment = () => {
           description={assignment.description}
           subtitle={assignment.startDate}
           title={assignment.title}
+          group={groupName}
+          iconEdit={user.role === 'admin' ? true : false}
+          onClickEditIcon={(e:React.MouseEvent<HTMLElement>) => {
+            navigate(`/assignments/${assignmentId}/update`);
+          }}
         />
       ): <SkeletonCard
       title=''
       subtitle=''
       description='' />}
+      )}
       <Title title="Post completed assignment" />
       <div className="flex flex-col md:flex-row">
         <Input

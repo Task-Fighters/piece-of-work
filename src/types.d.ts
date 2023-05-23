@@ -12,16 +12,26 @@ export interface IUser {
   groupsId?: number[];
 }
 
+export interface IUserGroup {
+  id: number;
+  email: string;
+}
+
 export interface IUserGroups {
   groupsId: number;
   name: string;
 }
+export interface IAssignmentGroup {
+  groupsId: number;
+  title: string;
+}
+
 
 export interface IGroup {
   id: number;
   name: string;
-  users: IUser[];
-  assignments: IAssignment[];
+  users: IUserGroup[];
+  assignments: IAssignmentGroup[];
 }
 
 export interface IRole {
@@ -35,11 +45,11 @@ export interface ILocation {
 }
 
 export interface IAssignment {
-  id: number;
+  id: number | undefined;
   title: string;
   startDate: string;
   description: string;
-  submission: ISubmission[];
+  groupId: number| undefined; 
 }
 
 export interface ISubmission {
