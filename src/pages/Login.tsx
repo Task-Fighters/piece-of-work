@@ -46,7 +46,7 @@ const Login = () => {
     if (profile && isLoggedIn) {
       axios
         .put('https://project-salty-backend.azurewebsites.net/Users/login', {
-          googleId: profile.id,
+          googleId: userGoogleToken?.access_token,
           email: profile.email,
           fullName: profile.name,
           imageUrl: profile.picture
@@ -56,11 +56,12 @@ const Login = () => {
           Cookies.set('token', res.data.token);
           secureLocalStorage.setItem('id', res.data.id);
           secureLocalStorage.setItem('role', res.data.role);
+          secureLocalStorage.setItem('refreshToken', res.data.refreshToken);
           navigate('/home');
         })
         .catch((err) => console.log(err));
     }
-  }, [isLoggedIn, navigate, profile, setUser]);
+  }, [isLoggedIn, navigate, profile, setUser, userGoogleToken?.access_token]);
 
   return (
     <div className="h-screen flex justify-center items-center mx-2">
