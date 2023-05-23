@@ -9,9 +9,12 @@ import { Button } from '../components/Button';
 import Editable from '../components/Editable';
 import Title from '../components/Title';
 import { MultiSelect } from 'react-multi-select-component';
+import { Card } from '../components/Card';
 
 const Group = () => {
-  const { user, users, setUpdate } = useContext(AppContext) as ContextType;
+  const { user, users, setUpdate, assignments } = useContext(
+    AppContext
+  ) as ContextType;
   const [group, setGroup] = useState<IGroup>({} as IGroup);
   const [groupName, setGroupName] = useState('');
 
@@ -112,6 +115,7 @@ const Group = () => {
         navigate('/groups');
       });
   };
+
   return (
     <>
       <Editable text={groupName} groupId={Number(groupId)} type="input">
@@ -134,7 +138,7 @@ const Group = () => {
           labelledBy="Select"
         />
       </div>
-      <div className="mb-4 mt-4">
+      <div className="mt-4">
         <Button
           label="Add User to Group"
           type="button"
@@ -142,7 +146,7 @@ const Group = () => {
         />
       </div>
       <Title title="Group Users" />
-      <ul className="flex flex-row flex-wrap justify-between capitalize ">
+      <ul className="flex flex-row flex-wrap justify-between capitalize mb-4">
         {group.users?.map((person) => {
           const fullName = users.find(
             (user) => person.id === user.id
@@ -159,6 +163,21 @@ const Group = () => {
           );
         })}
       </ul>
+      <Title title="Group Assignments" />
+      <div className="flex flex-row flex-wrap justify-between mb-6">
+        {assignments
+          .filter((assignment) => assignment.groupId === group.id)
+          .map((assignment, index) => (
+            <Card
+              cardType="card"
+              id={assignment.id}
+              key={index}
+              description={assignment.description}
+              subtitle={assignment.startDate}
+              title={assignment.title}
+            />
+          ))}
+      </div>
       <Button
         label="Delete Group"
         type="button"
