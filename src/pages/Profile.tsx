@@ -58,6 +58,29 @@ const Profile = () => {
     }
   }, [cookieToken, user.id]);
 
+ const handleDeleteRepo = (e:React.MouseEvent<HTMLElement>, id:number) => {
+  e.preventDefault();
+
+  console.log(id);
+    // try {
+    //   axios
+    //     .delete(
+    //       `https://project-salty-backend.azurewebsites.net/Repos/${id}`,
+    //       {
+    //         headers: {
+    //           Authorization: `Bearer ${cookieToken}`,
+    //           Accept: 'text/plain'
+    //         }
+    //       }
+    //     )
+    //     .then((response) => {
+    //       console.log(response.data);
+    //     });
+    // }
+    // catch (err) {
+    //   console.log(err)
+    // }
+ }
   return (
     <>
       <div className="flex justify-end">
@@ -123,7 +146,9 @@ const Profile = () => {
               key={index}
               assignment={name || ''}
               repoUrl={repo.url}
+              deleteIcon={true}
               assignmentUrl={repo.assignmentId}
+              onClick={(e) => handleDeleteRepo(e, repo.id)}
             />
           );
         })}
