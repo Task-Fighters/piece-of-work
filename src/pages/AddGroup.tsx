@@ -1,15 +1,29 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import Title from '../components/Title';
+import { MultiSelect } from 'react-multi-select-component';
+import { AppContext } from '../AppContext';
+import { ContextType } from '../types';
 
 const AddGroup = () => {
+  const {users } = useContext(AppContext) as ContextType;
   const [groupName, setGroupName] = useState('');
   const navigate = useNavigate();
   const cookieToken: string | undefined = Cookies.get('token');
+  const selectOptions = users?.map(item => (
+    {
+      label: item.email,
+      value: item.id,
+      disabled: false
+    }
+));
+
+const [selected, setSelected] = useState([]);
+const selectedUsersIds = selected.map((user: { value: any; }) => user.value);
 
   const addGroup = () => {
     if (groupName.trim() === '') {
@@ -19,7 +33,8 @@ const AddGroup = () => {
       .post(
         `https://project-salty-backend.azurewebsites.net/Groups`,
         {
-          name: groupName
+          name: groupName,
+          userIds: selectedUsersIds,
         },
         {
           headers: {
@@ -44,6 +59,18 @@ const AddGroup = () => {
           setGroupName(e.target.value)
         }
       />
+      <label className="text-pink-600 text-lg font-bold font-sans">
+        User E-mail Address            
+      </label>
+      
+      <div className=".dropdown-container mb-4">
+      <MultiSelect
+        options={selectOptions}
+        value={selected}
+        onChange={setSelected}
+        labelledBy="Select"
+      />
+      </div>
       <div className="mb-4">
         <Button label="Add Group" onClick={addGroup} type="button" />
       </div>

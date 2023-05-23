@@ -10,6 +10,7 @@ interface InputProps {
   date?: Boolean;
   placeholder?: string;
   disabled?: Boolean;
+  defaultValue?: any;
   value?: any;
   options?: IGroup[] | IRole[] | ILocation[];
   onChange?: (e: any) => void;
@@ -27,6 +28,7 @@ export const Input = ({
   disabled,
   multiple,
   onChange,
+  defaultValue,
   value,
   options,
   ...props
@@ -87,6 +89,7 @@ export const Input = ({
             value={value}
             required
             disabled
+            defaultValue={defaultValue}
           />
           {icon && (
             <BiSearch className="absolute inset-y-2.5 right-2 text-gray-500 text-2xl"/>

@@ -1,5 +1,5 @@
 import { MdLocationPin } from 'react-icons/md';
-// import Title from '../components/Title';
+import placeholder from '../assets/placeholder.jpeg';
 
 interface UserDetailsProps {
   id: number;
@@ -38,7 +38,7 @@ const UserDetails = ({
       </div>
       <div className="absolute top-4 right-4">
         <img
-          src={imageUrl}
+          src={imageUrl? imageUrl : placeholder}
           alt="Profile"
           className="rounded-full border-8 w-24 border-white outline-none outline-offset-0 outline-pink-600"
         />

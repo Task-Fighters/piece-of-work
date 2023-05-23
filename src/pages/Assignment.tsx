@@ -90,17 +90,30 @@ const Assignment = () => {
     <>
       <div className="flex justify-end">
         {user.role === 'admin' && (
-          <div className="w-48 hidden md:flex">
+          <>
+          <div className="md:hidden w-full">
             <Button
               buttonColor="white"
-              label="Edit Assignment"
+              label="Assign to group"
               type="button"
               onClick={() => {
-                navigate(`/assignments/${assignmentId}/update`);
+                navigate(`/assignments/${assignmentId}/assign`);
               }}
             />
           </div>
-        )}
+          <div className="w-48 hidden md:flex md:flex-col">
+            <Button
+              buttonColor="white"
+              label="Assign to group"
+              type="button"
+              onClick={() => {
+                navigate(`/assignments/${assignmentId}/assign`);
+              }}
+            />
+          </div>
+          </>
+        )
+        }
       </div>
       {assignment && (
         <Card
@@ -109,8 +122,13 @@ const Assignment = () => {
           subtitle={assignment.startDate}
           title={assignment.title}
           group={groupName}
+          iconEdit={user.role === 'admin' ? true : false}
+          onClickEditIcon={(e:React.MouseEvent<HTMLElement>) => {
+            navigate(`/assignments/${assignmentId}/update`);
+          }}
         />
       )}
+      
       <Title title="Post completed assignment" />
       <div className="flex flex-col md:flex-row">
         <Input
