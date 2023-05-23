@@ -142,7 +142,7 @@ const Group = () => {
         />
       </div>
       <Title title="Group Users" />
-      <ul className="flex flex-row flex-wrap justify-between capitalize">
+      <ul className="flex flex-row flex-wrap justify-between capitalize ">
         {group.users?.map((person) => {
           const fullName = users.find(
             (user) => person.id === user.id

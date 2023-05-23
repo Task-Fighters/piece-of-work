@@ -9,6 +9,7 @@ import UserDetails from '../components/UserDetails';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import secureLocalStorage from 'react-secure-storage';
+import { ListItem } from '../components/ListItem';
 
 interface IRepo {
   id: number;
@@ -19,7 +20,7 @@ interface IRepo {
 }
 
 const Profile = () => {
-  const { user, assignments } = useContext(AppContext) as ContextType;
+  const { user, assignments, groups } = useContext(AppContext) as ContextType;
   const cookieToken: string | undefined = Cookies.get('token');
   const [repos, setRepos] = useState<IRepo[]>([]);
   const navigate = useNavigate();
@@ -28,6 +29,16 @@ const Profile = () => {
     secureLocalStorage.removeItem('role');
     navigate('/');
   };
+
+  const userGroups = user.groupsId?.map(group => {
+    let currentGroup = groups.find(item => item.id === group);
+    let groupObj = {
+     id: group,
+     name: currentGroup?.name
+    }
+    return groupObj; 
+   })
+ 
 
   useEffect(() => {
     if (user.id !== undefined) {
@@ -72,6 +83,28 @@ const Profile = () => {
           user.role === 'admin' ? 'Instructors group' : user.bootcamp
         }
       />
+      {userGroups && userGroups.length > 0 && (
+        <Title
+          className="mx-2 md:mx-0 md:my-2"
+          underline
+          title={`Groups (${userGroups?.length})`}
+        />
+      )}
+       <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
+        <ul className="flex flex-row flex-wrap justify-between capitalize gap-x-1 w-full">
+        {userGroups?.map((group, index) => {
+          return (
+          <ListItem
+          key={group?.id}
+          id={group?.id}
+          title={group?.name || ""}
+          route={`/group/${group.id}`}
+        />
+          )})}
+        
+        </ul> 
+      </div>
+
       {repos.length > 0 && (
         <Title
           className="mx-2 md:mx-0 md:my-2"

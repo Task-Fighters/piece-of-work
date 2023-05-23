@@ -53,7 +53,6 @@ const Login = () => {
         })
         .then((res) => {
           setUser(res.data);
-          console.log(res.data, "daris")
           Cookies.set('token', res.data.token, {
             expires: 30
           });
