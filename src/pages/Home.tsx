@@ -19,12 +19,15 @@ const Home = () => {
         new Date(assignment.startDate).getTime() < new Date().getTime()
     )
     .sort((a: IAssignment, b: IAssignment) => {
-      if (a.startDate === b.startDate) {
-        //@ts-ignore
-        return b.featured - a.featured;
-      }
       return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
     });
+
+  if (newAssignments.length > 0) {
+    const newestStartDate = newAssignments[0].startDate;
+    newAssignments.forEach((assignment) => {
+      assignment.startDate = newestStartDate;
+    });
+  }
 
   const upcomingAssignments = assignments
     .filter(
@@ -82,13 +85,7 @@ const Home = () => {
         placeholder="Search"
         onChange={(e) => setSearch(e.target.value)}
       />
-      <div
-        className={
-          upcomingAssignments?.length > 0
-            ? 'flex flex-row flex-wrap justify-between mb-6'
-            : 'flex flex-row flex-wrap justify-between mb-32'
-        }
-      >
+      <div className="flex flex-row flex-wrap justify-between mb-6">
         {assignmentToShow
           .filter((assignment) => {
             return (
@@ -125,7 +122,7 @@ const Home = () => {
         />
       )}
       {user.role === 'admin' && (
-        <div className="flex flex-row flex-wrap justify-between mb-32">
+        <div className="flex flex-row flex-wrap justify-between mb-6">
           {upcomingAssignments
             .filter((assignment) => {
               return (
@@ -153,6 +150,18 @@ const Home = () => {
             })}
         </div>
       )}
+      <Title
+        className="mx-2 md:mx-0 md:my-2"
+        underline
+        title={`Past Assignments`}
+      />
+      <div
+        className={
+          upcomingAssignments?.length > 0
+            ? 'flex flex-row flex-wrap justify-between mb-6'
+            : 'flex flex-row flex-wrap justify-between mb-32'
+        }
+      ></div>
     </>
   );
 };
