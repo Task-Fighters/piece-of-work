@@ -8,6 +8,7 @@ interface CardProps {
   id?: number;
   subtitle: string;
   description: string;
+  group?: string;
   iconEdit?: Boolean;
   onClick?: (e: any) => void;
   onClickEditIcon?: (e: any) => void;
@@ -20,6 +21,7 @@ export const Card = ({
   title,
   subtitle,
   description,
+  group,
   iconEdit,
   cardType = 'card',
   onClickEditIcon,
@@ -65,6 +67,9 @@ export const Card = ({
     <div className={classes} onClick={handleNavigate}>
       <div className="px-4 pt-1">
         <h1 className="text-lg font-bold font-poppins">{title}</h1>
+        <h4 className="text-xs font-bold text-pink-600 mb-1 font-poppins">
+          {group}
+        </h4>
         <h3 className="text-sm font-bold font-roboto">{subtitle}</h3>
       </div>
       <div className="px-4 py-1">
@@ -77,6 +82,9 @@ export const Card = ({
         <div className='flex flex-row w-full justify-between'>
           <h2 className="text-lg font-bold font-poppins">{title}</h2>
           {iconEdit && <MdEdit className={'text-2xl text-pink-600'} onClick={onClickEditIcon}/>}
+          <h4 className="text-xs font-bold text-pink-600 mb-1 font-poppins">
+          {group}
+        </h4>
         </div>
         <h3 className="text-sm font-bold font-roboto">{subtitle}</h3>
       </div>

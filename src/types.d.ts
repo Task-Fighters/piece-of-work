@@ -49,7 +49,7 @@ export interface IAssignment {
   title: string;
   startDate: string;
   description: string;
-  groupId: number| undefined;
+  groupId: number| undefined; 
 }
 
 export interface ISubmission {
