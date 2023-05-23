@@ -7,7 +7,6 @@ import { AppContext } from '../AppContext';
 import Title from '../components/Title';
 import UserDetails from '../components/UserDetails';
 import { Repo } from '../components/Repo';
-import { Button } from '../components/Button';
 
 interface IRepo {
   id: number;
@@ -71,28 +70,28 @@ const User = () => {
         }
       />
       {repos.length > 0 && (
-            <Title
-              className="mx-2 md:mx-0 md:my-2"
-              underline
-              title={`Completed Assignments (${repos?.length})`}
+        <Title
+          className="mx-2 md:mx-0 md:my-2"
+          underline
+          title={`Completed Assignments (${repos?.length})`}
+        />
+      )}
+      <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
+        {repos?.map((repo, index) => {
+          const name = assignments.find(
+            (assign) => assign.id === repo.assignmentId
+          )?.title;
+          return (
+            <Repo
+              id={repo.id}
+              key={index}
+              assignment={name || ''}
+              repoUrl={repo.url}
+              assignmentUrl={repo.assignmentId}
             />
-          )}
-          <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
-            {repos?.map((repo, index) => {
-              const name = assignments.find(
-                (assign) => assign.id === repo.assignmentId
-              )?.title;
-              return (
-                <Repo
-                  id={repo.id}
-                  key={index}
-                  assignment={name || ''}
-                  repoUrl={repo.url}
-                  assignmentUrl={repo.assignmentId}
-                />
-              );
-            })}
-          </div>
+          );
+        })}
+      </div>
     </>
   );
 };
