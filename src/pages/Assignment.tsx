@@ -9,7 +9,6 @@ import { Card } from '../components/Card';
 import { Input } from '../components/Input';
 import Title from '../components/Title';
 import { ListItem } from '../components/ListItem';
-import Skeleton from 'react-loading-skeleton';
 import SkeletonCard from '../components/SkeletonCard';
 
 interface IRepo {
@@ -23,7 +22,7 @@ const Assignment = () => {
   const [assignment, setAssignment] = useState<IAssignment>({} as IAssignment);
   const [repoName, setRepoName] = useState<string>('');
   const [repos, setRepos] = useState<IRepo[]>([]);
-  const [isLoading,setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const cookieToken: string | undefined = Cookies.get('token');
   let { assignmentId } = useParams();
   const navigate = useNavigate();
@@ -31,26 +30,23 @@ const Assignment = () => {
   useEffect(() => {
     setTimeout(() => {
       axios
-      .get(
-        `https://project-salty-backend.azurewebsites.net/Assignments/${assignmentId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-            Accept: 'text/plain'
+        .get(
+          `https://project-salty-backend.azurewebsites.net/Assignments/${assignmentId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+              Accept: 'text/plain'
+            }
           }
-        }
-      )
-      .then((response) => {
-        setAssignment(response.data);
-    setIsLoading(false);
-
-      });
-    }, 500)
-    
+        )
+        .then((response) => {
+          setAssignment(response.data);
+          setIsLoading(false);
+        });
+    }, 500);
   }, [assignmentId, cookieToken]);
 
   useEffect(() => {
-
     axios
       .get(
         `https://project-salty-backend.azurewebsites.net/Repos/Assignment/${assignmentId}`,
@@ -94,9 +90,8 @@ const Assignment = () => {
           console.log(response.data);
           setRepoName('');
         });
-    }
-    else{
-      alert("Please enter a valid git repo Url")
+    } else {
+      alert('Please enter a valid git repo Url');
     }
   };
 
@@ -109,47 +104,46 @@ const Assignment = () => {
       <div className="flex justify-end">
         {user.role === 'admin' && (
           <>
-          <div className="md:hidden w-full">
-            <Button
-              buttonColor="white"
-              label="Assign to group"
-              type="button"
-              onClick={() => {
-                navigate(`/assignments/${assignmentId}/assign`);
-              }}
-            />
-          </div>
-          <div className="w-48 hidden md:flex md:flex-col">
-            <Button
-              buttonColor="white"
-              label="Assign to group"
-              type="button"
-              onClick={() => {
-                navigate(`/assignments/${assignmentId}/assign`);
-              }}
-            />
-          </div>
+            <div className="md:hidden w-full">
+              <Button
+                buttonColor="white"
+                label="Assign to group"
+                type="button"
+                onClick={() => {
+                  navigate(`/assignments/${assignmentId}/assign`);
+                }}
+              />
+            </div>
+            <div className="w-48 hidden md:flex md:flex-col">
+              <Button
+                buttonColor="white"
+                label="Assign to group"
+                type="button"
+                onClick={() => {
+                  navigate(`/assignments/${assignmentId}/assign`);
+                }}
+              />
+            </div>
           </>
-        )
-        }
+        )}
       </div>
-      
-      {!isLoading ? assignment &&(
-        <Card
-          cardType="detailed"
-          description={assignment.description}
-          subtitle={assignment.startDate}
-          title={assignment.title}
-          group={groupName}
-          iconEdit={user.role === 'admin' ? true : false}
-          onClickEditIcon={(e:React.MouseEvent<HTMLElement>) => {
-            navigate(`/assignments/${assignmentId}/update`);
-          }}
-        />
-      ): <SkeletonCard
-      title=''
-      subtitle=''
-      description='' />}
+        
+      {!isLoading ? (
+        assignment && (
+          <Card
+            cardType="detailed"
+            description={assignment.description}
+            subtitle={assignment.startDate}
+            title={assignment.title}
+            group={groupName}
+            iconEdit={user.role === 'admin' ? true : false}
+            onClickEditIcon={(e: React.MouseEvent<HTMLElement>) => {
+              navigate(`/assignments/${assignmentId}/update`);
+            }}
+          />
+        )
+      ) : (
+        <SkeletonCard title="" subtitle="" description="" />
       )}
       <Title title="Post completed assignment" />
       <div className="flex flex-col md:flex-row">
