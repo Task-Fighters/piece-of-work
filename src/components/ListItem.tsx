@@ -27,11 +27,11 @@ export const ListItem = ({
   onClickEditIcon,
   route
 }: ListItemProps) => {
-  const classes = `${base_listItem}`;
+  const classes = `${base_listItem}`; 
 
   return (
     <li className={classes}>
-      <Link to={`${route}/${id}`} onClick={onClick}>
+      <Link to={route? `${route}/${id}`: " "} onClick={onClick} className={route? "cursor-pointer" : "cursor-auto" }>
         <div className="px-4 flex justify-between">
           <h2 className="text-md font-normal font-poppins">{title}</h2>
           {iconDelete && (

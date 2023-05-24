@@ -20,7 +20,6 @@ const Users = () => {
     e.stopPropagation();
     navigate(`/users/${id}/update`);
   };
-
   return (
     <>
       <div className="flex justify-end">
@@ -55,7 +54,7 @@ const Users = () => {
                 id={person?.id}
                 title={person?.fullName}
                 route="/users"
-                iconEdit={user.role === 'user' ? false : true}
+                iconEdit={user.role === 'pgp' ? false : true}
                 onClickEditIcon={(e: any) => handleEditUser(e, person.id)}
               />
             );

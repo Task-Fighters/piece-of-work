@@ -51,6 +51,7 @@ function App() {
             <Route element={<PrivateRoute allowedRoles={['pgp', 'admin']} />}>
               <Route path="/home" element={<Home />} />
               <Route path="/users" element={<Users />} />
+              <Route path="/users/:userId" element={<User />} />
               <Route path="/profile" element={<Profile />} />
               <Route
                 path="/assignments/:assignmentId"
