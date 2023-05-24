@@ -117,9 +117,8 @@ const AppProvider = ({ children }: any) => {
       const expiry = jwtDecode(token) as DecodedToken;
       const exp = expiry.exp;
       if (exp) {
-        const expirationTime = Number(exp) * 1000;
+        const expirationTime = Number(exp) * 1000 - 60000;
         const currentTime = Date.now();
-
         if (expirationTime < currentTime) {
           refreshToken();
         }
