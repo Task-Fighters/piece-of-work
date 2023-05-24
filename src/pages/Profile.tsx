@@ -119,7 +119,7 @@ const Profile = () => {
           key={group?.id}
           id={group?.id}
           title={group?.name || ""}
-          route={`/groups`}
+          route={user.role === 'admin' ? `/groups` : ""}
         />
           )})}
         
