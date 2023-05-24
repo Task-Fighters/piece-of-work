@@ -67,10 +67,12 @@ export const Card = ({
     <div className={classes} onClick={handleNavigate}>
       <div className="px-4 pt-1">
         <h1 className="text-lg font-bold font-poppins">{title}</h1>
-        <h4 className="text-xs font-bold text-pink-600 mb-1 font-poppins">
-          {group}
-        </h4>
-        <h3 className="text-sm font-bold font-roboto">{subtitle}</h3>
+        {group && (
+          <span className="bg-pink-600 capitalize text-xs font-bold text-white font-poppins py-0.5 px-1.5 rounded">
+            {group}
+          </span>
+        )}
+        <h3 className="text-sm font-bold font-roboto mt-1.5">{subtitle}</h3>
       </div>
       <div className="px-4 py-1">
         <div className="text-md font-roboto">{parse(`${featureText}`)}</div>
@@ -88,10 +90,12 @@ export const Card = ({
             />
           )}
         </div>
-        <h4 className="text-xs font-bold text-pink-600 mb-1 font-poppins">
+        <span className="bg-pink-600 capitalize text-xs font-bold text-white font-poppins py-0.5 px-1.5 rounded">
           {group}
-        </h4>
-        <h3 className="text-sm font-bold font-roboto">{subtitle}</h3>
+        </span>
+        <h3 className="text-sm font-bold text-pink-600 font-roboto mt-1.5">
+          {subtitle}
+        </h3>
       </div>
       <div className="border-b-2 mt-2 mb-1 border-pink-600"></div>
       <div className="px-4 py-1">
