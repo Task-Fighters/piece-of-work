@@ -27,18 +27,19 @@ const Profile = () => {
   const handleLogout = () => {
     secureLocalStorage.removeItem('id');
     secureLocalStorage.removeItem('role');
+    secureLocalStorage.removeItem('refreshToken');
+    Cookies.remove('token');
     navigate('/');
   };
 
-  const userGroups = user.groupsId?.map(group => {
-    let currentGroup = groups.find(item => item.id === group);
+  const userGroups = user.groupsId?.map((group) => {
+    let currentGroup = groups.find((item) => item.id === group);
     let groupObj = {
-     id: group,
-     name: currentGroup?.name
-    }
-    return groupObj; 
-   })
- 
+      id: group,
+      name: currentGroup?.name
+    };
+    return groupObj;
+  });
 
   useEffect(() => {
     if (user.id !== undefined) {
@@ -101,9 +102,7 @@ const Profile = () => {
         email={user.email}
         location={user.location}
         imageUrl={user.imageUrl}
-        bootcamp={
-          user.role === 'admin' ? 'Instructors group' : user.bootcamp
-        }
+        bootcamp={user.role === 'admin' ? 'Instructors group' : user.bootcamp}
       />
       {userGroups && userGroups.length > 0 && (
         <Title
@@ -112,7 +111,7 @@ const Profile = () => {
           title={`Groups (${userGroups?.length})`}
         />
       )}
-       <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
+      <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
         <ul className="flex flex-row flex-wrap justify-between capitalize gap-x-1 w-full">
         {userGroups?.map((group, index) => {
           return (

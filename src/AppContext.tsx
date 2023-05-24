@@ -3,8 +3,13 @@ import { createContext, useEffect, useState } from 'react';
 import { IUser, IAssignment, IProfile, ContextType, IGroup } from './types';
 import Cookies from 'js-cookie';
 import secureLocalStorage from 'react-secure-storage';
+import jwtDecode from 'jwt-decode';
 
 const AppContext = createContext<ContextType | null>(null);
+
+interface DecodedToken {
+  exp: number;
+}
 
 const AppProvider = ({ children }: any) => {
   const cookieToken: string | undefined = Cookies.get('token');
@@ -105,6 +110,48 @@ const AppProvider = ({ children }: any) => {
       });
     }
   }, [user, cookieToken]);
+
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (token) {
+      const expiry = jwtDecode(token) as DecodedToken;
+      const exp = expiry.exp;
+      if (exp) {
+        const expirationTime = Number(exp) * 1000 - 60000;
+        const currentTime = Date.now();
+        if (expirationTime < currentTime) {
+          refreshToken();
+        }
+      }
+    }
+  }, []);
+
+  const refreshToken = async () => {
+    const userId = secureLocalStorage.getItem('id');
+    const refreshToken = secureLocalStorage.getItem('refreshToken');
+    try {
+      const response = await axios.get(
+        `https://project-salty-backend.azurewebsites.net/Users/refreshToken?id=${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${refreshToken}`,
+            Accept: 'text/plain'
+          }
+        }
+      );
+      const newAccessToken = response.data;
+      if (newAccessToken) {
+        Cookies.set('token', newAccessToken);
+      } else {
+        secureLocalStorage.removeItem('id');
+        secureLocalStorage.removeItem('role');
+        secureLocalStorage.removeItem('refreshToken');
+        Cookies.remove('token');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <AppContext.Provider
