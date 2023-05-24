@@ -87,7 +87,7 @@ export const Input = ({
             placeholder={placeholder}
             onChange={onChange}
             value={value}
-            required
+            // required
             disabled
             defaultValue={defaultValue}
           />
@@ -103,7 +103,7 @@ export const Input = ({
             placeholder={placeholder}
             onChange={onChange}
             value={value}
-            required
+            // required
           />
           {icon && (
             <BiSearch className="absolute inset-y-2.5 right-2 text-gray-500 text-2xl"/>

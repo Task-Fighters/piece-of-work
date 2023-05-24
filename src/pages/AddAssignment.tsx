@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import ReactQuill from 'react-quill';
@@ -26,16 +26,34 @@ const AddAssignment = () => {
   }));
   const [selectedGroups, setSelectedGroups] = useState<any>({});
 
+  const [isValid, setIsValid] = useState({
+    title: false,
+    startDate: false,
+    description: false,
+    groupId: false
+  });
+  const [toShowValidationError, setToShowValidationError] = useState(false)
+
+  useEffect(() => {
+    setIsValid({...isValid, 
+      title: title ? true : false,
+      startDate: startDate ? true : false,
+      description: description ? true : false,
+      groupId: selectedGroups.value ? true : false
+    });
+  }, [title, startDate, description, selectedGroups, setIsValid]);
+
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    const newAssignment = {
-      title: title,
-      startDate: startDate,
-      description: description,
-      groupId: selectedGroups.value
-    };
-
-    axios
+    let newAssignment;
+    if(isValid.startDate === true && isValid.title === true && isValid.description === true && isValid.groupId === true) {
+      newAssignment = {
+        title: title,
+        startDate: startDate ,
+        description: description,
+        groupId: selectedGroups.value
+      };
+      axios
       .post(
         `https://project-salty-backend.azurewebsites.net/Assignments`,
         {
@@ -56,6 +74,10 @@ const AddAssignment = () => {
     setTitle('');
     setStartDate('');
     setDescription('');
+    }
+     else{
+      setToShowValidationError(true)
+    } 
   };
 
   const handleChangeGroup = (selectedOption: any) => {
@@ -70,6 +92,8 @@ const AddAssignment = () => {
         onChange={(e) => setTitle(e.target.value)}
         value={title}
       />
+      <p className={isValid.title=== false && toShowValidationError === true ? "flex" : "hidden"} >Please fill the required field</p>
+
       <Datepicker
         value={startDate}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -84,8 +108,8 @@ const AddAssignment = () => {
           onChange={handleChangeGroup}
           options={selectOptions}
           value={selectedGroups}
-          required={true}
-          form="formList"
+          // required={true}
+          // name="selectedGroups"
         />
       </div>
       <label className="text-pink-600 text-lg font-bold font-sans">
@@ -97,8 +121,9 @@ const AddAssignment = () => {
         value={description}
         onChange={(e) => setDescription(e)}
       />
+      <p className={toShowValidationError === true ? "flex" : "hidden"} >Please fill the required field</p>
       <div className="mb-32 mt-20 md:mt-0">
-        <Button label="Add Assignment" type="submit" />
+        <Button label="Add Assignment" type="submit"/>
       </div>
     </form>
   );
