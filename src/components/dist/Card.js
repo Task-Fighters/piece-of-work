@@ -36,8 +36,16 @@ exports.Card = function (_a) {
     })
         .replace(',', '');
     subtitle = formattedDate;
-    var classes = base_card + " " + mode + " py-2 cursor-pointer";
-    var handleNavigate = function () { return navigate("/assignments/" + id); };
+    var pointer;
+    var classes = base_card + " " + mode + " py-2 " + (pointer === true ? "cursor-pointer" : "cursor-auto");
+    var location = react_router_dom_1.useLocation();
+    var handleNavigate = function () {
+        if (location.pathname !== "/assignments/" + id) {
+            navigate("/assignments/" + id);
+            pointer = true;
+        }
+        return;
+    };
     return cardType !== 'detailed' ? (React.createElement("div", { className: classes, onClick: handleNavigate },
         React.createElement("div", { className: "px-4 pt-1" },
             React.createElement("h1", { className: "text-lg font-bold font-poppins" }, title),

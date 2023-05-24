@@ -11,7 +11,7 @@ const Home = () => {
   const { user, assignments, groups } = useContext(AppContext) as ContextType;
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
-
+  
   const filteredAssigments = assignments.filter((assignment) => {
     return (
       search === '' ||
