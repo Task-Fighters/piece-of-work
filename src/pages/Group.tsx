@@ -145,7 +145,9 @@ const Group = () => {
           onClick={handleAddUserToGroup}
         />
       </div>
-      <Title title="Group Users" />
+      {group.users?.length > 0 && (
+        <Title title={`Group Users (${group.users.length})`} />
+      )}
       <ul className="flex flex-row flex-wrap justify-between capitalize mb-4">
         {group.users?.map((person) => {
           const fullName = users.find(
