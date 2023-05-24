@@ -24,17 +24,15 @@ const AddAssignment = () => {
     label: item.name,
     value: item.id
   }));
-  const [selectedGroups, setSelectedGroups] = useState(selectOptions);
+  const [selectedGroups, setSelectedGroups] = useState<any>({});
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    const selectedGroupsIds = selectedGroups.map((group) => group.value);
-    // change after backend is fixed, pass whole array instead of first position
     const newAssignment = {
       title: title,
       startDate: startDate,
       description: description,
-      groupId: selectedGroupsIds[0]
+      groupId: selectedGroups.value
     };
 
     axios
@@ -65,7 +63,7 @@ const AddAssignment = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} id="formList">
       <Title underline title="Add New Assignment" />
       <Input
         label="Title"
@@ -86,6 +84,8 @@ const AddAssignment = () => {
           onChange={handleChangeGroup}
           options={selectOptions}
           value={selectedGroups}
+          required={true}
+          form="formList"
         />
       </div>
       <label className="text-pink-600 text-lg font-bold font-sans">
