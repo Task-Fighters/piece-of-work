@@ -135,14 +135,12 @@ const Profile = () => {
       )}
       <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
         {repos?.map((repo, index) => {
-          const name = assignments.find(
-            (assign) => assign.id === repo.assignmentId
-          )?.title;
+          const repoAssignment = assignments?.find(assignment => assignment.id === repo.assignmentId);
           return (
             <Repo
               id={repo.id}
               key={index}
-              assignment={name || ''}
+              assignment={repoAssignment?.title || ""}
               repoUrl={repo.url}
               deleteIcon={true}
               assignmentUrl={repo.assignmentId}
