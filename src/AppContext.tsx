@@ -119,14 +119,13 @@ const AppProvider = ({ children }: any) => {
       if (exp) {
         const expirationTime = Number(exp) * 1000;
         const currentTime = Date.now();
-        const thresholdTime = expirationTime - 28 * 60 * 1000;
 
-        if (thresholdTime < currentTime) {
+        if (expirationTime < currentTime) {
           refreshToken();
         }
       }
     }
-  });
+  }, []);
 
   const refreshToken = async () => {
     const userId = secureLocalStorage.getItem('id');
@@ -141,8 +140,7 @@ const AppProvider = ({ children }: any) => {
           }
         }
       );
-      const newAccessToken = response.data.accessToken;
-      console.log(newAccessToken);
+      const newAccessToken = response.data;
       if (newAccessToken) {
         Cookies.set('token', newAccessToken);
       }
