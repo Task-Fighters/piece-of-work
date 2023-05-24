@@ -145,7 +145,9 @@ const Group = () => {
           onClick={handleAddUserToGroup}
         />
       </div>
-      <Title title="Group Users" />
+      {group.users?.length > 0 && (
+        <Title title={`Group Users (${group.users.length})`} />
+      )}
       <ul className="flex flex-row flex-wrap justify-between capitalize mb-4">
         {group.users?.map((person) => {
           const fullName = users.find(
@@ -181,7 +183,7 @@ const Group = () => {
       <Button
         label="Delete Group"
         type="button"
-        className="bg-pink-600 border-pink-600 text-white mb-4"
+        className="bg-pink-600 border-pink-600 text-white mb-36"
         onClick={(e) => {
           handleDeleteGroup(e, Number(groupId));
         }}
