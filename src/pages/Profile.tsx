@@ -61,26 +61,25 @@ const Profile = () => {
 
  const handleDeleteRepo = (e:React.MouseEvent<HTMLElement>, id:number) => {
   e.preventDefault();
-
-  console.log(id);
-    // try {
-    //   axios
-    //     .delete(
-    //       `https://project-salty-backend.azurewebsites.net/Repos/${id}`,
-    //       {
-    //         headers: {
-    //           Authorization: `Bearer ${cookieToken}`,
-    //           Accept: 'text/plain'
-    //         }
-    //       }
-    //     )
-    //     .then((response) => {
-    //       console.log(response.data);
-    //     });
-    // }
-    // catch (err) {
-    //   console.log(err)
-    // }
+    try {
+      axios
+        .delete(
+          `https://project-salty-backend.azurewebsites.net/Repos/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+              Accept: 'text/plain'
+            }
+          }
+        )
+        .then(() => {
+          let newReposList = repos.filter(repo => repo.id !== id)
+           setRepos(newReposList)
+        });
+    }
+    catch (err) {
+      console.log(err)
+    }
  }
   return (
     <>
@@ -114,17 +113,17 @@ const Profile = () => {
       )}
       <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
         <ul className="flex flex-row flex-wrap justify-between capitalize gap-x-1 w-full">
-          {userGroups?.map((group, index) => {
-            return (
-              <ListItem
-                key={group?.id}
-                id={group?.id}
-                title={group?.name || ''}
-                route={`/group/${group.id}`}
-              />
-            );
-          })}
-        </ul>
+        {userGroups?.map((group, index) => {
+          return (
+          <ListItem
+          key={group?.id}
+          id={group?.id}
+          title={group?.name || ""}
+          route={`/groups`}
+        />
+          )})}
+        
+        </ul> 
       </div>
 
       {repos.length > 0 && (

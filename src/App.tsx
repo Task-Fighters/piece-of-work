@@ -16,14 +16,16 @@ import UpdateAssignment from './pages/UpdateAssignment';
 import AssignAssignmentToGroup from './pages/AssignAssignmentToGroup';
 import secureLocalStorage from 'react-secure-storage';
 import { Header } from './components/Header';
-import { useContext } from 'react';
+import {useContext} from 'react';
 import { ContextType } from './types';
 import { AppContext } from './AppContext';
 import { Footer } from './components/Footer';
 
+
 const PrivateRoute = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const location = useLocation();
   const localUserRole = secureLocalStorage.getItem('role');
+  
   return typeof localUserRole === 'string' &&
     allowedRoles.includes(localUserRole) ? (
     <Outlet />
@@ -38,6 +40,7 @@ function App() {
   let location = useLocation().pathname.toLowerCase();
   const { user } = useContext(AppContext) as ContextType;
   const isRootPage = location === '/';
+ 
   return (
     <div className="container-xl">
       {!isRootPage && <Header role={user.role} location={location} />}
