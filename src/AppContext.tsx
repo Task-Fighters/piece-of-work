@@ -20,6 +20,7 @@ const AppProvider = ({ children }: any) => {
   const [users, setUsers] = useState<IUser[]>([]);
   const [groups, setGroups] = useState<IGroup[]>([]);
   const [update, setUpdate] = useState<Boolean>(false);
+  const [refresh, setRefresh] = useState<Boolean>(false);
   let localUserId = secureLocalStorage.getItem('id');
 
   useEffect(() => {
@@ -93,7 +94,7 @@ const AppProvider = ({ children }: any) => {
           setAssignments([...response.data]);
         });
     } else {
-      const userAssignments: any[]= [];
+      const userAssignments: any[] = [];
       user?.groupsId?.forEach((group) => {
         axios
           .get(
@@ -106,53 +107,16 @@ const AppProvider = ({ children }: any) => {
             }
           )
           .then((response) => {
-            userAssignments.push(...response.data)
-            
+            userAssignments.push(...response.data);
           });
       });
       setAssignments(userAssignments);
     }
   }, [user, cookieToken]);
 
-  // useEffect(() => {
-  //   axios
-  //       .get('https://project-salty-backend.azurewebsites.net/Assignments', {
-  //         headers: {
-  //           Authorization: `Bearer ${cookieToken}`,
-  //           Accept: 'text/plain'
-  //         }
-  //       })
-  //       .then((response) => {
-  //         setAssignments([...response.data]);
-  //       });
-  // }, [user, cookieToken]);
-
-  // useEffect(() => {
-  //   if(user && user?.role !== "admin") {
-  //     user.groupsId?.forEach(group => {
-  //             axios
-  //               .get(
-  //                 `https://project-salty-backend.azurewebsites.net/Assignments/group/${group}`,
-  //                 {
-  //                   headers: {
-  //                     Authorization: `Bearer ${cookieToken}`,
-  //                     Accept: 'text/plain'
-  //                   }
-  //                 }
-  //               )
-  //               .then((response) => {
-  //                 console.log(response.data, "mary");
-  //                 setUserAssignments([...userAssignments, response.data]);
-  //               });
-  //   });
-  //  }}, [user, cookieToken, setUserAssignments]);
-
-  // console.log(user, "user app context")
-  // console.log(userAssignments, "user ass  app context")
-
-
   useEffect(() => {
     const token = Cookies.get('token');
+    setRefresh(false);
     if (token) {
       const expiry = jwtDecode(token) as DecodedToken;
       const exp = expiry.exp;
@@ -164,12 +128,11 @@ const AppProvider = ({ children }: any) => {
         }
       }
     }
-  }, []);
+  }, [refresh]);
 
   const refreshToken = async () => {
     const userId = secureLocalStorage.getItem('id');
     const refreshToken = secureLocalStorage.getItem('refreshToken');
-    console.log('1st', refreshToken);
     try {
       const response = await axios.get(
         `https://project-salty-backend.azurewebsites.net/Users/refreshToken?id=${userId}`,
@@ -182,12 +145,11 @@ const AppProvider = ({ children }: any) => {
       );
       const newAccessToken = response.data;
       if (newAccessToken) {
+        console.log('NEW', newAccessToken);
         secureLocalStorage.removeItem('refreshToken');
         Cookies.set('token', newAccessToken);
         secureLocalStorage.setItem('refreshToken', newAccessToken);
-      } else {
-        secureLocalStorage.clear();
-        Cookies.remove('token');
+        setRefresh(true);
       }
     } catch (error) {
       console.log(error);
