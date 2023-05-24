@@ -60,7 +60,7 @@ export const Card = ({
 
   subtitle = formattedDate;
 
-  const classes = `${base_card} ${mode} py-2`;
+  const classes = `${base_card} ${mode} py-2 cursor-pointer`;
   const handleNavigate = () => navigate(`/assignments/${id}`);
 
   return cardType !== 'detailed' ? (
