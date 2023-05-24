@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { MdEdit } from 'react-icons/md';
 import Title from './Title';
+import Cookies from 'js-cookie';
 
 interface EditableProps {
   text: string;
@@ -23,15 +24,25 @@ const Editable = ({
   const [isEditing, setEditing] = useState(false);
 
   const handleUpdate = (e: React.FocusEvent<HTMLInputElement>) => {
+    const cookieToken: string | undefined = Cookies.get('token');
     setEditing(false);
     axios
-      .put(`https://project-salty-backend.azurewebsites.net/Groups`, {
-        id: groupId,
-        name: text
-      })
+      .put(
+        `https://project-salty-backend.azurewebsites.net/Groups`,
+        {
+          id: groupId,
+          name: text
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
+          }
+        }
+      )
       .then((response) => console.log('put request', response.statusText));
   };
-  
+
   return (
     <section
       {...props}
