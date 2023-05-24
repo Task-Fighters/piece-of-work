@@ -75,9 +75,8 @@ var Profile = function () {
             }))),
         repos.length > 0 && (React.createElement(Title_1["default"], { className: "mx-2 md:mx-0 md:my-2", underline: true, title: "Completed Assignments (" + (repos === null || repos === void 0 ? void 0 : repos.length) + ")" })),
         React.createElement("div", { className: "flex flex-row flex-wrap justify-between mx-2 md:m-0" }, repos === null || repos === void 0 ? void 0 : repos.map(function (repo, index) {
-            var _a;
-            var name = (_a = assignments.find(function (assign) { return assign.id === repo.assignmentId; })) === null || _a === void 0 ? void 0 : _a.title;
-            return (React.createElement(Repo_1.Repo, { id: repo.id, key: index, assignment: name || '', repoUrl: repo.url, deleteIcon: true, assignmentUrl: repo.assignmentId, onClick: function (e) { return handleDeleteRepo(e, repo.id); } }));
+            var repoAssignment = assignments === null || assignments === void 0 ? void 0 : assignments.find(function (assignment) { return assignment.id === repo.assignmentId; });
+            return (React.createElement(Repo_1.Repo, { id: repo.id, key: index, assignment: (repoAssignment === null || repoAssignment === void 0 ? void 0 : repoAssignment.title) || "", repoUrl: repo.url, deleteIcon: true, assignmentUrl: repo.assignmentId, onClick: function (e) { return handleDeleteRepo(e, repo.id); } }));
         })),
         React.createElement("div", { className: "flex justify-center mx-2 mt-4 mb-32" }, user.role === 'admin' && (React.createElement("div", { className: "w-full md:hidden flex" },
             React.createElement(Button_1.Button, { label: "Logout", type: "button", className: "bg-pink-600 border-pink-600 text-white border-", onClick: handleLogout }))))));
