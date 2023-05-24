@@ -181,7 +181,7 @@ const Group = () => {
       <Button
         label="Delete Group"
         type="button"
-        className="bg-pink-600 border-pink-600 text-white mb-4"
+        className="bg-pink-600 border-pink-600 text-white mb-36"
         onClick={(e) => {
           handleDeleteGroup(e, Number(groupId));
         }}

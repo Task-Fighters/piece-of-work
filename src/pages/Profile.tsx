@@ -25,9 +25,7 @@ const Profile = () => {
   const [repos, setRepos] = useState<IRepo[]>([]);
   const navigate = useNavigate();
   const handleLogout = () => {
-    secureLocalStorage.removeItem('id');
-    secureLocalStorage.removeItem('role');
-    secureLocalStorage.removeItem('refreshToken');
+    secureLocalStorage.clear();
     Cookies.remove('token');
     navigate('/');
   };
@@ -59,28 +57,24 @@ const Profile = () => {
     }
   }, [cookieToken, user.id]);
 
- const handleDeleteRepo = (e:React.MouseEvent<HTMLElement>, id:number) => {
-  e.preventDefault();
+  const handleDeleteRepo = (e: React.MouseEvent<HTMLElement>, id: number) => {
+    e.preventDefault();
     try {
       axios
-        .delete(
-          `https://project-salty-backend.azurewebsites.net/Repos/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${cookieToken}`,
-              Accept: 'text/plain'
-            }
+        .delete(`https://project-salty-backend.azurewebsites.net/Repos/${id}`, {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
           }
-        )
+        })
         .then(() => {
-          let newReposList = repos.filter(repo => repo.id !== id)
-           setRepos(newReposList)
+          let newReposList = repos.filter((repo) => repo.id !== id);
+          setRepos(newReposList);
         });
+    } catch (err) {
+      console.log(err);
     }
-    catch (err) {
-      console.log(err)
-    }
- }
+  };
   return (
     <>
       <div className="flex justify-end">
@@ -113,17 +107,17 @@ const Profile = () => {
       )}
       <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
         <ul className="flex flex-row flex-wrap justify-between capitalize gap-x-1 w-full">
-        {userGroups?.map((group, index) => {
-          return (
-          <ListItem
-          key={group?.id}
-          id={group?.id}
-          title={group?.name || ""}
-          route={user.role === 'admin' ? `/groups` : ""}
-        />
-          )})}
-        
-        </ul> 
+          {userGroups?.map((group, index) => {
+            return (
+              <ListItem
+                key={group?.id}
+                id={group?.id}
+                title={group?.name || ''}
+                route={user.role === 'admin' ? `/groups` : ''}
+              />
+            );
+          })}
+        </ul>
       </div>
 
       {repos.length > 0 && (

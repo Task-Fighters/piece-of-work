@@ -129,6 +129,7 @@ const AppProvider = ({ children }: any) => {
   const refreshToken = async () => {
     const userId = secureLocalStorage.getItem('id');
     const refreshToken = secureLocalStorage.getItem('refreshToken');
+    console.log('1st', refreshToken);
     try {
       const response = await axios.get(
         `https://project-salty-backend.azurewebsites.net/Users/refreshToken?id=${userId}`,
@@ -141,12 +142,11 @@ const AppProvider = ({ children }: any) => {
       );
       const newAccessToken = response.data;
       if (newAccessToken) {
+        secureLocalStorage.removeItem('refreshToken');
         Cookies.set('token', newAccessToken);
         secureLocalStorage.setItem('refreshToken', newAccessToken);
       } else {
-        secureLocalStorage.removeItem('id');
-        secureLocalStorage.removeItem('role');
-        secureLocalStorage.removeItem('refreshToken');
+        secureLocalStorage.clear();
         Cookies.remove('token');
       }
     } catch (error) {
