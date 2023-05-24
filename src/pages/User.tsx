@@ -94,7 +94,7 @@ const User = () => {
           key={group?.id}
           id={group?.id}
           title={group?.name || ""}
-          route={`/group/${group.id}`}
+          route={`/groups`}
         />
           )})}
         

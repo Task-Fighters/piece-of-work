@@ -60,26 +60,25 @@ const Profile = () => {
 
  const handleDeleteRepo = (e:React.MouseEvent<HTMLElement>, id:number) => {
   e.preventDefault();
-
-  console.log(id);
-    // try {
-    //   axios
-    //     .delete(
-    //       `https://project-salty-backend.azurewebsites.net/Repos/${id}`,
-    //       {
-    //         headers: {
-    //           Authorization: `Bearer ${cookieToken}`,
-    //           Accept: 'text/plain'
-    //         }
-    //       }
-    //     )
-    //     .then((response) => {
-    //       console.log(response.data);
-    //     });
-    // }
-    // catch (err) {
-    //   console.log(err)
-    // }
+    try {
+      axios
+        .delete(
+          `https://project-salty-backend.azurewebsites.net/Repos/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+              Accept: 'text/plain'
+            }
+          }
+        )
+        .then(() => {
+          let newReposList = repos.filter(repo => repo.id !== id)
+           setRepos(newReposList)
+        });
+    }
+    catch (err) {
+      console.log(err)
+    }
  }
   return (
     <>
@@ -121,7 +120,7 @@ const Profile = () => {
           key={group?.id}
           id={group?.id}
           title={group?.name || ""}
-          route={`/group/${group.id}`}
+          route={`/groups`}
         />
           )})}
         

@@ -16,7 +16,7 @@ export const Repo = ({ id, assignment, repoUrl, assignmentUrl, deleteIcon, onCli
     <div className={classes}>
       <div className="px-4 pt-1 flex flex-row justify-between">
         <h1 className="text-lg font-bold font-poppins">{assignment}</h1>
-        {deleteIcon && <TiDeleteOutline  className={'text-2xl text-neutral-400'} onClick={onClick}
+        {deleteIcon && <TiDeleteOutline  className={'text-2xl text-neutral-400 cursor-pointer	'} onClick={onClick}
         />}
       </div>
       <div className="px-4 py-1">

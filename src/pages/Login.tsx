@@ -55,7 +55,7 @@ const Login = () => {
           setUser(res.data);
           Cookies.set('token', res.data.token);
           secureLocalStorage.setItem('id', res.data.id);
-          secureLocalStorage.setItem('role', res.data.role);
+          secureLocalStorage.setItem('role', res.data.role);   
           navigate('/home');
         })
         .catch((err) => console.log(err));
