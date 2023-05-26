@@ -10,6 +10,7 @@ import Editable from '../components/Editable';
 import Title from '../components/Title';
 import { MultiSelect } from 'react-multi-select-component';
 import { Card } from '../components/Card';
+import { RiAsterisk } from 'react-icons/ri';
 
 const Group = () => {
   const { user, users, setUpdate, assignments } = useContext(
@@ -127,8 +128,8 @@ const Group = () => {
           onChange={(e) => setGroupName(e.target.value)}
         />
       </Editable>
-      <label className="text-pink-600 text-lg font-bold font-sans">
-        User E-mail Address
+      <label className="text-pink-600 text-lg font-bold font-sans flex items-center">
+        User E-mail Address <span>&nbsp;</span> <RiAsterisk className='text-xxs text-red-500'/>
       </label>
       <div className=".dropdown-container">
         <MultiSelect

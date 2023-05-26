@@ -23,6 +23,8 @@ var Button_1 = require("../components/Button");
 var Datepicker_1 = require("../components/Datepicker");
 require("react-quill/dist/quill.snow.css");
 var react_select_1 = require("react-select");
+var ri_1 = require("react-icons/ri");
+var InputErrorAlert_1 = require("../components/InputErrorAlert");
 var AddAssignment = function () {
     var groups = react_1.useContext(AppContext_1.AppContext).groups;
     var _a = react_1.useState(''), title = _a[0], setTitle = _a[1];
@@ -44,7 +46,8 @@ var AddAssignment = function () {
     var _f = react_1.useState(false), toShowValidationError = _f[0], setToShowValidationError = _f[1];
     react_1.useEffect(function () {
         setIsValid(__assign(__assign({}, isValid), { title: title ? true : false, startDate: startDate ? true : false, description: description ? true : false, groupId: selectedGroups.value ? true : false }));
-    }, [title, startDate, description, selectedGroups, setIsValid]);
+        // eslint-disable-next-line
+    }, [title, startDate, description, selectedGroups]);
     var handleSubmit = function (e) {
         e.preventDefault();
         var newAssignment;
@@ -80,17 +83,27 @@ var AddAssignment = function () {
     };
     return (react_1["default"].createElement("form", { onSubmit: handleSubmit, id: "formList" },
         react_1["default"].createElement(Title_1["default"], { underline: true, title: "Add New Assignment" }),
-        react_1["default"].createElement(Input_1.Input, { label: "Title", onChange: function (e) { return setTitle(e.target.value); }, value: title }),
-        react_1["default"].createElement("p", { className: isValid.title === false && toShowValidationError === true ? "flex" : "hidden" }, "Please fill the required field"),
+        react_1["default"].createElement(Input_1.Input, { label: "Title", required: true, onChange: function (e) { return setTitle(e.target.value); }, value: title }),
+        react_1["default"].createElement(InputErrorAlert_1.InputErrorAlert, { isValid: isValid.title, toShowValidationError: toShowValidationError }),
         react_1["default"].createElement(Datepicker_1["default"], { value: startDate, onChange: function (e) {
                 return setStartDate(e.target.value);
             } }),
-        react_1["default"].createElement("label", { className: "text-pink-600 text-lg font-bold font-sans" }, "Group"),
+        react_1["default"].createElement(InputErrorAlert_1.InputErrorAlert, { isValid: isValid.startDate, toShowValidationError: toShowValidationError }),
+        react_1["default"].createElement("label", { className: "text-pink-600 text-lg font-bold font-sans flex items-center" },
+            "Group ",
+            react_1["default"].createElement("span", null, "\u00A0"),
+            " ",
+            react_1["default"].createElement(ri_1.RiAsterisk, { className: 'text-[10px] text-red-500' })),
         react_1["default"].createElement("div", { className: ".dropdown-container" },
             react_1["default"].createElement(react_select_1["default"], { className: "mb-4 ", classNamePrefix: "single_select", onChange: handleChangeGroup, options: selectOptions, value: selectedGroups })),
-        react_1["default"].createElement("label", { className: "text-pink-600 text-lg font-bold font-sans" }, "Details"),
+        react_1["default"].createElement(InputErrorAlert_1.InputErrorAlert, { isValid: isValid.groupId, toShowValidationError: toShowValidationError }),
+        react_1["default"].createElement("label", { className: "text-pink-600 text-lg font-bold font-sans flex items-center" },
+            "Details ",
+            react_1["default"].createElement("span", null, "\u00A0"),
+            " ",
+            react_1["default"].createElement(ri_1.RiAsterisk, { className: 'text-[10px] text-red-500' })),
         react_1["default"].createElement(react_quill_1["default"], { className: "h-44 mb-14", theme: "snow", value: description, onChange: function (e) { return setDescription(e); } }),
-        react_1["default"].createElement("p", { className: toShowValidationError === true ? "flex" : "hidden" }, "Please fill the required field"),
+        react_1["default"].createElement(InputErrorAlert_1.InputErrorAlert, { isValid: isValid.description, toShowValidationError: toShowValidationError }),
         react_1["default"].createElement("div", { className: "mb-32 mt-20 md:mt-0" },
             react_1["default"].createElement(Button_1.Button, { label: "Add Assignment", type: "submit" }))));
 };

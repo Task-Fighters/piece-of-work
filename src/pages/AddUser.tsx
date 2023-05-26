@@ -9,6 +9,7 @@ import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import '../styles/external-components.css';
 import Select from 'react-select';
+import { RiAsterisk } from 'react-icons/ri';
 
 const roleArr: IOption[] = [
   {
@@ -139,13 +140,14 @@ const AddUser = () => {
             <Title underline title="Add New User" />
             <Input
               label="E-mail address"
+              required={true}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
 
             <div>
-              <label className="text-pink-600 text-lg font-bold font-sans">
-                Location
+              <label className="text-pink-600 text-lg font-bold font-sans flex items-center">
+                Location <span>&nbsp;</span> <RiAsterisk className='text-[10px] text-red-500'/>
               </label>
               <Select
                 className="mb-4 "
@@ -155,8 +157,8 @@ const AddUser = () => {
                 defaultValue={locationArr[0]}
               />
             </div>
-            <label className="text-pink-600 text-lg font-bold font-sans">
-              Bootcamp
+            <label className="text-pink-600 text-lg font-bold font-sans flex items-center">
+              Bootcamp <span>&nbsp;</span> <RiAsterisk className='text-[10px] text-red-500'/>
             </label>
             <div className=".dropdown-container">
               <Select
@@ -169,8 +171,8 @@ const AddUser = () => {
               
             </div>
             <div>
-              <label className="text-pink-600 text-lg font-bold font-sans">
-                Role
+              <label className="text-pink-600 text-lg font-bold font-sans flex items-center">
+                Role <span>&nbsp;</span> <RiAsterisk className='text-[10px] text-red-500'/>
               </label>
               <Select
                 className="mb-4 "

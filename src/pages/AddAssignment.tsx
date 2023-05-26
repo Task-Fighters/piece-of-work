@@ -11,6 +11,8 @@ import { Button } from '../components/Button';
 import Datepicker from '../components/Datepicker';
 import 'react-quill/dist/quill.snow.css';
 import Select from 'react-select';
+import { RiAsterisk } from 'react-icons/ri';
+import {InputErrorAlert}  from '../components/InputErrorAlert';
 
 const AddAssignment = () => {
   const { groups } = useContext(AppContext) as ContextType;
@@ -41,7 +43,8 @@ const AddAssignment = () => {
       description: description ? true : false,
       groupId: selectedGroups.value ? true : false
     });
-  }, [title, startDate, description, selectedGroups, setIsValid]);
+    // eslint-disable-next-line
+  }, [title, startDate, description, selectedGroups]);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -89,18 +92,28 @@ const AddAssignment = () => {
       <Title underline title="Add New Assignment" />
       <Input
         label="Title"
+        required={true}
         onChange={(e) => setTitle(e.target.value)}
         value={title}
       />
-      <p className={isValid.title=== false && toShowValidationError === true ? "flex" : "hidden"} >Please fill the required field</p>
-
+      <InputErrorAlert
+      isValid={isValid.title}
+      toShowValidationError={toShowValidationError}
+      />
       <Datepicker
         value={startDate}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setStartDate(e.target.value)
         }
       />
-      <label className="text-pink-600 text-lg font-bold font-sans">Group</label>
+       <InputErrorAlert
+      isValid={isValid.startDate}
+      toShowValidationError={toShowValidationError}
+      />
+
+      <label className="text-pink-600 text-lg font-bold font-sans flex items-center">
+        Group <span>&nbsp;</span> <RiAsterisk className='text-[10px] text-red-500'/>
+      </label>
       <div className=".dropdown-container">
         <Select
           className="mb-4 "
@@ -108,12 +121,14 @@ const AddAssignment = () => {
           onChange={handleChangeGroup}
           options={selectOptions}
           value={selectedGroups}
-          // required={true}
-          // name="selectedGroups"
         />
       </div>
-      <label className="text-pink-600 text-lg font-bold font-sans">
-        Details
+      <InputErrorAlert
+      isValid={isValid.groupId}
+      toShowValidationError={toShowValidationError}
+      />
+      <label className="text-pink-600 text-lg font-bold font-sans flex items-center">
+        Details <span>&nbsp;</span> <RiAsterisk className='text-[10px] text-red-500'/>
       </label>
       <ReactQuill
         className="h-44 mb-14"
@@ -121,7 +136,10 @@ const AddAssignment = () => {
         value={description}
         onChange={(e) => setDescription(e)}
       />
-      <p className={toShowValidationError === true ? "flex" : "hidden"} >Please fill the required field</p>
+      <InputErrorAlert
+      isValid={isValid.description}
+      toShowValidationError={toShowValidationError}
+      />
       <div className="mb-32 mt-20 md:mt-0">
         <Button label="Add Assignment" type="submit"/>
       </div>

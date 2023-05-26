@@ -13,6 +13,7 @@ const Datepicker = ({ onChange, value }: DatePickerProps) => {
         placeholder="Select a date"
         date
         label="Date"
+        required={true}
         onChange={onChange}
       />
     </div>
