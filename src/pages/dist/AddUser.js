@@ -21,6 +21,7 @@ var Button_1 = require("../components/Button");
 require("../styles/external-components.css");
 var react_select_1 = require("react-select");
 var ri_1 = require("react-icons/ri");
+var InputErrorAlert_1 = require("../components/InputErrorAlert");
 var roleArr = [
     {
         value: 'PGP',
@@ -57,6 +58,13 @@ var AddUser = function () {
         value: item.id
     }); });
     var _f = react_1.useState({}), selectedGroups = _f[0], setSelectedGroups = _f[1];
+    var _g = react_1.useState({
+        email: false,
+        location: false,
+        bootcamp: false,
+        role: false
+    }), isValid = _g[0], setIsValid = _g[1];
+    var _h = react_1.useState(false), toShowValidationError = _h[0], setToShowValidationError = _h[1];
     var isValidEmail = function (email) {
         var regex = /^[a-zA-Z0-9._%+-]+@appliedtechnology\.se$/;
         console.log(regex.test(email));
@@ -82,6 +90,10 @@ var AddUser = function () {
         };
         getUserName();
     }, [email]);
+    react_1.useEffect(function () {
+        setIsValid(__assign(__assign({}, isValid), { email: email ? true : false, location: userLocation ? true : false, bootcamp: selectedGroups.label ? true : false, role: role ? true : false }));
+        // eslint-disable-next-line
+    }, [email, userLocation, selectedGroups, role]);
     var handleChangeBootcamp = function (selectedOption) {
         setSelectedGroups(selectedOption);
     };
@@ -96,32 +108,37 @@ var AddUser = function () {
             groupsId: [selectedGroups.value],
             bootcamp: selectedGroups.label
         };
-        if (isValidEmail(email)) {
-            axios_1["default"]
-                .post("https://project-salty-backend.azurewebsites.net/Users", __assign({}, newUser), {
-                headers: {
-                    Authorization: "Bearer " + cookieToken,
-                    Accept: 'text/plain'
-                }
-            })
-                .then(function (response) {
-                console.log(response.statusText);
+        if (isValid.email === true && isValid.location === true && isValid.bootcamp === true && isValid.role === true) {
+            if (isValidEmail(email)) {
+                axios_1["default"]
+                    .post("https://project-salty-backend.azurewebsites.net/Users", __assign({}, newUser), {
+                    headers: {
+                        Authorization: "Bearer " + cookieToken,
+                        Accept: 'text/plain'
+                    }
+                })
+                    .then(function (response) {
+                    console.log(response.statusText);
+                });
+            }
+            else {
+                //change this later into styled alert
+                alert('Enter appliedtechnology email address');
+            }
+            var target = e.target;
+            target.reset();
+            setEmail('');
+            setUserLocation('Amsterdam');
+            setRole('PGP');
+            setSelectedGroups({
+                label: "",
+                value: ""
             });
+            setUpdate(true);
         }
         else {
-            //change this later into styled alert
-            alert('Enter appliedtechnology email address');
+            setToShowValidationError(true);
         }
-        var target = e.target;
-        target.reset();
-        setEmail('');
-        setUserLocation('Amsterdam');
-        setRole('PGP');
-        setSelectedGroups({
-            label: "",
-            value: ""
-        });
-        setUpdate(true);
     };
     var handleChangeLocation = function (selectedOption) {
         setUserLocation(selectedOption.label);
@@ -132,6 +149,7 @@ var AddUser = function () {
     return (React.createElement("form", { onSubmit: handleSubmit },
         React.createElement(Title_1["default"], { underline: true, title: "Add New User" }),
         React.createElement(Input_1.Input, { label: "E-mail address", required: true, value: email, onChange: function (e) { return setEmail(e.target.value); } }),
+        React.createElement(InputErrorAlert_1.InputErrorAlert, { isValid: isValid.email, toShowValidationError: toShowValidationError }),
         React.createElement("div", null,
             React.createElement("label", { className: "text-pink-600 text-lg font-bold font-sans flex items-center" },
                 "Location ",
@@ -146,6 +164,7 @@ var AddUser = function () {
             React.createElement(ri_1.RiAsterisk, { className: 'text-[10px] text-red-500' })),
         React.createElement("div", { className: ".dropdown-container" },
             React.createElement(react_select_1["default"], { className: "mb-4 ", classNamePrefix: "single_select", onChange: handleChangeBootcamp, options: selectOptions, value: selectedGroups })),
+        React.createElement(InputErrorAlert_1.InputErrorAlert, { isValid: isValid.bootcamp, toShowValidationError: toShowValidationError }),
         React.createElement("div", null,
             React.createElement("label", { className: "text-pink-600 text-lg font-bold font-sans flex items-center" },
                 "Role ",
