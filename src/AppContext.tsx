@@ -30,8 +30,9 @@ const AppProvider = ({ children }: any) => {
   const [users, setUsers] = useState<IUser[]>([]);
   const [groups, setGroups] = useState<IGroup[]>([]);
   const [update, setUpdate] = useState<Boolean>(false);
+  // eslint-disable-next-line
   const [refresh, setRefresh] = useState<Boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
   let localUserId = secureLocalStorage.getItem('id');
   const navigate = useNavigate();
 
@@ -55,13 +56,14 @@ const AppProvider = ({ children }: any) => {
         })
         .catch((err) => console.log(err));
     }
+    // eslint-disable-next-line
   }, [profile, userGoogleToken, update]);
 
   useEffect(() => {
     const token = Cookies.get('token');
     setRefresh(false);
     if (token) {
-      const expiry = jwtDecode(token) as DecodedToken;
+      const expiry = jwtDecode(token.toString()) as DecodedToken;
       const exp = expiry.exp;
       if (exp) {
         const expirationTime = Number(exp) * 1000 - 60000;
@@ -76,21 +78,16 @@ const AppProvider = ({ children }: any) => {
     } else {
       navigate('/');
     }
+    // eslint-disable-next-line
   }, [navigate, isLoggedIn, localUserId]);
 
   const updateToken = async () => {
     const userId = secureLocalStorage.getItem('id');
     const refreshToken = secureLocalStorage.getItem('refreshToken');
     if (refreshToken) {
-      //@ts-ignore
-      const expiry = jwtDecode(refreshToken) as DecodedToken;
+      const expiry = jwtDecode(refreshToken.toString()) as DecodedToken;
       const exp = expiry.exp;
       if (exp) {
-        console.log('tried to update token');
-        const expirationTime = Number(exp) * 1000 - 60000;
-        console.log('expiry time', expirationTime);
-        const currentTime = Date.now();
-        console.log('Current time', currentTime);
         try {
           const response = await axios.get(
             `https://project-salty-backend.azurewebsites.net/Users/refreshToken?id=${userId}`,
