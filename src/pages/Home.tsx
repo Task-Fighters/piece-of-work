@@ -12,36 +12,28 @@ const Home = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
 
-  const filteredAssigments = assignments.filter((assignment) => {
+  const currentDate = new Date();
+
+  const filteredAssignments = assignments.filter((assignment) => {
     return (
       search === '' ||
       assignment.title.toLowerCase().includes(search.toLowerCase())
     );
   });
 
-  const featuredAssignments = filteredAssigments
-    .filter(
-      (assignment) =>
-        new Date(assignment.startDate).getTime() <= new Date().getTime()
-    )
+  const closestStartDate = filteredAssignments
+    .filter((assignment) => new Date(assignment.startDate) <= currentDate)
     .sort(
       (a, b) =>
-        new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
-    )
-    .filter((assignment, index, array) => {
-      const currentDate = new Date(assignment.startDate).toDateString();
-      const previousAssignment = index > 0 ? array[index - 1] : null;
+        Math.abs(currentDate.getTime() - new Date(a.startDate).getTime()) -
+        Math.abs(currentDate.getTime() - new Date(b.startDate).getTime())
+    )[0]?.startDate;
 
-      if (previousAssignment) {
-        const previousDate = new Date(
-          previousAssignment.startDate
-        ).toDateString();
-        return currentDate === previousDate;
-      }
-      return true;
-    });
+  const featuredAssignments = filteredAssignments.filter(
+    (assignment) => assignment.startDate === closestStartDate
+  );
 
-  const upcomingAssignments = filteredAssigments
+  const upcomingAssignments = filteredAssignments
     .filter(
       (assignment) =>
         new Date(assignment.startDate).getTime() > new Date().getTime()
@@ -50,7 +42,7 @@ const Home = () => {
       return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
     });
 
-  const pastAssignments = filteredAssigments
+  const pastAssignments = filteredAssignments
     .filter(
       (assignment) =>
         new Date(assignment.startDate).getTime() <= new Date().getTime() &&
