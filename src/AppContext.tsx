@@ -67,6 +67,7 @@ const AppProvider = ({ children }: any) => {
       const exp = expiry.exp;
       if (exp) {
         const expirationTime = Number(exp) * 1000 - 60000;
+        // const expirationTime = Number(exp) * 1000 - 28 * 60 * 1000;
         const currentTime = Date.now();
         if (expirationTime < currentTime) {
           updateToken();
@@ -98,7 +99,6 @@ const AppProvider = ({ children }: any) => {
             }
           );
           const newAccessToken = response?.data;
-          console.log('RES', response);
           secureLocalStorage.removeItem('refreshToken');
           Cookies.set('token', newAccessToken);
           secureLocalStorage.setItem('refreshToken', newAccessToken);
