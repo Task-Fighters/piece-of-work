@@ -39,6 +39,11 @@ function App() {
   let location = useLocation().pathname.toLowerCase();
   const { user } = useContext(AppContext) as ContextType;
   const isRootPage = location === '/';
+  const localUserRole = secureLocalStorage.getItem('role');
+
+  if (isRootPage && localUserRole) {
+    return <Navigate to="/home" state={{ from: location }} replace />;
+  }
 
   return (
     <div className="container-xl">
