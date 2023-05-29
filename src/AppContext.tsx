@@ -69,7 +69,6 @@ const AppProvider = ({ children }: any) => {
         const expirationTime = Number(exp) * 1000 - 60000;
         const currentTime = Date.now();
         if (expirationTime < currentTime) {
-          console.log('calling update token');
           updateToken();
         } else {
           setIsLoggedIn(true);
@@ -79,7 +78,7 @@ const AppProvider = ({ children }: any) => {
       navigate('/');
     }
     // eslint-disable-next-line
-  }, [navigate, isLoggedIn, localUserId]);
+  }, [refresh, navigate, localUserId]);
 
   const updateToken = async () => {
     const userId = secureLocalStorage.getItem('id');
@@ -98,13 +97,14 @@ const AppProvider = ({ children }: any) => {
               }
             }
           );
-          const newAccessToken = response.data;
+          const newAccessToken = response?.data;
           secureLocalStorage.removeItem('refreshToken');
           Cookies.set('token', newAccessToken);
           secureLocalStorage.setItem('refreshToken', newAccessToken);
           setRefresh(true);
           setIsLoggedIn(true);
         } catch (error) {
+          setIsLoggedIn(false);
           navigate('/');
           Cookies.remove('token');
           secureLocalStorage.clear();
