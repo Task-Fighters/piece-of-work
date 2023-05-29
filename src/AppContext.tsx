@@ -98,6 +98,7 @@ const AppProvider = ({ children }: any) => {
             }
           );
           const newAccessToken = response?.data;
+          console.log('RES', response);
           secureLocalStorage.removeItem('refreshToken');
           Cookies.set('token', newAccessToken);
           secureLocalStorage.setItem('refreshToken', newAccessToken);
