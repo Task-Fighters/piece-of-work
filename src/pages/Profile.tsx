@@ -25,9 +25,9 @@ const Profile = () => {
   const [repos, setRepos] = useState<IRepo[]>([]);
   const navigate = useNavigate();
   const handleLogout = () => {
-    secureLocalStorage.clear();
-    Cookies.remove('token');
     navigate('/');
+    Cookies.remove('token');
+    secureLocalStorage.clear();
   };
 
   const userGroups = user.groupsId?.map((group) => {
@@ -129,12 +129,14 @@ const Profile = () => {
       )}
       <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
         {repos?.map((repo, index) => {
-          const repoAssignment = assignments?.find(assignment => assignment.id === repo.assignmentId);
+          const repoAssignment = assignments?.find(
+            (assignment) => assignment.id === repo.assignmentId
+          );
           return (
             <Repo
               id={repo.id}
               key={index}
-              assignment={repoAssignment?.title || ""}
+              assignment={repoAssignment?.title || ''}
               repoUrl={repo.url}
               deleteIcon={true}
               assignmentUrl={repo.assignmentId}
