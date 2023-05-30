@@ -80,7 +80,7 @@ export const Card = ({
         <h3 className="text-sm font-bold font-roboto">{subtitle}</h3>
       </div>
       <div className="px-4 py-1">
-        <div className="text-md font-roboto">{parse(`${featureText}`)}</div>
+        <div className="font-roboto">{parse(`${featureText}`)}</div>
       </div>
     </div>
   ) : (
@@ -102,7 +102,7 @@ export const Card = ({
       </div>
       <div className="border-b-2 mt-2 mb-1 border-pink-600"></div>
       <div className="px-4 py-1">
-        <div className="text-md font-roboto">{parse(`${featureText}`)}</div>
+        <div className="font-roboto">{parse(`${featureText}`)}</div>
       </div>
     </div>
   );

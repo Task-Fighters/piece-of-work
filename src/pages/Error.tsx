@@ -1,19 +1,13 @@
-import { CgSmileSad } from 'react-icons/cg';
+import Title from '../components/Title';
 
-interface ErrorProps {
-    errorCode?: number;
-    text?: string;
-  }
-
-export const Error = ({
-    errorCode,
-    text
-  }: ErrorProps) => {
-  
+export const Error = () => {
     return  (
-        <div className='flex flex-col justify-center w-full items-center'>
-            <CgSmileSad className='text-gray-600 text-9xl'/> 
-            <p className="text-5xl mt-6 text-pink-600">
+        <div className='flex flex-col justify-center w-full items-center h-[60vh]'>
+            <Title
+            title="Ooops!"
+            className='!text-5xl text-pink-600'
+            /> 
+            <p className="text-3xl mt-6 text-gray-600 md:text-5xl">
                 Something went wrong!
             </p>
         </div>

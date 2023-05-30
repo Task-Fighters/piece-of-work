@@ -153,39 +153,6 @@ var AppProvider = function (_a) {
             setAssignments(userAssignments_1);
         }
     }, [user, cookieToken]);
-    // useEffect(() => {
-    //   axios
-    //       .get('https://project-salty-backend.azurewebsites.net/Assignments', {
-    //         headers: {
-    //           Authorization: `Bearer ${cookieToken}`,
-    //           Accept: 'text/plain'
-    //         }
-    //       })
-    //       .then((response) => {
-    //         setAssignments([...response.data]);
-    //       });
-    // }, [user, cookieToken]);
-    // useEffect(() => {
-    //   if(user && user?.role !== "admin") {
-    //     user.groupsId?.forEach(group => {
-    //             axios
-    //               .get(
-    //                 `https://project-salty-backend.azurewebsites.net/Assignments/group/${group}`,
-    //                 {
-    //                   headers: {
-    //                     Authorization: `Bearer ${cookieToken}`,
-    //                     Accept: 'text/plain'
-    //                   }
-    //                 }
-    //               )
-    //               .then((response) => {
-    //                 console.log(response.data, "mary");
-    //                 setUserAssignments([...userAssignments, response.data]);
-    //               });
-    //   });
-    //  }}, [user, cookieToken, setUserAssignments]);
-    // console.log(user, "user app context")
-    // console.log(userAssignments, "user ass  app context")
     react_1.useEffect(function () {
         var token = js_cookie_1["default"].get('token');
         if (token) {
@@ -207,6 +174,7 @@ var AppProvider = function (_a) {
                 case 0:
                     userId = react_secure_storage_1["default"].getItem('id');
                     refreshToken = react_secure_storage_1["default"].getItem('refreshToken');
+                    console.log('1st', refreshToken);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
@@ -220,13 +188,12 @@ var AppProvider = function (_a) {
                     response = _a.sent();
                     newAccessToken = response.data;
                     if (newAccessToken) {
+                        react_secure_storage_1["default"].removeItem('refreshToken');
                         js_cookie_1["default"].set('token', newAccessToken);
                         react_secure_storage_1["default"].setItem('refreshToken', newAccessToken);
                     }
                     else {
-                        react_secure_storage_1["default"].removeItem('id');
-                        react_secure_storage_1["default"].removeItem('role');
-                        react_secure_storage_1["default"].removeItem('refreshToken');
+                        react_secure_storage_1["default"].clear();
                         js_cookie_1["default"].remove('token');
                     }
                     return [3 /*break*/, 4];

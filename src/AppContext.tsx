@@ -114,43 +114,6 @@ const AppProvider = ({ children }: any) => {
     }
   }, [user, cookieToken]);
 
-  // useEffect(() => {
-  //   axios
-  //       .get('https://project-salty-backend.azurewebsites.net/Assignments', {
-  //         headers: {
-  //           Authorization: `Bearer ${cookieToken}`,
-  //           Accept: 'text/plain'
-  //         }
-  //       })
-  //       .then((response) => {
-  //         setAssignments([...response.data]);
-  //       });
-  // }, [user, cookieToken]);
-
-  // useEffect(() => {
-  //   if(user && user?.role !== "admin") {
-  //     user.groupsId?.forEach(group => {
-  //             axios
-  //               .get(
-  //                 `https://project-salty-backend.azurewebsites.net/Assignments/group/${group}`,
-  //                 {
-  //                   headers: {
-  //                     Authorization: `Bearer ${cookieToken}`,
-  //                     Accept: 'text/plain'
-  //                   }
-  //                 }
-  //               )
-  //               .then((response) => {
-  //                 console.log(response.data, "mary");
-  //                 setUserAssignments([...userAssignments, response.data]);
-  //               });
-  //   });
-  //  }}, [user, cookieToken, setUserAssignments]);
-
-  // console.log(user, "user app context")
-  // console.log(userAssignments, "user ass  app context")
-
-
   useEffect(() => {
     const token = Cookies.get('token');
     if (token) {
