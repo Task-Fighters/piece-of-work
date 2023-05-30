@@ -1,9 +1,6 @@
-import { useEffect, useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useContext } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
-import secureLocalStorage from 'react-secure-storage';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
 import { ContextType } from '../types';
 import Title from '../components/Title';
@@ -11,16 +8,14 @@ import { Button } from '../components/Button';
 import lightLogo from '../assets/Saltblack.svg';
 
 const Login = () => {
-  const { setUser, profile, setProfile } = useContext(
+  const { setProfile, userGoogleToken, setUserGoogleToken } = useContext(
     AppContext
   ) as ContextType;
-  const [userGoogleToken, setUserGoogleToken] = useState<{
-    access_token?: string;
-  }>();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate();
+
   const login = useGoogleLogin({
-    onSuccess: (codeResponse) => setUserGoogleToken(codeResponse)
+    onSuccess: (codeResponse) => {
+      setUserGoogleToken(codeResponse);
+    }
   });
 
   useEffect(() => {
@@ -37,31 +32,9 @@ const Login = () => {
         )
         .then((res) => {
           setProfile(res.data);
-          setIsLoggedIn(true);
         });
     }
   }, [setProfile, userGoogleToken]);
-
-  useEffect(() => {
-    if (profile && isLoggedIn) {
-      axios
-        .put('https://project-salty-backend.azurewebsites.net/Users/login', {
-          googleId: userGoogleToken?.access_token,
-          email: profile.email,
-          fullName: profile.name,
-          imageUrl: profile.picture
-        })
-        .then((res) => {
-          setUser(res.data);
-          Cookies.set('token', res.data.token);
-          secureLocalStorage.setItem('id', res.data.id);
-          secureLocalStorage.setItem('role', res.data.role);
-          secureLocalStorage.setItem('refreshToken', res.data.refreshToken);
-          navigate('/home');
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [isLoggedIn, navigate, profile, setUser, userGoogleToken?.access_token]);
 
   return (
     <div className="h-screen flex justify-center items-center mx-2">

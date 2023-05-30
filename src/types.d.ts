@@ -26,7 +26,6 @@ export interface IAssignmentGroup {
   title: string;
 }
 
-
 export interface IGroup {
   id: number;
   name: string;
@@ -49,7 +48,7 @@ export interface IAssignment {
   title: string;
   startDate: string;
   description: string;
-  groupId: number| undefined; 
+  groupId: number | undefined;
 }
 
 export interface ISubmission {
@@ -69,16 +68,31 @@ export interface IProfile {
   picture: string;
   id: string;
 }
+
+export interface IResponse {
+  access_token: string;
+  authuser?: string;
+  expires_in: number;
+  hd?: string;
+  prompt: string;
+  scope: string;
+  token_type: string;
+}
+
 export type ContextType = {
   user: IUser;
   users: IUser[];
   profile: IProfile;
   groups: IGroup[];
   assignments: IAssignment[];
+  // isLoggedIn: boolean;
+  userGoogleToken?: IResponse;
   setUser: (user: IUser) => void;
   setUsers: (users: IUser[]) => void;
   setAssignments: (assignments: IAssignment[]) => void;
   setProfile: (profile: IProfile) => void;
   setGroups: (groups: IGroups[]) => void;
   setUpdate: (update: boolean) => void;
+  // setIsLoggedIn: (isLoggedIn: boolean) => void;
+  setUserGoogleToken: (userGoogleToken?: IResponse) => void;
 };
