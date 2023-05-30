@@ -11,6 +11,7 @@ var Users_1 = require("./pages/Users");
 var Assignment_1 = require("./pages/Assignment");
 var AddUser_1 = require("./pages/AddUser");
 var AddAssignment_1 = require("./pages/AddAssignment");
+var Error_1 = require("./pages/Error");
 var Profile_1 = require("./pages/Profile");
 var AddGroup_1 = require("./pages/AddGroup");
 var UpdateUser_1 = require("./pages/UpdateUser");
@@ -43,7 +44,8 @@ function App() {
                         React.createElement(react_router_dom_1.Route, { path: "/users", element: React.createElement(Users_1["default"], null) }),
                         React.createElement(react_router_dom_1.Route, { path: "/users/:userId", element: React.createElement(User_1["default"], null) }),
                         React.createElement(react_router_dom_1.Route, { path: "/profile", element: React.createElement(Profile_1["default"], null) }),
-                        React.createElement(react_router_dom_1.Route, { path: "/assignments/:assignmentId", element: React.createElement(Assignment_1["default"], null) })),
+                        React.createElement(react_router_dom_1.Route, { path: "/assignments/:assignmentId", element: React.createElement(Assignment_1["default"], null) }),
+                        React.createElement(react_router_dom_1.Route, { path: "/error", element: React.createElement(Error_1["default"], null) })),
                     React.createElement(react_router_dom_1.Route, { element: React.createElement(PrivateRoute, { allowedRoles: ['admin'] }) },
                         React.createElement(react_router_dom_1.Route, { path: "/groups", element: React.createElement(Groups_1["default"], null) }),
                         React.createElement(react_router_dom_1.Route, { path: "/groups/:groupId", element: React.createElement(Group_1["default"], null) }),

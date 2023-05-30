@@ -102,6 +102,7 @@ const AddAssignment = () => {
       />
       <Datepicker
         value={startDate}
+        required={true}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setStartDate(e.target.value)
         }

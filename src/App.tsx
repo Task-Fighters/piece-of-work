@@ -9,6 +9,7 @@ import Users from './pages/Users';
 import Assignment from './pages/Assignment';
 import AddUser from './pages/AddUser';
 import AddAssignment from './pages/AddAssignment';
+import Error from './pages/Error';
 import Profile from './pages/Profile';
 import AddGroup from './pages/AddGroup';
 import UpdateUser from './pages/UpdateUser';
@@ -56,6 +57,10 @@ function App() {
               <Route
                 path="/assignments/:assignmentId"
                 element={<Assignment />}
+              />
+              <Route
+                path="/error"
+                element={<Error/>}
               />
             </Route>
             <Route element={<PrivateRoute allowedRoles={['admin']} />}>

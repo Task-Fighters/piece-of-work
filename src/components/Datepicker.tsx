@@ -2,10 +2,11 @@ import { Input } from '../components/Input';
 
 interface DatePickerProps {
   value?: string | null;
+  required? : boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Datepicker = ({ onChange, value }: DatePickerProps) => {
+const Datepicker = ({ onChange, value, required }: DatePickerProps) => {
   return (
     <div>
       <Input
@@ -13,7 +14,7 @@ const Datepicker = ({ onChange, value }: DatePickerProps) => {
         placeholder="Select a date"
         date
         label="Date"
-        required={true}
+        required={required}
         onChange={onChange}
       />
     </div>

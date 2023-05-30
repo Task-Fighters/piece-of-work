@@ -85,7 +85,7 @@ var AddAssignment = function () {
         react_1["default"].createElement(Title_1["default"], { underline: true, title: "Add New Assignment" }),
         react_1["default"].createElement(Input_1.Input, { label: "Title", required: true, onChange: function (e) { return setTitle(e.target.value); }, value: title }),
         react_1["default"].createElement(InputErrorAlert_1.InputErrorAlert, { isValid: isValid.title, toShowValidationError: toShowValidationError }),
-        react_1["default"].createElement(Datepicker_1["default"], { value: startDate, onChange: function (e) {
+        react_1["default"].createElement(Datepicker_1["default"], { value: startDate, required: true, onChange: function (e) {
                 return setStartDate(e.target.value);
             } }),
         react_1["default"].createElement(InputErrorAlert_1.InputErrorAlert, { isValid: isValid.startDate, toShowValidationError: toShowValidationError }),
