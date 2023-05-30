@@ -10,6 +10,8 @@ import { Button } from '../components/Button';
 import Datepicker from '../components/Datepicker';
 import ReactQuill from 'react-quill';
 import moment from 'moment';
+import { InputErrorAlert } from '../components/InputErrorAlert';
+import { RiAsterisk } from 'react-icons/ri';
 moment().format();
 
 const convertDate = (date: string) => {
@@ -27,13 +29,23 @@ const UpdateAssignment = () => {
   const [description, setDescription] = useState('');
   const [group, setGroup] = useState<IGroup>({
     id: 0,
-  name: "",
-  users: [],
-  assignments: []
+    name: '',
+    users: [],
+    assignments: []
   });
+
+  const [isValid, setIsValid] = useState({
+    title: true,
+    startDate: true,
+    description: true
+  });
+
+  const [toShowValidationError, setToShowValidationError] = useState(false);
+
   const cookieToken: string | undefined = Cookies.get('token');
   let { assignmentId } = useParams();
   const navigate = useNavigate();
+  const regexForDescription = /(?<=>)[\w\s]+(?=<)/g
 
   useEffect(() => {
     axios
@@ -58,33 +70,51 @@ const UpdateAssignment = () => {
       });
   }, [assignmentId, cookieToken, groups]);
 
-  const handleUpdateAssignment: React.FormEventHandler<HTMLFormElement> = (
-    e
-  ) => {
-    e.preventDefault();
-    const updatedAssignment = {
-      title: title,
-      startDate: startDate,
-      description: description,
-      groupId: group?.id
-    };
+  useEffect(() => {
+    setIsValid({
+      ...isValid,
+      title: title ? true : false,
+      startDate: startDate ? true : false,
+      description: regexForDescription.test(description) ? true : false
+    });
+    // eslint-disable-next-line
+  }, [title, startDate, description]);
 
-    axios
-      .put(
-        `https://project-salty-backend.azurewebsites.net/Assignments/${assignmentId}`,
-        {
-          ...updatedAssignment
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookieToken}`,
-            Accept: 'text/plain'
+  
+  const handleUpdateAssignment: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    let updatedAssignment;
+    if (
+      isValid.startDate === true &&
+      isValid.title === true &&
+      isValid.description === true
+    ) {
+      updatedAssignment = {
+        title: title,
+        startDate: startDate,
+        description: description,
+        groupId: group.id
+      };
+
+      axios
+        .put(
+          `https://project-salty-backend.azurewebsites.net/Assignments/${assignmentId}`,
+          {
+            ...updatedAssignment
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${cookieToken}`,
+              Accept: 'text/plain'
+            }
           }
-        }
-      )
-      .then(() => {
-        navigate(`/assignments/${assignmentId}`);
-      });
+        )
+        .then(() => {
+          navigate(`/assignments/${assignmentId}`);
+        });
+    } else {
+      setToShowValidationError(true);
+    }
   };
 
   const handleDeleteAssignment = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -117,12 +147,22 @@ const UpdateAssignment = () => {
           label="Title"
           onChange={(e) => setTitle(e.target.value)}
           value={title}
+          required={true}
+        />
+        <InputErrorAlert
+          isValid={isValid.title}
+          toShowValidationError={toShowValidationError}
         />
         <Datepicker
           value={startDate}
+          required={true}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setStartDate(e.target.value)
           }
+        />
+        <InputErrorAlert
+          isValid={isValid.startDate}
+          toShowValidationError={toShowValidationError}
         />
 
         <Input
@@ -132,14 +172,19 @@ const UpdateAssignment = () => {
           value={group?.name}
         />
 
-        <label className="text-pink-600 text-lg font-bold font-sans">
-          Details
+        <label className="text-pink-600 text-lg font-bold font-sans flex items-center">
+          Details <span>&nbsp;</span>{' '}
+          <RiAsterisk className="text-[10px] text-red-500" />
         </label>
         <ReactQuill
           className="h-44 mb-14"
           theme="snow"
           value={description}
           onChange={(e: any) => setDescription(e)}
+        />
+        <InputErrorAlert
+          isValid={isValid.description}
+          toShowValidationError={toShowValidationError}
         />
         <div>
           <Button label="Update Assignment" type="submit" />

@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
@@ -8,6 +8,7 @@ import Title from '../components/Title';
 import { MultiSelect } from 'react-multi-select-component';
 import { AppContext } from '../AppContext';
 import { ContextType } from '../types';
+import {InputErrorAlert}  from '../components/InputErrorAlert';
 
 const AddGroup = () => {
   const {users } = useContext(AppContext) as ContextType;
@@ -25,10 +26,24 @@ const AddGroup = () => {
 const [selected, setSelected] = useState([]);
 const selectedUsersIds = selected.map((user: { value: any; }) => user.value);
 
+const [isValid, setIsValid] = useState({
+  groupName: false,
+});
+const [toShowValidationError, setToShowValidationError] = useState(false)
+
+
+useEffect(() => {
+  setIsValid({...isValid, 
+    groupName: groupName ? true : false,
+  });
+  // eslint-disable-next-line
+}, [groupName]);
+
   const addGroup = () => {
-    if (groupName.trim() === '') {
-      return;
-    }
+    // if (groupName.trim() === '') {
+    //   return;
+    // }
+    if(isValid.groupName === true) {
     axios
       .post(
         `https://project-salty-backend.azurewebsites.net/Groups`,
@@ -47,6 +62,9 @@ const selectedUsersIds = selected.map((user: { value: any; }) => user.value);
         setGroupName('');
         navigate(`/groups/${response.data.id}`);
       });
+    } else {
+      setToShowValidationError(true)
+    }
   };
 
   return (
@@ -55,9 +73,14 @@ const selectedUsersIds = selected.map((user: { value: any; }) => user.value);
       <Input
         label="Group Name"
         value={groupName}
+        required={true}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setGroupName(e.target.value)
         }
+      />
+      <InputErrorAlert
+      isValid={isValid.groupName}
+      toShowValidationError={toShowValidationError}
       />
       <label className="text-pink-600 text-lg font-bold font-sans">
         User E-mail Address            
@@ -79,3 +102,5 @@ const selectedUsersIds = selected.map((user: { value: any; }) => user.value);
 };
 
 export default AddGroup;
+
+

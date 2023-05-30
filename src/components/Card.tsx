@@ -1,6 +1,6 @@
 import parse from 'html-react-parser';
 import { MdEdit } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface CardProps {
   cardType?: 'card' | 'feature' | 'detailed';
@@ -59,10 +59,17 @@ export const Card = ({
     .replace(',', '');
 
   subtitle = formattedDate;
+  let pointer;
+  const classes = `${base_card} ${mode} py-2 ${pointer === true ? "cursor-pointer" : "cursor-auto" }`;
+  const location = useLocation();
 
-  const classes = `${base_card} ${mode} py-2 cursor-pointer`;
-  const handleNavigate = () => navigate(`/assignments/${id}`);
-
+  const handleNavigate = () => {
+    if(location.pathname !== `/assignments/${id}`){
+      navigate(`/assignments/${id}`)
+      pointer = true;
+    } return
+    }
+   
   return cardType !== 'detailed' ? (
     <div className={classes} onClick={handleNavigate}>
       <div className="px-4 pt-1">
@@ -75,7 +82,7 @@ export const Card = ({
         <h3 className="text-sm font-bold font-roboto mt-1.5">{subtitle}</h3>
       </div>
       <div className="px-4 py-1">
-        <div className="text-md font-roboto">{parse(`${featureText}`)}</div>
+        <div className="font-roboto">{parse(`${featureText}`)}</div>
       </div>
     </div>
   ) : (
@@ -99,7 +106,7 @@ export const Card = ({
       </div>
       <div className="border-b-2 mt-2 mb-1 border-pink-600"></div>
       <div className="px-4 py-1">
-        <div className="text-md font-roboto">{parse(`${featureText}`)}</div>
+        <div className="font-roboto">{parse(`${featureText}`)}</div>
       </div>
     </div>
   );

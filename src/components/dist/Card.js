@@ -36,15 +36,23 @@ exports.Card = function (_a) {
     })
         .replace(',', '');
     subtitle = formattedDate;
-    var classes = base_card + " " + mode + " py-2 cursor-pointer";
-    var handleNavigate = function () { return navigate("/assignments/" + id); };
+    var pointer;
+    var classes = base_card + " " + mode + " py-2 " + (pointer === true ? "cursor-pointer" : "cursor-auto");
+    var location = react_router_dom_1.useLocation();
+    var handleNavigate = function () {
+        if (location.pathname !== "/assignments/" + id) {
+            navigate("/assignments/" + id);
+            pointer = true;
+        }
+        return;
+    };
     return cardType !== 'detailed' ? (React.createElement("div", { className: classes, onClick: handleNavigate },
         React.createElement("div", { className: "px-4 pt-1" },
             React.createElement("h1", { className: "text-lg font-bold font-poppins" }, title),
             React.createElement("h4", { className: "text-xs font-bold text-pink-600 mb-1 font-poppins" }, group),
             React.createElement("h3", { className: "text-sm font-bold font-roboto" }, subtitle)),
         React.createElement("div", { className: "px-4 py-1" },
-            React.createElement("div", { className: "text-md font-roboto" }, html_react_parser_1["default"]("" + featureText))))) : (React.createElement("div", { className: classes },
+            React.createElement("div", { className: "font-roboto" }, html_react_parser_1["default"]("" + featureText))))) : (React.createElement("div", { className: classes },
         React.createElement("div", { className: "px-4 pt-1" },
             React.createElement("div", { className: "flex flex-row w-full justify-between" },
                 React.createElement("h2", { className: "text-lg font-bold font-poppins" }, title),
@@ -53,5 +61,5 @@ exports.Card = function (_a) {
             React.createElement("h3", { className: "text-sm font-bold font-roboto" }, subtitle)),
         React.createElement("div", { className: "border-b-2 mt-2 mb-1 border-pink-600" }),
         React.createElement("div", { className: "px-4 py-1" },
-            React.createElement("div", { className: "text-md font-roboto" }, html_react_parser_1["default"]("" + featureText)))));
+            React.createElement("div", { className: "font-roboto" }, html_react_parser_1["default"]("" + featureText)))));
 };
