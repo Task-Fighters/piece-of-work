@@ -53,12 +53,13 @@ const Group = () => {
       .then((response) => {
         setGroup(response.data);
         setGroupName(response.data.name);
+      }).catch((error) => { 
+        navigate("/error")
       });
   }, [cookieToken, groupId]);
 
   const handleAddUserToGroup = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    try {
       axios
         .post(
           `https://project-salty-backend.azurewebsites.net/Groups/AddUser/${groupId}`,
@@ -72,10 +73,9 @@ const Group = () => {
         )
         .then((res) => {
           console.log(res.statusText);
+        }).catch((error) => { 
+          navigate("/error")
         });
-    } catch (error) {
-      console.error();
-    }
   };
 
   const handleRemoveUser = (
@@ -96,6 +96,8 @@ const Group = () => {
       )
       .then((res) => {
         console.log(res.data);
+      }).catch((error) => { 
+        navigate("/error")
       });
   };
 
@@ -114,6 +116,8 @@ const Group = () => {
       .then(() => {
         setUpdate(true);
         navigate('/groups');
+      }).catch((error) => { 
+        navigate("/error")
       });
   };
 

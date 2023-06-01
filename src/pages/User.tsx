@@ -1,21 +1,14 @@
 import axios from 'axios';
 import { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { IUser, ContextType } from '../types';
+import { IUser, ContextType, IRepo } from '../types';
 import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
 import Title from '../components/Title';
 import UserDetails from '../components/UserDetails';
 import { Repo } from '../components/Repo';
 import { ListItem } from '../components/ListItem';
-
-interface IRepo {
-  id: number;
-  assignmentId: number;
-  assignment: string;
-  url: string;
-  title: string;
-}
+import { useNavigate } from 'react-router-dom';
 
 const User = () => {
   const { user, assignments, groups } = useContext(AppContext) as ContextType;
@@ -23,7 +16,7 @@ const User = () => {
   let { userId } = useParams();
   const [repos, setRepos] = useState<IRepo[]>([]);
   const cookieToken: string | undefined = Cookies.get('token');
-
+  const navigate = useNavigate();
   const userGroups = user.groupsId?.map(group => {
    let currentGroup = groups.find(item => item.id === group);
    let groupObj = {
@@ -43,6 +36,8 @@ const User = () => {
       })
       .then((response) => {
         setSingleUser(response.data);
+      }).catch((error) => { 
+        navigate("/error")
       });
   }, [userId, cookieToken]);
 

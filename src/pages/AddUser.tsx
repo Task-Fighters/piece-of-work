@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
@@ -46,7 +47,7 @@ const AddUser = () => {
   const [userLocation, setUserLocation] = useState('Amsterdam');
   const [role, setRole] = useState('pgp');
   const cookieToken: string | undefined = Cookies.get('token');
-
+  const navigate = useNavigate();
   const selectOptions = groups.map((item) => ({
     label: item.name,
     value: item.id
@@ -129,6 +130,8 @@ const AddUser = () => {
         )
         .then((response) => {
           console.log(response.statusText);
+        }).catch((error) => { 
+          navigate("/error")
         });
     } else {
       //change this later into styled alert

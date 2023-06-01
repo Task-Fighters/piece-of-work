@@ -67,6 +67,8 @@ const UpdateAssignment = () => {
         setStartDate(date);
         group && setGroup(group);
         setDescription(response.data?.description);
+      }).catch((error) => { 
+        navigate("/error")
       });
   }, [assignmentId, cookieToken, groups]);
 
@@ -111,6 +113,8 @@ const UpdateAssignment = () => {
         )
         .then(() => {
           navigate(`/assignments/${assignmentId}`);
+        }).catch((error) => { 
+          navigate("/error")
         });
     } else {
       setToShowValidationError(true);
@@ -136,6 +140,8 @@ const UpdateAssignment = () => {
           )
         );
         navigate(`/home`);
+      }).catch((error) => { 
+        navigate("/error")
       });
   };
 

@@ -45,6 +45,7 @@ var Title_1 = require("../components/Title");
 var UserDetails_1 = require("../components/UserDetails");
 var Repo_1 = require("../components/Repo");
 var ListItem_1 = require("../components/ListItem");
+var react_router_dom_2 = require("react-router-dom");
 var User = function () {
     var _a;
     var _b = react_1.useContext(AppContext_1.AppContext), user = _b.user, assignments = _b.assignments, groups = _b.groups;
@@ -52,6 +53,7 @@ var User = function () {
     var userId = react_router_dom_1.useParams().userId;
     var _d = react_1.useState([]), repos = _d[0], setRepos = _d[1];
     var cookieToken = js_cookie_1["default"].get('token');
+    var navigate = react_router_dom_2.useNavigate();
     var userGroups = (_a = user.groupsId) === null || _a === void 0 ? void 0 : _a.map(function (group) {
         var currentGroup = groups.find(function (item) { return item.id === group; });
         var groupObj = {
@@ -70,6 +72,8 @@ var User = function () {
         })
             .then(function (response) {
             setSingleUser(response.data);
+        })["catch"](function (error) {
+            navigate("/error");
         });
     }, [userId, cookieToken]);
     react_1.useEffect(function () {

@@ -61,6 +61,8 @@ useEffect(() => {
       .then((response) => {
         setGroupName('');
         navigate(`/groups/${response.data.id}`);
+      }).catch((error) => { 
+        navigate("/error")
       });
     } else {
       setToShowValidationError(true)

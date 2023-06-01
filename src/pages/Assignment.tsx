@@ -42,6 +42,8 @@ const Assignment = () => {
         .then((response) => {
           setAssignment(response.data);
           setIsLoading(false);
+        }).catch((error) => { 
+          navigate("/error")
         });
     }, 500);
   }, [assignmentId, cookieToken]);
@@ -59,6 +61,8 @@ const Assignment = () => {
       )
       .then((response) => {
         setRepos(response.data);
+      }).catch((error) => { 
+        navigate("/error")
       });
   }, [assignmentId, cookieToken, repoName]);
 
@@ -89,6 +93,8 @@ const Assignment = () => {
         .then((response) => {
           console.log(response.data);
           setRepoName('');
+        }).catch((error) => { 
+          navigate("/error")
         });
     } else {
       alert('Please enter a valid git repo Url');

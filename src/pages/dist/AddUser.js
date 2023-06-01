@@ -12,6 +12,7 @@ var __assign = (this && this.__assign) || function () {
 };
 exports.__esModule = true;
 var react_1 = require("react");
+var react_router_dom_1 = require("react-router-dom");
 var axios_1 = require("axios");
 var js_cookie_1 = require("js-cookie");
 var AppContext_1 = require("../AppContext");
@@ -53,6 +54,7 @@ var AddUser = function () {
     var _d = react_1.useState('Amsterdam'), userLocation = _d[0], setUserLocation = _d[1];
     var _e = react_1.useState('pgp'), role = _e[0], setRole = _e[1];
     var cookieToken = js_cookie_1["default"].get('token');
+    var navigate = react_router_dom_1.useNavigate();
     var selectOptions = groups.map(function (item) { return ({
         label: item.name,
         value: item.id
@@ -119,6 +121,8 @@ var AddUser = function () {
                 })
                     .then(function (response) {
                     console.log(response.statusText);
+                })["catch"](function (error) {
+                    navigate("/error");
                 });
             }
             else {

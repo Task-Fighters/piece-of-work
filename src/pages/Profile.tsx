@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ContextType } from '../types';
+import { ContextType, IRepo } from '../types';
 import { AppContext } from '../AppContext';
 import { Repo } from '../components/Repo';
 import Title from '../components/Title';
@@ -10,14 +10,6 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import secureLocalStorage from 'react-secure-storage';
 import { ListItem } from '../components/ListItem';
-
-interface IRepo {
-  id: number;
-  assignmentId: number;
-  assignment: string;
-  url: string;
-  title: string;
-}
 
 const Profile = () => {
   const { user, assignments, groups } = useContext(AppContext) as ContextType;
@@ -53,13 +45,14 @@ const Profile = () => {
         )
         .then((response) => {
           setRepos(response.data);
+        }).catch((error) => { 
+          navigate("/error")
         });
     }
   }, [cookieToken, user.id]);
 
   const handleDeleteRepo = (e: React.MouseEvent<HTMLElement>, id: number) => {
     e.preventDefault();
-    try {
       axios
         .delete(`https://project-salty-backend.azurewebsites.net/Repos/${id}`, {
           headers: {
@@ -70,10 +63,9 @@ const Profile = () => {
         .then(() => {
           let newReposList = repos.filter((repo) => repo.id !== id);
           setRepos(newReposList);
+        }).catch((error) => { 
+          navigate("/error")
         });
-    } catch (err) {
-      console.log(err);
-    }
   };
   return (
     <>

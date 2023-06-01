@@ -59,6 +59,8 @@ var AddGroup = function () {
                 .then(function (response) {
                 setGroupName('');
                 navigate("/groups/" + response.data.id);
+            })["catch"](function (error) {
+                navigate("/error");
             });
         }
         else {

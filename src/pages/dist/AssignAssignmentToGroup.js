@@ -72,7 +72,10 @@ var AssignAssignmentToGroup = function () {
         })
             .then(function (response) {
             setAssignment(response.data);
+        })["catch"](function (error) {
+            navigate("/error");
         });
+        // eslint-disable-next-line
     }, [assignmentId, cookieToken]);
     react_1.useEffect(function () {
         setIsValid(__assign(__assign({}, isValid), { groups: selected.length > 0 ? true : false }));
@@ -88,21 +91,18 @@ var AssignAssignmentToGroup = function () {
                     description: assignment.description,
                     groupId: groupId
                 };
-                try {
-                    axios_1["default"]
-                        .post("https://project-salty-backend.azurewebsites.net/Assignments/", __assign({}, newAssignment), {
-                        headers: {
-                            Authorization: "Bearer " + cookieToken,
-                            Accept: 'text/plain'
-                        }
-                    })
-                        .then(function () {
-                        navigate("/home");
-                    });
-                }
-                catch (err) {
-                    console.log(err);
-                }
+                axios_1["default"]
+                    .post("https://project-salty-backend.azurewebsites.net/Assignments/", __assign({}, newAssignment), {
+                    headers: {
+                        Authorization: "Bearer " + cookieToken,
+                        Accept: 'text/plain'
+                    }
+                })
+                    .then(function () {
+                    navigate("/home");
+                })["catch"](function (error) {
+                    navigate("/error");
+                });
             });
         }
         else {

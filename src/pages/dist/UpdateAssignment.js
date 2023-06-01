@@ -67,6 +67,8 @@ var UpdateAssignment = function () {
             setStartDate(date);
             group && setGroup(group);
             setDescription((_a = response.data) === null || _a === void 0 ? void 0 : _a.description);
+        })["catch"](function (error) {
+            navigate("/error");
         });
     }, [assignmentId, cookieToken, groups]);
     react_1.useEffect(function () {
@@ -94,6 +96,8 @@ var UpdateAssignment = function () {
             })
                 .then(function () {
                 navigate("/assignments/" + assignmentId);
+            })["catch"](function (error) {
+                navigate("/error");
             });
         }
         else {
@@ -111,6 +115,8 @@ var UpdateAssignment = function () {
             .then(function () {
             setAssignments(assignments.filter(function (assignment) { return assignment.id !== Number(assignmentId); }));
             navigate("/home");
+        })["catch"](function (error) {
+            navigate("/error");
         });
     };
     return (react_1["default"].createElement(react_1["default"].Fragment, null,
