@@ -103,6 +103,7 @@ const AddAssignment = () => {
         .then((response) => {
           navigate(`/assignments/${response.data.id}`);
         }).catch((error) => { 
+          console.clear()
           navigate("/error")
         });
 

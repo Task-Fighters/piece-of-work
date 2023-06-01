@@ -39,7 +39,6 @@ const locationArr: IOption[] = [
   }
 ];
 
-
 const AddUser = () => {
   const { groups, setUpdate } = useContext(AppContext) as ContextType;
   const [email, setEmail] = useState('');
@@ -60,11 +59,12 @@ const AddUser = () => {
     bootcamp: false,
     role: false
   });
-  const [toShowValidationError, setToShowValidationError] = useState(false)
 
+  const [toShowValidationError, setToShowValidationError] = useState(false);
+  const [errorMessageEmail, setErrorMessageEmail] = useState('');
+  
   const isValidEmail = (email: string): boolean => {
     const regex = /^[a-zA-Z0-9._%+-]+@appliedtechnology\.se$/;
-    console.log(regex.test(email))
     return regex.test(email);
   };
 
@@ -89,7 +89,8 @@ const AddUser = () => {
   }, [email]);
 
   useEffect(() => {
-    setIsValid({...isValid, 
+    setIsValid({
+      ...isValid,
       email: email ? true : false,
       location: userLocation ? true : false,
       bootcamp: selectedGroups.label ? true : false,
@@ -113,46 +114,64 @@ const AddUser = () => {
       groupsId: [selectedGroups.value],
       bootcamp: selectedGroups.label
     };
-    if(isValid.email === true && isValid.location === true && isValid.bootcamp === true && isValid.role === true) {
-    if (isValidEmail(email)) {
-      axios
-        .post(
-          `https://project-salty-backend.azurewebsites.net/Users`,
-          {
-            ...newUser
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${cookieToken}`,
-              Accept: 'text/plain'
+    if (
+      isValid.email === true &&
+      isValid.location === true &&
+      isValid.bootcamp === true &&
+      isValid.role === true
+    ) {
+      if (isValidEmail(email)) {
+        axios
+          .post(
+            `https://project-salty-backend.azurewebsites.net/Users`,
+            {
+              ...newUser
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${cookieToken}`,
+                Accept: 'text/plain'
+              }
             }
-          }
-        )
-        .then((response) => {
-          console.log(response.statusText);
-        }).catch((error) => { 
-          navigate("/error")
-        });
+          )
+          .then((response) => {
+            if (response.statusText === 'OK') {
+              const target = e.target as HTMLFormElement;
+              target.reset();
+              setEmail('');
+              setUserLocation('Amsterdam');
+              setRole('PGP');
+              setSelectedGroups({
+                label: '',
+                value: ''
+              });
+              setToShowValidationError(false);
+              setUpdate(true);
+            }
+          })
+          .catch((error) => {
+            if (error.response.status === 409) {
+              setIsValid({ ...isValid, email: false });
+              setErrorMessageEmail('This user already exists');
+              setToShowValidationError(true);
+              setTimeout(() => {
+                setToShowValidationError(false);
+              }, 2000);
+              console.clear();
+            } else {
+              console.clear();
+              navigate('/error');
+            }
+          });
+      } else {
+        setIsValid({ ...isValid, email: false });
+        setErrorMessageEmail('Enter appliedtechnology email address');
+        setToShowValidationError(true);
+      }
     } else {
-      //change this later into styled alert
-      alert('Enter appliedtechnology email address');
+      setToShowValidationError(true);
     }
-    const target = e.target as HTMLFormElement;
-    target.reset();
-    setEmail('');
-    setUserLocation('Amsterdam');
-    setRole('PGP');
-    setSelectedGroups({
-      label: "",
-      value: ""
-    })
-    setUpdate(true);
-  } else {
-    setToShowValidationError(true)
-
-  }
   };
-
 
   const handleChangeLocation = (selectedOption: any) => {
     setUserLocation(selectedOption.label);
@@ -162,62 +181,71 @@ const AddUser = () => {
     setRole(selectedOption.label);
   };
   return (
-          <form onSubmit={handleSubmit}>
-            <Title underline title="Add New User" />
-            <Input
-              label="E-mail address"
-              required={true}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          <InputErrorAlert
-            isValid={isValid.email}
-            toShowValidationError={toShowValidationError}
-            />
-            <div>
-              <label className="text-pink-600 text-lg font-bold font-sans flex items-center">
-                Location <span>&nbsp;</span> <RiAsterisk className='text-[10px] text-red-500'/>
-              </label>
-              <Select
-                className="mb-4 "
-                classNamePrefix="single_select"
-                onChange={handleChangeLocation}
-                options={locationArr}
-                defaultValue={locationArr[0]}
-              />
-            </div>
-            <label className="text-pink-600 text-lg font-bold font-sans flex items-center">
-              Bootcamp <span>&nbsp;</span> <RiAsterisk className='text-[10px] text-red-500'/>
-            </label>
-            <div className=".dropdown-container">
-              <Select
-                className="mb-4 "
-                classNamePrefix="single_select"
-                onChange={handleChangeBootcamp}
-                options={selectOptions}
-                value={selectedGroups}
-              />
-            </div>
-            <InputErrorAlert
-              isValid={isValid.bootcamp}
-              toShowValidationError={toShowValidationError}
-            />
-            <div>
-              <label className="text-pink-600 text-lg font-bold font-sans flex items-center">
-                Role <span>&nbsp;</span> <RiAsterisk className='text-[10px] text-red-500'/>
-              </label>
-              <Select
-                className="mb-4 "
-                classNamePrefix="single_select"
-                onChange={handleChangeRole}
-                options={roleArr}
-                defaultValue={roleArr[0]}
-              />
-            </div>
-            <div className="mb-32">
-              <Button label="Add User" type="submit" />
-            </div>
-          </form>
+    <form onSubmit={handleSubmit}>
+      <Title underline title="Add New User" />
+      <Input
+        label="E-mail address"
+        required={true}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <InputErrorAlert
+        isValid={isValid.email}
+        toShowValidationError={toShowValidationError}
+        errorMessage={errorMessageEmail}
+      />
+      <div>
+        <label className="text-pink-600 text-lg font-bold font-sans flex items-center">
+          Location <span>&nbsp;</span>{' '}
+          <RiAsterisk className="text-[10px] text-red-500" />
+        </label>
+        <Select
+          className="mb-4 "
+          classNamePrefix="single_select"
+          onChange={handleChangeLocation}
+          options={locationArr}
+          defaultValue={locationArr[0]}
+        />
+      </div>
+      <label className="text-pink-600 text-lg font-bold font-sans flex items-center">
+        Bootcamp <span>&nbsp;</span>{' '}
+        <RiAsterisk className="text-[10px] text-red-500" />
+      </label>
+      <div className=".dropdown-container">
+        <Select
+          className="mb-4 "
+          classNamePrefix="single_select"
+          onChange={handleChangeBootcamp}
+          options={selectOptions}
+          value={selectedGroups}
+        />
+      </div>
+      <InputErrorAlert
+        isValid={isValid.bootcamp}
+        toShowValidationError={toShowValidationError}
+      />
+      <div>
+        <label className="text-pink-600 text-lg font-bold font-sans flex items-center">
+          Role <span>&nbsp;</span>{' '}
+          <RiAsterisk className="text-[10px] text-red-500" />
+        </label>
+        <Select
+          className="mb-4 "
+          classNamePrefix="single_select"
+          onChange={handleChangeRole}
+          options={roleArr}
+          defaultValue={roleArr[0]}
+        />
+      </div>
+      <div className="mb-32">
+        <Button label="Add User" type="submit" />
+      </div>
+      <InputErrorAlert
+        isValid={isValid.email}
+        toShowValidationError={toShowValidationError}
+        errorMessage="This user already exists"
+      />
+    </form>
   );
 };
 

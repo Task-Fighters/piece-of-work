@@ -96,6 +96,7 @@ var AddAssignment = function () {
                 .then(function (response) {
                 navigate("/assignments/" + response.data.id);
             })["catch"](function (error) {
+                console.clear();
                 navigate("/error");
             });
             var target = e.target;

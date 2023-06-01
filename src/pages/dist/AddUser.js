@@ -67,9 +67,9 @@ var AddUser = function () {
         role: false
     }), isValid = _g[0], setIsValid = _g[1];
     var _h = react_1.useState(false), toShowValidationError = _h[0], setToShowValidationError = _h[1];
+    var _j = react_1.useState(''), errorMessageEmail = _j[0], setErrorMessageEmail = _j[1];
     var isValidEmail = function (email) {
         var regex = /^[a-zA-Z0-9._%+-]+@appliedtechnology\.se$/;
-        console.log(regex.test(email));
         return regex.test(email);
     };
     react_1.useEffect(function () {
@@ -110,7 +110,10 @@ var AddUser = function () {
             groupsId: [selectedGroups.value],
             bootcamp: selectedGroups.label
         };
-        if (isValid.email === true && isValid.location === true && isValid.bootcamp === true && isValid.role === true) {
+        if (isValid.email === true &&
+            isValid.location === true &&
+            isValid.bootcamp === true &&
+            isValid.role === true) {
             if (isValidEmail(email)) {
                 axios_1["default"]
                     .post("https://project-salty-backend.azurewebsites.net/Users", __assign({}, newUser), {
@@ -120,25 +123,40 @@ var AddUser = function () {
                     }
                 })
                     .then(function (response) {
-                    console.log(response.statusText);
+                    if (response.statusText === 'OK') {
+                        var target = e.target;
+                        target.reset();
+                        setEmail('');
+                        setUserLocation('Amsterdam');
+                        setRole('PGP');
+                        setSelectedGroups({
+                            label: '',
+                            value: ''
+                        });
+                        setToShowValidationError(false);
+                        setUpdate(true);
+                    }
                 })["catch"](function (error) {
-                    navigate("/error");
+                    if (error.response.status === 409) {
+                        setIsValid(__assign(__assign({}, isValid), { email: false }));
+                        setErrorMessageEmail('This user already exists');
+                        setToShowValidationError(true);
+                        setTimeout(function () {
+                            setToShowValidationError(false);
+                        }, 2000);
+                        console.clear();
+                    }
+                    else {
+                        console.clear();
+                        navigate('/error');
+                    }
                 });
             }
             else {
-                //change this later into styled alert
-                alert('Enter appliedtechnology email address');
+                setIsValid(__assign(__assign({}, isValid), { email: false }));
+                setErrorMessageEmail('Enter appliedtechnology email address');
+                setToShowValidationError(true);
             }
-            var target = e.target;
-            target.reset();
-            setEmail('');
-            setUserLocation('Amsterdam');
-            setRole('PGP');
-            setSelectedGroups({
-                label: "",
-                value: ""
-            });
-            setUpdate(true);
         }
         else {
             setToShowValidationError(true);
@@ -153,19 +171,19 @@ var AddUser = function () {
     return (React.createElement("form", { onSubmit: handleSubmit },
         React.createElement(Title_1["default"], { underline: true, title: "Add New User" }),
         React.createElement(Input_1.Input, { label: "E-mail address", required: true, value: email, onChange: function (e) { return setEmail(e.target.value); } }),
-        React.createElement(InputErrorAlert_1.InputErrorAlert, { isValid: isValid.email, toShowValidationError: toShowValidationError }),
+        React.createElement(InputErrorAlert_1.InputErrorAlert, { isValid: isValid.email, toShowValidationError: toShowValidationError, errorMessage: errorMessageEmail }),
         React.createElement("div", null,
             React.createElement("label", { className: "text-pink-600 text-lg font-bold font-sans flex items-center" },
                 "Location ",
                 React.createElement("span", null, "\u00A0"),
-                " ",
-                React.createElement(ri_1.RiAsterisk, { className: 'text-[10px] text-red-500' })),
+                ' ',
+                React.createElement(ri_1.RiAsterisk, { className: "text-[10px] text-red-500" })),
             React.createElement(react_select_1["default"], { className: "mb-4 ", classNamePrefix: "single_select", onChange: handleChangeLocation, options: locationArr, defaultValue: locationArr[0] })),
         React.createElement("label", { className: "text-pink-600 text-lg font-bold font-sans flex items-center" },
             "Bootcamp ",
             React.createElement("span", null, "\u00A0"),
-            " ",
-            React.createElement(ri_1.RiAsterisk, { className: 'text-[10px] text-red-500' })),
+            ' ',
+            React.createElement(ri_1.RiAsterisk, { className: "text-[10px] text-red-500" })),
         React.createElement("div", { className: ".dropdown-container" },
             React.createElement(react_select_1["default"], { className: "mb-4 ", classNamePrefix: "single_select", onChange: handleChangeBootcamp, options: selectOptions, value: selectedGroups })),
         React.createElement(InputErrorAlert_1.InputErrorAlert, { isValid: isValid.bootcamp, toShowValidationError: toShowValidationError }),
@@ -173,10 +191,11 @@ var AddUser = function () {
             React.createElement("label", { className: "text-pink-600 text-lg font-bold font-sans flex items-center" },
                 "Role ",
                 React.createElement("span", null, "\u00A0"),
-                " ",
-                React.createElement(ri_1.RiAsterisk, { className: 'text-[10px] text-red-500' })),
+                ' ',
+                React.createElement(ri_1.RiAsterisk, { className: "text-[10px] text-red-500" })),
             React.createElement(react_select_1["default"], { className: "mb-4 ", classNamePrefix: "single_select", onChange: handleChangeRole, options: roleArr, defaultValue: roleArr[0] })),
         React.createElement("div", { className: "mb-32" },
-            React.createElement(Button_1.Button, { label: "Add User", type: "submit" }))));
+            React.createElement(Button_1.Button, { label: "Add User", type: "submit" })),
+        React.createElement(InputErrorAlert_1.InputErrorAlert, { isValid: isValid.email, toShowValidationError: toShowValidationError, errorMessage: "This user already exists" })));
 };
 exports["default"] = AddUser;

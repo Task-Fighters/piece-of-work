@@ -40,9 +40,6 @@ useEffect(() => {
 }, [groupName]);
 
   const addGroup = () => {
-    // if (groupName.trim() === '') {
-    //   return;
-    // }
     if(isValid.groupName === true) {
     axios
       .post(
@@ -62,6 +59,7 @@ useEffect(() => {
         setGroupName('');
         navigate(`/groups/${response.data.id}`);
       }).catch((error) => { 
+        console.clear()
         navigate("/error")
       });
     } else {
