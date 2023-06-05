@@ -9,7 +9,7 @@ export interface IUser {
   location: string;
   imageUrl: string;
   status: string;
-  groupsId?: number[];
+  groupsId: number[];
 }
 
 export interface IUserGroup {
@@ -30,7 +30,7 @@ export interface IGroup {
   id: number;
   name: string;
   users: IUserGroup[];
-  assignments: IAssignmentGroup[];
+  assignmentsId: IAssignmentGroup[];
 }
 
 export interface IRole {

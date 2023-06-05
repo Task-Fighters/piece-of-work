@@ -32,7 +32,7 @@ const UpdateAssignment = () => {
     id: 0,
     name: '',
     users: [],
-    assignments: []
+    assignmentsId: []
   });
 
   const [isValid, setIsValid] = useState({
@@ -48,8 +48,6 @@ const UpdateAssignment = () => {
   const navigate = useNavigate();
   const regexForDescription = /(?<=>)[\w\s]+(?=<)/g
 
-
-  console.log(description, "descr")
   useEffect(() => {
     axios
       .get(

@@ -110,6 +110,7 @@ const AppProvider = ({ children }: any) => {
         } catch (error) {
           setIsLoggedIn(false);
           navigate('/');
+          console.clear();
           Cookies.remove('token');
           secureLocalStorage.clear();
         }
@@ -218,7 +219,7 @@ const AppProvider = ({ children }: any) => {
       }
     }
     // eslint-disable-next-line
-  }, [user, cookieToken, isLoggedIn]);
+  }, [user, cookieToken, isLoggedIn, setAssignments]);
 
   return (
     <AppContext.Provider

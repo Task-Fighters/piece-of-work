@@ -12,7 +12,7 @@ import { RiAsterisk } from 'react-icons/ri';
 import { InputErrorAlert } from '../components/InputErrorAlert';
 
 const AssignAssignmentToGroup = () => {
-  const { groups, assignments } = useContext(
+  const { groups, assignments, setAssignments } = useContext(
     AppContext
   ) as ContextType;
   const [assignment, setAssignment] = useState<IAssignment>({
@@ -21,8 +21,8 @@ const AssignAssignmentToGroup = () => {
   startDate: "",
   description: "",
   groupId: undefined
-    
   })
+
   const selectOptions = groups?.map(item => {
     let option = {
       label: item.name,
@@ -33,17 +33,10 @@ const AssignAssignmentToGroup = () => {
   } 
 );
 
-const  groupsWithCurrentAssignment:any[] = [];
-
-assignments.forEach(item => {
-  if (assignment.groupId !== undefined && assignment?.title === item?.title) {
-    groupsWithCurrentAssignment.push(item.groupId);
-    return;
-  }
-})
+const  [groupsWithCurrentAssignment, setGroupsWithCurrentAssignment] = useState<number[]>([]);
 
 selectOptions.map(item => {
-  if (groupsWithCurrentAssignment?.some((id) => id === item.value) ) {
+  if (groupsWithCurrentAssignment?.some((id: number) => id === item.value) ) {
     item.disabled = true ;
     return item;
    }
@@ -62,6 +55,7 @@ const [toShowValidationError, setToShowValidationError] = useState(false)
   let { assignmentId } = useParams();
   const navigate = useNavigate();
 
+  
   useEffect(() => {
     axios
       .get(
@@ -75,11 +69,25 @@ const [toShowValidationError, setToShowValidationError] = useState(false)
       )
       .then((response) => {
         setAssignment(response.data)
+
       }).catch((error) => { 
         navigate("/error")
       });
       // eslint-disable-next-line
   }, [assignmentId, cookieToken]);
+
+
+  useEffect(() => {
+    const groupsWithCurAssignment: (any)[] = [];
+    assignments.forEach(item => {
+      if (assignment.groupId !== undefined && assignment?.title === item?.title) {
+        groupsWithCurAssignment.push(item.groupId);
+        return;
+      }}
+    )
+   setGroupsWithCurrentAssignment(groupsWithCurAssignment)
+      // eslint-disable-next-line
+  },[assignments, assignment])
 
   useEffect(() => {
     setIsValid({...isValid, 
@@ -113,7 +121,8 @@ const [toShowValidationError, setToShowValidationError] = useState(false)
             }
           }
         )
-        .then(() => {
+        .then((response) => {
+          setAssignments([...assignments, response.data])
           navigate(`/home`);
         }).catch((error) => { 
           navigate("/error")

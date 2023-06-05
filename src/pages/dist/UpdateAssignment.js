@@ -40,7 +40,7 @@ var UpdateAssignment = function () {
         id: 0,
         name: '',
         users: [],
-        assignments: []
+        assignmentsId: []
     }), group = _e[0], setGroup = _e[1];
     var _f = react_1.useState({
         title: true,
@@ -52,7 +52,6 @@ var UpdateAssignment = function () {
     var assignmentId = react_router_dom_1.useParams().assignmentId;
     var navigate = react_router_dom_1.useNavigate();
     var regexForDescription = /(?<=>)[\w\s]+(?=<)/g;
-    console.log(description, "descr");
     react_1.useEffect(function () {
         axios_1["default"]
             .get("https://project-salty-backend.azurewebsites.net/Assignments/" + assignmentId, {

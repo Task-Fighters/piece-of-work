@@ -157,6 +157,7 @@ var AppProvider = function (_a) {
                     error_1 = _a.sent();
                     setIsLoggedIn(false);
                     navigate('/');
+                    console.clear();
                     js_cookie_1["default"].remove('token');
                     react_secure_storage_1["default"].clear();
                     return [3 /*break*/, 4];
@@ -254,7 +255,7 @@ var AppProvider = function (_a) {
             }
         }
         // eslint-disable-next-line
-    }, [user, cookieToken, isLoggedIn]);
+    }, [user, cookieToken, isLoggedIn, setAssignments]);
     return (React.createElement(AppContext.Provider, { value: {
             groups: groups,
             user: user,

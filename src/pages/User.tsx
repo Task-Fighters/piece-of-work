@@ -17,14 +17,14 @@ const User = () => {
   const [repos, setRepos] = useState<IRepo[]>([]);
   const cookieToken: string | undefined = Cookies.get('token');
   const navigate = useNavigate();
-  const userGroups = user.groupsId?.map(group => {
-   let currentGroup = groups.find(item => item.id === group);
-   let groupObj = {
-    id: group,
-    name: currentGroup?.name
-   }
-   return groupObj; 
-  })
+  const userGroups = singleUser?.groupsId?.map((group) => {
+    let currentGroup = groups.find((item) => item.id === group);
+    let groupObj = {
+      id: group,
+      name: currentGroup?.name,
+    };
+    return groupObj;
+  });
 
   useEffect(() => {
     axios
@@ -36,31 +36,30 @@ const User = () => {
       })
       .then((response) => {
         setSingleUser(response.data);
-      }).catch((error) => { 
-        navigate("/error")
+      })
+      .catch((error) => {
+        navigate('/error');
       });
-      // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [userId, cookieToken]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `https://project-salty-backend.azurewebsites.net/Repos/User/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${cookieToken}`,
-              Accept: 'text/plain'
-            }
+    axios
+      .get(
+        `https://project-salty-backend.azurewebsites.net/Repos/User/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookieToken}`,
+            Accept: 'text/plain'
           }
-        );
+        }
+      )
+      .then((response) => {
         setRepos(response.data);
-      } catch (error) {
-        navigate("/error")
-      }
-    };
-
-    fetchData();
+      })
+      .catch((error) => {
+        navigate('/error');
+      });
     // eslint-disable-next-line
   }, [cookieToken, userId]);
 
@@ -83,20 +82,19 @@ const User = () => {
           title={`Groups (${userGroups?.length})`}
         />
       )}
-       <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
+      <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
         <ul className="flex flex-row flex-wrap justify-between capitalize gap-x-1 w-full">
-        {userGroups?.map((group, index) => {
-          return (
-          <ListItem
-          key={group?.id}
-          id={group?.id}
-          title={group?.name || ""}
-          route={user.role === 'admin' ? `/groups` : ""}
-        />
-          )})}
-        
+          {userGroups?.map((group, index) => {
+            return (
+              <ListItem
+                key={group?.id}
+                id={group?.id}
+                title={group?.name || ''}
+                route={user.role === 'admin' ? `/groups` : ''}
+              />
+            );
+          })}
         </ul>
-        
       </div>
 
       {repos.length > 0 && (
@@ -106,6 +104,7 @@ const User = () => {
           title={`Completed Assignments (${repos?.length})`}
         />
       )}
+
       <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
         {repos?.map((repo, index) => {
           const name = assignments.find(

@@ -10,6 +10,13 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 exports.__esModule = true;
 var axios_1 = require("axios");
 var js_cookie_1 = require("js-cookie");
@@ -23,7 +30,7 @@ var Button_1 = require("../components/Button");
 var ri_1 = require("react-icons/ri");
 var InputErrorAlert_1 = require("../components/InputErrorAlert");
 var AssignAssignmentToGroup = function () {
-    var _a = react_1.useContext(AppContext_1.AppContext), groups = _a.groups, assignments = _a.assignments;
+    var _a = react_1.useContext(AppContext_1.AppContext), groups = _a.groups, assignments = _a.assignments, setAssignments = _a.setAssignments;
     var _b = react_1.useState({
         id: undefined,
         title: "",
@@ -39,13 +46,7 @@ var AssignAssignmentToGroup = function () {
         };
         return option;
     });
-    var groupsWithCurrentAssignment = [];
-    assignments.forEach(function (item) {
-        if (assignment.groupId !== undefined && (assignment === null || assignment === void 0 ? void 0 : assignment.title) === (item === null || item === void 0 ? void 0 : item.title)) {
-            groupsWithCurrentAssignment.push(item.groupId);
-            return;
-        }
-    });
+    var _c = react_1.useState([]), groupsWithCurrentAssignment = _c[0], setGroupsWithCurrentAssignment = _c[1];
     selectOptions.map(function (item) {
         if (groupsWithCurrentAssignment === null || groupsWithCurrentAssignment === void 0 ? void 0 : groupsWithCurrentAssignment.some(function (id) { return id === item.value; })) {
             item.disabled = true;
@@ -53,12 +54,12 @@ var AssignAssignmentToGroup = function () {
         }
         return item;
     });
-    var _c = react_1.useState([]), selected = _c[0], setSelected = _c[1];
+    var _d = react_1.useState([]), selected = _d[0], setSelected = _d[1];
     var selectedGroupIds = selected.map(function (group) { return group.value; });
-    var _d = react_1.useState({
+    var _e = react_1.useState({
         groups: false
-    }), isValid = _d[0], setIsValid = _d[1];
-    var _e = react_1.useState(false), toShowValidationError = _e[0], setToShowValidationError = _e[1];
+    }), isValid = _e[0], setIsValid = _e[1];
+    var _f = react_1.useState(false), toShowValidationError = _f[0], setToShowValidationError = _f[1];
     var cookieToken = js_cookie_1["default"].get('token');
     var assignmentId = react_router_dom_1.useParams().assignmentId;
     var navigate = react_router_dom_1.useNavigate();
@@ -77,6 +78,17 @@ var AssignAssignmentToGroup = function () {
         });
         // eslint-disable-next-line
     }, [assignmentId, cookieToken]);
+    react_1.useEffect(function () {
+        var groupsWithCurAssignment = [];
+        assignments.forEach(function (item) {
+            if (assignment.groupId !== undefined && (assignment === null || assignment === void 0 ? void 0 : assignment.title) === (item === null || item === void 0 ? void 0 : item.title)) {
+                groupsWithCurAssignment.push(item.groupId);
+                return;
+            }
+        });
+        setGroupsWithCurrentAssignment(groupsWithCurAssignment);
+        // eslint-disable-next-line
+    }, [assignments, assignment]);
     react_1.useEffect(function () {
         setIsValid(__assign(__assign({}, isValid), { groups: selected.length > 0 ? true : false }));
         // eslint-disable-next-line
@@ -98,7 +110,8 @@ var AssignAssignmentToGroup = function () {
                         Accept: 'text/plain'
                     }
                 })
-                    .then(function () {
+                    .then(function (response) {
+                    setAssignments(__spreadArrays(assignments, [response.data]));
                     navigate("/home");
                 })["catch"](function (error) {
                     navigate("/error");
