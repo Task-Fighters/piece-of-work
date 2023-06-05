@@ -42,9 +42,6 @@ var AddGroup = function () {
         // eslint-disable-next-line
     }, [groupName]);
     var addGroup = function () {
-        // if (groupName.trim() === '') {
-        //   return;
-        // }
         if (isValid.groupName === true) {
             axios_1["default"]
                 .post("https://project-salty-backend.azurewebsites.net/Groups", {
@@ -59,6 +56,9 @@ var AddGroup = function () {
                 .then(function (response) {
                 setGroupName('');
                 navigate("/groups/" + response.data.id);
+            })["catch"](function (error) {
+                console.clear();
+                navigate("/error");
             });
         }
         else {

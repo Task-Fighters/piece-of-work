@@ -67,6 +67,8 @@ const UpdateUser = () => {
               item.label.toLowerCase() === response.data.role.toLowerCase()
           )
         );
+      }).catch((error) => { 
+        navigate("/error")
       });
   }, [userId, cookieToken, groups]);
 
@@ -97,6 +99,8 @@ const UpdateUser = () => {
       .then((response) => {
         console.log(response.statusText);
         navigate(`/users/${userId}`);
+      }).catch((error) => { 
+        navigate("/error")
       });
   };
 
@@ -116,6 +120,8 @@ const UpdateUser = () => {
         console.log(response.statusText);
         setUsers(users.filter((user) => user.id !== Number(userId)));
         navigate(`/users`);
+      }).catch((error) => { 
+        navigate("/error")
       });
   };
 

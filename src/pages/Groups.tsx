@@ -25,7 +25,10 @@ const Groups = () => {
           }
         }
       )
-      .then(() => setUpdate(true));
+      .then(() => setUpdate(true))
+      .catch((error) => { 
+        navigate("/error")
+      });
   };
 
   return (

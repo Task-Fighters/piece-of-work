@@ -31,6 +31,8 @@ export const Card = ({
   let mode = 'text-black border-black bg-gray-100';
   let featureText = description;
 
+
+  
   switch (cardType) {
     case 'feature':
       mode = 'text-black border-pink-600 bg-gray-100';
@@ -72,16 +74,16 @@ export const Card = ({
    
   return cardType !== 'detailed' ? (
     <div className={classes} onClick={handleNavigate}>
-      <div className="px-4 pt-1">
+      <div className="px-4 pt-1 mb-2">
         <h1 className="text-lg font-bold font-poppins">{title}</h1>
         {group && (
-          <span className="bg-pink-600 capitalize text-xs font-bold text-white font-poppins py-0.5 px-1.5 rounded">
+          <span className="text-pink-600 capitalize text-sm font-bold font-poppins">
             {group}
           </span>
         )}
         <h3 className="text-sm font-bold font-roboto mt-1.5">{subtitle}</h3>
       </div>
-      <div className="px-4 py-1">
+      <div className="px-4 py-1 richText">
         <div className="font-roboto">{parse(`${featureText}`)}</div>
       </div>
     </div>
@@ -97,16 +99,16 @@ export const Card = ({
             />
           )}
         </div>
-        <span className="bg-pink-600 capitalize text-xs font-bold text-white font-poppins py-0.5 px-1.5 rounded">
+        <span className="text-pink-600 capitalize text-sm font-bold font-poppins">
           {group}
         </span>
-        <h3 className="text-sm font-bold text-pink-600 font-roboto mt-1.5">
+        <h3 className="text-sm font-bold font-roboto mt-1.5">
           {subtitle}
         </h3>
       </div>
       <div className="border-b-2 mt-2 mb-1 border-pink-600"></div>
-      <div className="px-4 py-1">
-        <div className="font-roboto">{parse(`${featureText}`)}</div>
+      <div className="px-4 py-1 font-roboto richText">
+       {parse(`${featureText}`)}
       </div>
     </div>
   );

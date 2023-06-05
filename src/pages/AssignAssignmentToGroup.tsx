@@ -75,13 +75,15 @@ const [toShowValidationError, setToShowValidationError] = useState(false)
       )
       .then((response) => {
         setAssignment(response.data)
-      })
+      }).catch((error) => { 
+        navigate("/error")
+      });
+      // eslint-disable-next-line
   }, [assignmentId, cookieToken]);
 
   useEffect(() => {
     setIsValid({...isValid, 
       groups: selected.length > 0 ? true : false,
-
     });
     // eslint-disable-next-line
   }, [selected]);
@@ -98,7 +100,6 @@ const [toShowValidationError, setToShowValidationError] = useState(false)
         description: assignment.description,
         groupId: groupId
       }
-      try {
         axios
         .post(
           `https://project-salty-backend.azurewebsites.net/Assignments/`,
@@ -114,10 +115,9 @@ const [toShowValidationError, setToShowValidationError] = useState(false)
         )
         .then(() => {
           navigate(`/home`);
+        }).catch((error) => { 
+          navigate("/error")
         });
-      } catch(err) {
-        console.log(err)
-      }
     })
   } else {
     setToShowValidationError(true)

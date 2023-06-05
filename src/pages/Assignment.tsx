@@ -10,6 +10,7 @@ import { Input } from '../components/Input';
 import Title from '../components/Title';
 import { ListItem } from '../components/ListItem';
 import SkeletonCard from '../components/SkeletonCard';
+import { InputErrorAlert } from '../components/InputErrorAlert';
 
 interface IRepo {
   userId: number;
@@ -23,9 +24,22 @@ const Assignment = () => {
   const [repoName, setRepoName] = useState<string>('');
   const [repos, setRepos] = useState<IRepo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isValid, setIsValid] = useState({
+    repoLink: false,
+  });
+  const [toShowValidationError, setToShowValidationError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const cookieToken: string | undefined = Cookies.get('token');
   let { assignmentId } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsValid({
+      ...isValid,
+      repoLink: repoName ? true : false,
+    });
+    // eslint-disable-next-line
+  }, [repoName]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -42,9 +56,12 @@ const Assignment = () => {
         .then((response) => {
           setAssignment(response.data);
           setIsLoading(false);
+        }).catch((error) => { 
+          console.log('Something went wrong')
+          navigate("/error")
         });
     }, 500);
-  }, [assignmentId, cookieToken]);
+  }, [assignmentId, cookieToken, navigate]);
 
   useEffect(() => {
     axios
@@ -59,19 +76,14 @@ const Assignment = () => {
       )
       .then((response) => {
         setRepos(response.data);
+      }).catch((error) => { 
+        navigate("/error")
       });
-  }, [assignmentId, cookieToken, repoName]);
+  }, [assignmentId, cookieToken, repoName, navigate]);
 
   const addRepo = () => {
-    if (repoName?.trim() === '') {
-      return;
-    }
-    if (
-      repoName.match(
-        /^(https?:\/\/)(www\.)?github\.com\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+$/
-      )
-    ) {
-      axios
+    if (isValid.repoLink === true) {
+       axios
         .post(
           `https://project-salty-backend.azurewebsites.net/Repos`,
           {
@@ -87,12 +99,24 @@ const Assignment = () => {
           }
         )
         .then((response) => {
-          console.log(response.data);
           setRepoName('');
+        }).catch((error) => { 
+          console.clear()
+          setRepoName('');
+          setIsValid({
+            ...isValid,
+            repoLink: false,
+          });
+          setErrorMessage('You already submitted an assignment')
+          setToShowValidationError(true);
+          setTimeout(() => {
+            setToShowValidationError(false);
+          }, 1000);
         });
-    } else {
-      alert('Please enter a valid git repo Url');
-    }
+      } else {
+        setErrorMessage('Please fill in the field')
+        setToShowValidationError(true);
+      }
   };
 
   const groupName = groups.find(
@@ -160,6 +184,12 @@ const Assignment = () => {
           onClick={addRepo}
         />
       </div>
+      <InputErrorAlert
+      isValid = {isValid.repoLink}
+      toShowValidationError ={toShowValidationError}
+      errorMessage={errorMessage}
+      />
+
       {repos?.length > 0 && (
         <Title title={`Completed Assignments (${repos?.length})`} />
       )}

@@ -58,6 +58,7 @@ exports.AppProvider = exports.AppContext = void 0;
 var axios_1 = require("axios");
 var react_1 = require("react");
 var js_cookie_1 = require("js-cookie");
+var react_router_dom_1 = require("react-router-dom");
 var react_secure_storage_1 = require("react-secure-storage");
 var jwt_decode_1 = require("jwt-decode");
 var AppContext = react_1.createContext(null);
@@ -65,116 +66,75 @@ exports.AppContext = AppContext;
 var AppProvider = function (_a) {
     var children = _a.children;
     var cookieToken = js_cookie_1["default"].get('token');
-    var cookieUserId = js_cookie_1["default"].get('userId');
-    var _b = react_1.useState({}), user = _b[0], setUser = _b[1];
-    var _c = react_1.useState({}), profile = _c[0], setProfile = _c[1];
-    var _d = react_1.useState([]), assignments = _d[0], setAssignments = _d[1];
-    var _e = react_1.useState([]), users = _e[0], setUsers = _e[1];
-    var _f = react_1.useState([]), groups = _f[0], setGroups = _f[1];
-    var _g = react_1.useState(false), update = _g[0], setUpdate = _g[1];
+    var _b = react_1.useState(undefined), userGoogleToken = _b[0], setUserGoogleToken = _b[1];
+    var _c = react_1.useState({}), user = _c[0], setUser = _c[1];
+    var _d = react_1.useState({}), profile = _d[0], setProfile = _d[1];
+    var _e = react_1.useState([]), assignments = _e[0], setAssignments = _e[1];
+    var _f = react_1.useState([]), users = _f[0], setUsers = _f[1];
+    var _g = react_1.useState([]), groups = _g[0], setGroups = _g[1];
+    var _h = react_1.useState(false), update = _h[0], setUpdate = _h[1];
+    // eslint-disable-next-line
+    var _j = react_1.useState(false), refresh = _j[0], setRefresh = _j[1];
+    var _k = react_1.useState(false), isLoggedIn = _k[0], setIsLoggedIn = _k[1];
     var localUserId = react_secure_storage_1["default"].getItem('id');
+    var navigate = react_router_dom_1.useNavigate();
     react_1.useEffect(function () {
-        if (localUserId !== null) {
+        if (userGoogleToken && profile.name !== undefined) {
             axios_1["default"]
-                .get("https://project-salty-backend.azurewebsites.net/Users/" + localUserId, {
-                headers: {
-                    Authorization: "Bearer " + cookieToken,
-                    Accept: 'text/plain'
-                }
+                .put('https://project-salty-backend.azurewebsites.net/Users/login', {
+                googleId: userGoogleToken.access_token,
+                email: profile.email,
+                fullName: profile.name,
+                imageUrl: profile.picture
             })
-                .then(function (response) {
-                setUser(__assign({}, response.data));
+                .then(function (res) {
+                setUser(res.data);
+                js_cookie_1["default"].set('token', res.data.token);
+                react_secure_storage_1["default"].setItem('id', res.data.id);
+                react_secure_storage_1["default"].setItem('role', res.data.role);
+                react_secure_storage_1["default"].setItem('refreshToken', res.data.refreshToken);
+                setIsLoggedIn(true);
+                navigate('/home');
             })["catch"](function (error) {
-                console.error(error);
+                navigate("/error");
             });
         }
-    }, [cookieToken, cookieUserId, localUserId]);
-    react_1.useEffect(function () {
-        if (localUserId !== null) {
-            axios_1["default"]
-                .get('https://project-salty-backend.azurewebsites.net/Users', {
-                headers: {
-                    Authorization: "Bearer " + cookieToken,
-                    Accept: 'text/plain'
-                }
-            })
-                .then(function (response) {
-                setUsers(__spreadArrays(response.data));
-            })["catch"](function (error) {
-                console.error(error);
-            });
-        }
-    }, [cookieToken, localUserId]);
-    react_1.useEffect(function () {
-        if (cookieToken) {
-            axios_1["default"]
-                .get('https://project-salty-backend.azurewebsites.net/Groups', {
-                headers: {
-                    Authorization: "Bearer " + cookieToken,
-                    Accept: 'text/plain'
-                }
-            })
-                .then(function (response) {
-                setGroups(__spreadArrays(response.data));
-                setUpdate(false);
-            })["catch"](function (error) {
-                console.error(error);
-            });
-        }
-    }, [cookieToken, update]);
-    react_1.useEffect(function () {
-        var _a;
-        if (user.role === 'admin') {
-            axios_1["default"]
-                .get('https://project-salty-backend.azurewebsites.net/Assignments', {
-                headers: {
-                    Authorization: "Bearer " + cookieToken,
-                    Accept: 'text/plain'
-                }
-            })
-                .then(function (response) {
-                setAssignments(__spreadArrays(response.data));
-            });
-        }
-        else {
-            var userAssignments_1 = [];
-            (_a = user === null || user === void 0 ? void 0 : user.groupsId) === null || _a === void 0 ? void 0 : _a.forEach(function (group) {
-                axios_1["default"]
-                    .get("https://project-salty-backend.azurewebsites.net/Assignments/group/" + group, {
-                    headers: {
-                        Authorization: "Bearer " + cookieToken,
-                        Accept: 'text/plain'
-                    }
-                })
-                    .then(function (response) {
-                    userAssignments_1.push.apply(userAssignments_1, response.data);
-                });
-            });
-            setAssignments(userAssignments_1);
-        }
-    }, [user, cookieToken]);
+        // eslint-disable-next-line
+    }, [profile, userGoogleToken, update, navigate]);
     react_1.useEffect(function () {
         var token = js_cookie_1["default"].get('token');
+        setRefresh(false);
         if (token) {
-            var expiry = jwt_decode_1["default"](token);
+            var expiry = jwt_decode_1["default"](token.toString());
             var exp = expiry.exp;
             if (exp) {
                 var expirationTime = Number(exp) * 1000 - 60000;
+                // const expirationTime = Number(exp) * 1000 - 28 * 60 * 1000;
                 var currentTime = Date.now();
                 if (expirationTime < currentTime) {
-                    refreshToken();
+                    updateToken();
+                }
+                else {
+                    setIsLoggedIn(true);
                 }
             }
         }
-    }, []);
-    var refreshToken = function () { return __awaiter(void 0, void 0, void 0, function () {
-        var userId, refreshToken, response, newAccessToken, error_1;
+        else {
+            navigate('/');
+        }
+        // eslint-disable-next-line
+    }, [refresh, navigate, localUserId]);
+    var updateToken = function () { return __awaiter(void 0, void 0, void 0, function () {
+        var userId, refreshToken, expiry, exp, response, newAccessToken, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     userId = react_secure_storage_1["default"].getItem('id');
                     refreshToken = react_secure_storage_1["default"].getItem('refreshToken');
-                    console.log('1st', refreshToken);
+                    if (!refreshToken) return [3 /*break*/, 5];
+                    expiry = jwt_decode_1["default"](refreshToken.toString());
+                    exp = expiry.exp;
+                    if (!exp) return [3 /*break*/, 4];
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
@@ -186,25 +146,111 @@ var AppProvider = function (_a) {
                         })];
                 case 2:
                     response = _a.sent();
-                    newAccessToken = response.data;
-                    if (newAccessToken) {
-                        react_secure_storage_1["default"].removeItem('refreshToken');
-                        js_cookie_1["default"].set('token', newAccessToken);
-                        react_secure_storage_1["default"].setItem('refreshToken', newAccessToken);
-                    }
-                    else {
-                        react_secure_storage_1["default"].clear();
-                        js_cookie_1["default"].remove('token');
-                    }
+                    newAccessToken = response === null || response === void 0 ? void 0 : response.data;
+                    react_secure_storage_1["default"].removeItem('refreshToken');
+                    js_cookie_1["default"].set('token', newAccessToken);
+                    react_secure_storage_1["default"].setItem('refreshToken', newAccessToken);
+                    setRefresh(true);
+                    setIsLoggedIn(true);
                     return [3 /*break*/, 4];
                 case 3:
                     error_1 = _a.sent();
-                    console.log(error_1);
+                    setIsLoggedIn(false);
+                    navigate('/');
+                    js_cookie_1["default"].remove('token');
+                    react_secure_storage_1["default"].clear();
                     return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                case 4: return [3 /*break*/, 6];
+                case 5:
+                    navigate('/');
+                    js_cookie_1["default"].remove('token');
+                    react_secure_storage_1["default"].clear();
+                    _a.label = 6;
+                case 6: return [2 /*return*/];
             }
         });
     }); };
+    react_1.useEffect(function () {
+        if (isLoggedIn && localUserId !== null) {
+            axios_1["default"]
+                .get("https://project-salty-backend.azurewebsites.net/Users/" + localUserId, {
+                headers: {
+                    Authorization: "Bearer " + cookieToken,
+                    Accept: 'text/plain'
+                }
+            })
+                .then(function (response) {
+                setUser(__assign({}, response.data));
+            })["catch"](function (error) {
+                navigate("/error");
+            });
+        }
+    }, [cookieToken, localUserId, isLoggedIn, navigate]);
+    react_1.useEffect(function () {
+        if (isLoggedIn && localUserId !== null) {
+            axios_1["default"]
+                .get('https://project-salty-backend.azurewebsites.net/Users', {
+                headers: {
+                    Authorization: "Bearer " + cookieToken,
+                    Accept: 'text/plain'
+                }
+            })
+                .then(function (response) {
+                setUsers(__spreadArrays(response.data));
+            })["catch"](function (error) {
+                navigate("/error");
+            });
+        }
+    }, [cookieToken, localUserId, user.role, isLoggedIn, navigate]);
+    react_1.useEffect(function () {
+        if (isLoggedIn && cookieToken) {
+            axios_1["default"]
+                .get('https://project-salty-backend.azurewebsites.net/Groups', {
+                headers: {
+                    Authorization: "Bearer " + cookieToken,
+                    Accept: 'text/plain'
+                }
+            })
+                .then(function (response) {
+                setGroups(__spreadArrays(response.data));
+                setUpdate(false);
+            })["catch"](function (error) {
+                navigate("/error");
+            });
+        }
+    }, [cookieToken, update, isLoggedIn, navigate]);
+    react_1.useEffect(function () {
+        if (isLoggedIn && cookieToken) {
+            if (user.role === 'admin') {
+                axios_1["default"]
+                    .get('https://project-salty-backend.azurewebsites.net/Assignments', {
+                    headers: {
+                        Authorization: "Bearer " + cookieToken,
+                        Accept: 'text/plain'
+                    }
+                })
+                    .then(function (response) {
+                    setAssignments(__spreadArrays(response.data));
+                })["catch"](function (error) {
+                    navigate("/error");
+                });
+            }
+            else if (user.role === 'pgp') {
+                axios_1["default"]
+                    .get("https://project-salty-backend.azurewebsites.net/Assignments/user/" + user.id, {
+                    headers: {
+                        Authorization: "Bearer " + cookieToken,
+                        Accept: 'text/plain'
+                    }
+                })
+                    .then(function (response) {
+                    setAssignments(response.data);
+                })["catch"](function (error) {
+                    navigate("/error");
+                });
+            }
+        }
+    }, [user, cookieToken, isLoggedIn, navigate]);
     return (React.createElement(AppContext.Provider, { value: {
             groups: groups,
             user: user,
@@ -216,7 +262,9 @@ var AppProvider = function (_a) {
             setAssignments: setAssignments,
             setGroups: setGroups,
             setUpdate: setUpdate,
-            users: users
+            users: users,
+            userGoogleToken: userGoogleToken,
+            setUserGoogleToken: setUserGoogleToken
         } }, children));
 };
 exports.AppProvider = AppProvider;

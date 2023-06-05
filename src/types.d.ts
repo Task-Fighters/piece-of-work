@@ -79,6 +79,14 @@ export interface IResponse {
   token_type: string;
 }
 
+interface IRepo {
+  id: number;
+  assignmentId: number;
+  assignment: string;
+  url: string;
+  title: string;
+}
+
 export type ContextType = {
   user: IUser;
   users: IUser[];

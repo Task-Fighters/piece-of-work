@@ -18,11 +18,9 @@ var Profile = function () {
     var _c = react_1.useState([]), repos = _c[0], setRepos = _c[1];
     var navigate = react_router_dom_1.useNavigate();
     var handleLogout = function () {
-        react_secure_storage_1["default"].removeItem('id');
-        react_secure_storage_1["default"].removeItem('role');
-        react_secure_storage_1["default"].removeItem('refreshToken');
-        js_cookie_1["default"].remove('token');
         navigate('/');
+        js_cookie_1["default"].remove('token');
+        react_secure_storage_1["default"].clear();
     };
     var userGroups = (_a = user.groupsId) === null || _a === void 0 ? void 0 : _a.map(function (group) {
         var currentGroup = groups.find(function (item) { return item.id === group; });
@@ -43,26 +41,25 @@ var Profile = function () {
             })
                 .then(function (response) {
                 setRepos(response.data);
+            })["catch"](function (error) {
+                navigate("/error");
             });
         }
     }, [cookieToken, user.id]);
     var handleDeleteRepo = function (e, id) {
         e.preventDefault();
-        try {
-            axios_1["default"]["delete"]("https://project-salty-backend.azurewebsites.net/Repos/" + id, {
-                headers: {
-                    Authorization: "Bearer " + cookieToken,
-                    Accept: 'text/plain'
-                }
-            })
-                .then(function () {
-                var newReposList = repos.filter(function (repo) { return repo.id !== id; });
-                setRepos(newReposList);
-            });
-        }
-        catch (err) {
-            console.log(err);
-        }
+        axios_1["default"]["delete"]("https://project-salty-backend.azurewebsites.net/Repos/" + id, {
+            headers: {
+                Authorization: "Bearer " + cookieToken,
+                Accept: 'text/plain'
+            }
+        })
+            .then(function () {
+            var newReposList = repos.filter(function (repo) { return repo.id !== id; });
+            setRepos(newReposList);
+        })["catch"](function (error) {
+            navigate("/error");
+        });
     };
     return (React.createElement(React.Fragment, null,
         React.createElement("div", { className: "flex justify-end" }, user.role === 'admin' && (React.createElement("div", { className: "w-48 hidden md:flex" },
@@ -71,12 +68,12 @@ var Profile = function () {
         userGroups && userGroups.length > 0 && (React.createElement(Title_1["default"], { className: "mx-2 md:mx-0 md:my-2", underline: true, title: "Groups (" + (userGroups === null || userGroups === void 0 ? void 0 : userGroups.length) + ")" })),
         React.createElement("div", { className: "flex flex-row flex-wrap justify-between mx-2 md:m-0" },
             React.createElement("ul", { className: "flex flex-row flex-wrap justify-between capitalize gap-x-1 w-full" }, userGroups === null || userGroups === void 0 ? void 0 : userGroups.map(function (group, index) {
-                return (React.createElement(ListItem_1.ListItem, { key: group === null || group === void 0 ? void 0 : group.id, id: group === null || group === void 0 ? void 0 : group.id, title: (group === null || group === void 0 ? void 0 : group.name) || "", route: user.role === 'admin' ? "/groups" : "" }));
+                return (React.createElement(ListItem_1.ListItem, { key: group === null || group === void 0 ? void 0 : group.id, id: group === null || group === void 0 ? void 0 : group.id, title: (group === null || group === void 0 ? void 0 : group.name) || '', route: user.role === 'admin' ? "/groups" : '' }));
             }))),
         repos.length > 0 && (React.createElement(Title_1["default"], { className: "mx-2 md:mx-0 md:my-2", underline: true, title: "Completed Assignments (" + (repos === null || repos === void 0 ? void 0 : repos.length) + ")" })),
         React.createElement("div", { className: "flex flex-row flex-wrap justify-between mx-2 md:m-0" }, repos === null || repos === void 0 ? void 0 : repos.map(function (repo, index) {
             var repoAssignment = assignments === null || assignments === void 0 ? void 0 : assignments.find(function (assignment) { return assignment.id === repo.assignmentId; });
-            return (React.createElement(Repo_1.Repo, { id: repo.id, key: index, assignment: (repoAssignment === null || repoAssignment === void 0 ? void 0 : repoAssignment.title) || "", repoUrl: repo.url, deleteIcon: true, assignmentUrl: repo.assignmentId, onClick: function (e) { return handleDeleteRepo(e, repo.id); } }));
+            return (React.createElement(Repo_1.Repo, { id: repo.id, key: index, assignment: (repoAssignment === null || repoAssignment === void 0 ? void 0 : repoAssignment.title) || '', repoUrl: repo.url, deleteIcon: true, assignmentUrl: repo.assignmentId, onClick: function (e) { return handleDeleteRepo(e, repo.id); } }));
         })),
         React.createElement("div", { className: "flex justify-center mx-2 mt-4 mb-32" }, user.role === 'admin' && (React.createElement("div", { className: "w-full md:hidden flex" },
             React.createElement(Button_1.Button, { label: "Logout", type: "button", className: "bg-pink-600 border-pink-600 text-white border-", onClick: handleLogout }))))));

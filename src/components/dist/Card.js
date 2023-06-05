@@ -47,19 +47,18 @@ exports.Card = function (_a) {
         return;
     };
     return cardType !== 'detailed' ? (React.createElement("div", { className: classes, onClick: handleNavigate },
-        React.createElement("div", { className: "px-4 pt-1" },
+        React.createElement("div", { className: "px-4 pt-1 mb-2" },
             React.createElement("h1", { className: "text-lg font-bold font-poppins" }, title),
-            React.createElement("h4", { className: "text-xs font-bold text-pink-600 mb-1 font-poppins" }, group),
-            React.createElement("h3", { className: "text-sm font-bold font-roboto" }, subtitle)),
-        React.createElement("div", { className: "px-4 py-1" },
+            group && (React.createElement("span", { className: "text-pink-600 capitalize text-sm font-bold font-poppins" }, group)),
+            React.createElement("h3", { className: "text-sm font-bold font-roboto mt-1.5" }, subtitle)),
+        React.createElement("div", { className: "px-4 py-1 richText" },
             React.createElement("div", { className: "font-roboto" }, html_react_parser_1["default"]("" + featureText))))) : (React.createElement("div", { className: classes },
         React.createElement("div", { className: "px-4 pt-1" },
             React.createElement("div", { className: "flex flex-row w-full justify-between" },
                 React.createElement("h2", { className: "text-lg font-bold font-poppins" }, title),
                 iconEdit && (React.createElement(md_1.MdEdit, { className: 'text-2xl text-pink-600', onClick: onClickEditIcon }))),
-            React.createElement("h4", { className: "text-xs font-bold text-pink-600 mb-1 font-poppins" }, group),
-            React.createElement("h3", { className: "text-sm font-bold font-roboto" }, subtitle)),
+            React.createElement("span", { className: "text-pink-600 capitalize text-sm font-bold font-poppins" }, group),
+            React.createElement("h3", { className: "text-sm font-bold font-roboto mt-1.5" }, subtitle)),
         React.createElement("div", { className: "border-b-2 mt-2 mb-1 border-pink-600" }),
-        React.createElement("div", { className: "px-4 py-1" },
-            React.createElement("div", { className: "font-roboto" }, html_react_parser_1["default"]("" + featureText)))));
+        React.createElement("div", { className: "px-4 py-1 font-roboto richText" }, html_react_parser_1["default"]("" + featureText))));
 };

@@ -12,6 +12,7 @@ import ReactQuill from 'react-quill';
 import moment from 'moment';
 import { InputErrorAlert } from '../components/InputErrorAlert';
 import { RiAsterisk } from 'react-icons/ri';
+import {modules, formats} from '../components/RichTextEditor';
 moment().format();
 
 const convertDate = (date: string) => {
@@ -47,6 +48,8 @@ const UpdateAssignment = () => {
   const navigate = useNavigate();
   const regexForDescription = /(?<=>)[\w\s]+(?=<)/g
 
+
+  console.log(description, "descr")
   useEffect(() => {
     axios
       .get(
@@ -67,15 +70,17 @@ const UpdateAssignment = () => {
         setStartDate(date);
         group && setGroup(group);
         setDescription(response.data?.description);
+      }).catch((error) => { 
+        navigate("/error")
       });
-  }, [assignmentId, cookieToken, groups]);
+  }, [assignmentId, cookieToken, groups, navigate]);
 
   useEffect(() => {
     setIsValid({
       ...isValid,
       title: title ? true : false,
       startDate: startDate ? true : false,
-      description: regexForDescription.test(description) ? true : false
+      description: regexForDescription.test(description.replace("<br>", "")) ? true : false
     });
     // eslint-disable-next-line
   }, [title, startDate, description]);
@@ -111,6 +116,8 @@ const UpdateAssignment = () => {
         )
         .then(() => {
           navigate(`/assignments/${assignmentId}`);
+        }).catch((error) => { 
+          navigate("/error")
         });
     } else {
       setToShowValidationError(true);
@@ -136,6 +143,8 @@ const UpdateAssignment = () => {
           )
         );
         navigate(`/home`);
+      }).catch((error) => { 
+        navigate("/error")
       });
   };
 
@@ -179,6 +188,8 @@ const UpdateAssignment = () => {
         <ReactQuill
           className="h-44 mb-14"
           theme="snow"
+          modules={modules}
+          formats={formats}
           value={description}
           onChange={(e: any) => setDescription(e)}
         />

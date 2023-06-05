@@ -6,6 +6,7 @@ import { ContextType } from '../types';
 import Title from '../components/Title';
 import { Button } from '../components/Button';
 import lightLogo from '../assets/Saltblack.svg';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const { setProfile, userGoogleToken, setUserGoogleToken } = useContext(
@@ -18,6 +19,8 @@ const Login = () => {
     }
   });
 
+  const navigate = useNavigate();
+  
   useEffect(() => {
     if (userGoogleToken) {
       axios
@@ -32,6 +35,8 @@ const Login = () => {
         )
         .then((res) => {
           setProfile(res.data);
+        }).catch((error) => { 
+          navigate("/error")
         });
     }
   }, [setProfile, userGoogleToken]);

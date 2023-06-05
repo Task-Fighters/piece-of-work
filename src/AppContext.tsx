@@ -54,10 +54,13 @@ const AppProvider = ({ children }: any) => {
           setIsLoggedIn(true);
           navigate('/home');
         })
-        .catch((err) => console.log(err));
+        .catch((error) => { 
+          navigate("/error")
+        });
+
     }
     // eslint-disable-next-line
-  }, [profile, userGoogleToken, update]);
+  }, [profile, userGoogleToken, update, navigate]);
 
   useEffect(() => {
     const token = Cookies.get('token');
@@ -133,11 +136,11 @@ const AppProvider = ({ children }: any) => {
         .then((response) => {
           setUser({ ...response.data });
         })
-        .catch((error) => {
-          console.error(error);
+        .catch((error) => { 
+          navigate("/error")
         });
     }
-  }, [cookieToken, localUserId, isLoggedIn]);
+  }, [cookieToken, localUserId, isLoggedIn, navigate]);
 
   useEffect(() => {
     if (isLoggedIn && localUserId !== null) {
@@ -151,11 +154,12 @@ const AppProvider = ({ children }: any) => {
         .then((response) => {
           setUsers([...response.data]);
         })
-        .catch((error) => {
-          console.error(error);
+        .catch((error) => { 
+          navigate("/error")
         });
+
     }
-  }, [cookieToken, localUserId, user.role, isLoggedIn]);
+  }, [cookieToken, localUserId, user.role, isLoggedIn, navigate]);
 
   useEffect(() => {
     if (isLoggedIn && cookieToken) {
@@ -170,11 +174,11 @@ const AppProvider = ({ children }: any) => {
           setGroups([...response.data]);
           setUpdate(false);
         })
-        .catch((error) => {
-          console.error(error);
+        .catch((error) => { 
+          navigate("/error")
         });
     }
-  }, [cookieToken, update, isLoggedIn]);
+  }, [cookieToken, update, isLoggedIn, navigate]);
 
   useEffect(() => {
     if (isLoggedIn && cookieToken) {
@@ -188,28 +192,30 @@ const AppProvider = ({ children }: any) => {
           })
           .then((response) => {
             setAssignments([...response.data]);
-          });
-      } else {
-        const userAssignments: any[] = [];
-        user?.groupsId?.forEach((group) => {
-          axios
-            .get(
-              `https://project-salty-backend.azurewebsites.net/Assignments/group/${group}`,
-              {
-                headers: {
-                  Authorization: `Bearer ${cookieToken}`,
-                  Accept: 'text/plain'
-                }
+          })
+          .catch((error) => { 
+            navigate("/error")
+          });  
+      } else if (user.role === 'pgp') {
+        axios
+          .get(
+            `https://project-salty-backend.azurewebsites.net/Assignments/user/${user.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${cookieToken}`,
+                Accept: 'text/plain'
               }
-            )
-            .then((response) => {
-              userAssignments.push(...response.data);
-            });
-        });
-        setAssignments(userAssignments);
+            }
+          )
+          .then((response) => {
+            setAssignments(response.data);
+          })
+          .catch((error) => { 
+            navigate("/error")
+          });  
       }
     }
-  }, [user, cookieToken, isLoggedIn]);
+  }, [user, cookieToken, isLoggedIn, navigate]);
 
   return (
     <AppContext.Provider

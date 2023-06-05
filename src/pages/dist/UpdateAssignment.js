@@ -24,6 +24,7 @@ var react_quill_1 = require("react-quill");
 var moment_1 = require("moment");
 var InputErrorAlert_1 = require("../components/InputErrorAlert");
 var ri_1 = require("react-icons/ri");
+var RichTextEditor_1 = require("../components/RichTextEditor");
 moment_1["default"]().format();
 var convertDate = function (date) {
     var initialDate = new Date(date);
@@ -51,6 +52,7 @@ var UpdateAssignment = function () {
     var assignmentId = react_router_dom_1.useParams().assignmentId;
     var navigate = react_router_dom_1.useNavigate();
     var regexForDescription = /(?<=>)[\w\s]+(?=<)/g;
+    console.log(description, "descr");
     react_1.useEffect(function () {
         axios_1["default"]
             .get("https://project-salty-backend.azurewebsites.net/Assignments/" + assignmentId, {
@@ -67,10 +69,12 @@ var UpdateAssignment = function () {
             setStartDate(date);
             group && setGroup(group);
             setDescription((_a = response.data) === null || _a === void 0 ? void 0 : _a.description);
+        })["catch"](function (error) {
+            navigate("/error");
         });
-    }, [assignmentId, cookieToken, groups]);
+    }, [assignmentId, cookieToken, groups, navigate]);
     react_1.useEffect(function () {
-        setIsValid(__assign(__assign({}, isValid), { title: title ? true : false, startDate: startDate ? true : false, description: regexForDescription.test(description) ? true : false }));
+        setIsValid(__assign(__assign({}, isValid), { title: title ? true : false, startDate: startDate ? true : false, description: regexForDescription.test(description.replace("<br>", "")) ? true : false }));
         // eslint-disable-next-line
     }, [title, startDate, description]);
     var handleUpdateAssignment = function (e) {
@@ -94,6 +98,8 @@ var UpdateAssignment = function () {
             })
                 .then(function () {
                 navigate("/assignments/" + assignmentId);
+            })["catch"](function (error) {
+                navigate("/error");
             });
         }
         else {
@@ -111,6 +117,8 @@ var UpdateAssignment = function () {
             .then(function () {
             setAssignments(assignments.filter(function (assignment) { return assignment.id !== Number(assignmentId); }));
             navigate("/home");
+        })["catch"](function (error) {
+            navigate("/error");
         });
     };
     return (react_1["default"].createElement(react_1["default"].Fragment, null,
@@ -128,7 +136,7 @@ var UpdateAssignment = function () {
                 react_1["default"].createElement("span", null, "\u00A0"),
                 ' ',
                 react_1["default"].createElement(ri_1.RiAsterisk, { className: "text-[10px] text-red-500" })),
-            react_1["default"].createElement(react_quill_1["default"], { className: "h-44 mb-14", theme: "snow", value: description, onChange: function (e) { return setDescription(e); } }),
+            react_1["default"].createElement(react_quill_1["default"], { className: "h-44 mb-14", theme: "snow", modules: RichTextEditor_1.modules, formats: RichTextEditor_1.formats, value: description, onChange: function (e) { return setDescription(e); } }),
             react_1["default"].createElement(InputErrorAlert_1.InputErrorAlert, { isValid: isValid.description, toShowValidationError: toShowValidationError }),
             react_1["default"].createElement("div", null,
                 react_1["default"].createElement(Button_1.Button, { label: "Update Assignment", type: "submit" })),

@@ -53,25 +53,24 @@ var Group = function () {
             .then(function (response) {
             setGroup(response.data);
             setGroupName(response.data.name);
+        })["catch"](function (error) {
+            navigate("/error");
         });
     }, [cookieToken, groupId]);
     var handleAddUserToGroup = function (e) {
         e.preventDefault();
-        try {
-            axios_1["default"]
-                .post("https://project-salty-backend.azurewebsites.net/Groups/AddUser/" + groupId, { users: __spreadArrays(selectedUsersIds), id: groupId }, {
-                headers: {
-                    Authorization: "Bearer " + cookieToken,
-                    Accept: 'text/plain'
-                }
-            })
-                .then(function (res) {
-                console.log(res.statusText);
-            });
-        }
-        catch (error) {
-            console.error();
-        }
+        axios_1["default"]
+            .post("https://project-salty-backend.azurewebsites.net/Groups/AddUser/" + groupId, { users: __spreadArrays(selectedUsersIds), id: groupId }, {
+            headers: {
+                Authorization: "Bearer " + cookieToken,
+                Accept: 'text/plain'
+            }
+        })
+            .then(function (res) {
+            console.log(res.statusText);
+        })["catch"](function (error) {
+            navigate("/error");
+        });
     };
     var handleRemoveUser = function (e, id) {
         e.preventDefault();
@@ -84,6 +83,8 @@ var Group = function () {
         })
             .then(function (res) {
             console.log(res.data);
+        })["catch"](function (error) {
+            navigate("/error");
         });
     };
     var handleDeleteGroup = function (e, groupId) {
@@ -97,6 +98,8 @@ var Group = function () {
             .then(function () {
             setUpdate(true);
             navigate('/groups');
+        })["catch"](function (error) {
+            navigate("/error");
         });
     };
     return (React.createElement(React.Fragment, null,
