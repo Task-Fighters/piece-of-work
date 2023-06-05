@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
     for (var r = Array(s), k = 0, i = 0; i < il; i++)
@@ -68,7 +79,15 @@ var Group = function () {
             }
         })
             .then(function (res) {
-            console.log(res.statusText);
+            var newGroupUsers = __spreadArrays(group.users);
+            selectedUsersIds.forEach(function (userId) {
+                return newGroupUsers.push({
+                    id: userId,
+                    name: ''
+                });
+            });
+            setGroup(__assign(__assign({}, group), { users: __spreadArrays(newGroupUsers) }));
+            setSelected([]);
         })["catch"](function (error) {
             navigate("/error");
         });
@@ -80,10 +99,12 @@ var Group = function () {
             headers: {
                 Authorization: "Bearer " + cookieToken,
                 Accept: 'text/plain'
-            }
+            },
+            data: [id]
         })
             .then(function (res) {
-            console.log(res.data);
+            var newGroupUsers = __spreadArrays(group.users).filter(function (user) { return user.id !== id; });
+            setGroup(__assign(__assign({}, group), { users: __spreadArrays(newGroupUsers) }));
         })["catch"](function (error) {
             navigate("/error");
         });

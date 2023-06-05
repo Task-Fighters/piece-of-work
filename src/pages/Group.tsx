@@ -73,7 +73,15 @@ const Group = () => {
           }
         )
         .then((res) => {
-          console.log(res.statusText);
+          const newGroupUsers = [...group.users];
+          selectedUsersIds.forEach(userId => {
+            return newGroupUsers.push({
+              id: userId,
+              name: ''
+            });
+          })
+          setGroup({...group, users: [...newGroupUsers]})
+          setSelected([]);
         }).catch((error) => { 
           navigate("/error")
         });
@@ -88,15 +96,17 @@ const Group = () => {
     axios
       .delete(
         `https://project-salty-backend.azurewebsites.net/Groups/${groupId}/RemoveUser`,
-        {
+       {
           headers: {
             Authorization: `Bearer ${cookieToken}`,
             Accept: 'text/plain'
-          }
+          },
+          data: [id],
         }
       )
       .then((res) => {
-        console.log(res.data);
+        const newGroupUsers = [...group.users].filter(user => user.id !== id);
+        setGroup({...group, users: [...newGroupUsers]})
       }).catch((error) => { 
         navigate("/error")
       });

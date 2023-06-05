@@ -14,7 +14,7 @@ export interface IUser {
 
 export interface IUserGroup {
   id: number;
-  email: string;
+  name: string;
 }
 
 export interface IUserGroups {
