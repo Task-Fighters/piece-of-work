@@ -100,7 +100,7 @@ var AppProvider = function (_a) {
             });
         }
         // eslint-disable-next-line
-    }, [profile, userGoogleToken, update, navigate]);
+    }, [profile, userGoogleToken, update]);
     react_1.useEffect(function () {
         var token = js_cookie_1["default"].get('token');
         setRefresh(false);
@@ -123,7 +123,7 @@ var AppProvider = function (_a) {
             navigate('/');
         }
         // eslint-disable-next-line
-    }, [refresh, navigate, localUserId]);
+    }, [refresh, localUserId]);
     var updateToken = function () { return __awaiter(void 0, void 0, void 0, function () {
         var userId, refreshToken, expiry, exp, response, newAccessToken, error_1;
         return __generator(this, function (_a) {
@@ -185,7 +185,8 @@ var AppProvider = function (_a) {
                 navigate("/error");
             });
         }
-    }, [cookieToken, localUserId, isLoggedIn, navigate]);
+        // eslint-disable-next-line
+    }, [cookieToken, localUserId, isLoggedIn]);
     react_1.useEffect(function () {
         if (isLoggedIn && localUserId !== null) {
             axios_1["default"]
@@ -201,7 +202,8 @@ var AppProvider = function (_a) {
                 navigate("/error");
             });
         }
-    }, [cookieToken, localUserId, user.role, isLoggedIn, navigate]);
+        // eslint-disable-next-line
+    }, [cookieToken, localUserId, user.role, isLoggedIn]);
     react_1.useEffect(function () {
         if (isLoggedIn && cookieToken) {
             axios_1["default"]
@@ -218,7 +220,8 @@ var AppProvider = function (_a) {
                 navigate("/error");
             });
         }
-    }, [cookieToken, update, isLoggedIn, navigate]);
+        // eslint-disable-next-line
+    }, [cookieToken, update, isLoggedIn]);
     react_1.useEffect(function () {
         if (isLoggedIn && cookieToken) {
             if (user.role === 'admin') {
@@ -250,7 +253,8 @@ var AppProvider = function (_a) {
                 });
             }
         }
-    }, [user, cookieToken, isLoggedIn, navigate]);
+        // eslint-disable-next-line
+    }, [user, cookieToken, isLoggedIn]);
     return (React.createElement(AppContext.Provider, { value: {
             groups: groups,
             user: user,

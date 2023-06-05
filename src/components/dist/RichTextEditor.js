@@ -19,7 +19,7 @@ exports.modules = {
             { list: 'bullet' },
             { indent: '-1' },
             { indent: '+1' },
-            { align: [] },
+            { align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' },
             'link',
             'image',
             'video',
@@ -30,7 +30,7 @@ exports.modules = {
 exports.formats = [
     "header", "size", "color", "background",
     "bold", "italic", 'strike', "underline", 'link', "blockquote", 'code-block',
-    "list", "bullet", "ordered", "indent",
+    "list", "bullet", "ordered", "indent", "align",
     "link", "image", 'video',
     'clean'
 ];

@@ -73,7 +73,8 @@ const UpdateAssignment = () => {
       }).catch((error) => { 
         navigate("/error")
       });
-  }, [assignmentId, cookieToken, groups, navigate]);
+      // eslint-disable-next-line
+  }, [assignmentId, cookieToken, groups]);
 
   useEffect(() => {
     setIsValid({

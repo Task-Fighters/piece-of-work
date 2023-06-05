@@ -39,7 +39,8 @@ const Login = () => {
           navigate("/error")
         });
     }
-  }, [setProfile, userGoogleToken, navigate]);
+    // eslint-disable-next-line
+  }, [setProfile, userGoogleToken]);
 
   return (
     <div className="h-screen flex justify-center items-center mx-2">

@@ -45,7 +45,8 @@ var Profile = function () {
                 navigate("/error");
             });
         }
-    }, [cookieToken, user.id, navigate]);
+        // eslint-disable-next-line
+    }, [cookieToken, user.id]);
     var handleDeleteRepo = function (e, id) {
         e.preventDefault();
         axios_1["default"]["delete"]("https://project-salty-backend.azurewebsites.net/Repos/" + id, {

@@ -75,7 +75,8 @@ var User = function () {
         })["catch"](function (error) {
             navigate("/error");
         });
-    }, [userId, cookieToken, navigate]);
+        // eslint-disable-next-line
+    }, [userId, cookieToken]);
     react_1.useEffect(function () {
         var fetchData = function () { return __awaiter(void 0, void 0, void 0, function () {
             var response, error_1;
@@ -102,7 +103,8 @@ var User = function () {
             });
         }); };
         fetchData();
-    }, [cookieToken, userId, navigate]);
+        // eslint-disable-next-line
+    }, [cookieToken, userId]);
     return (React.createElement(React.Fragment, null,
         React.createElement(UserDetails_1["default"], { id: singleUser.id, name: singleUser.fullName, email: singleUser.email, imageUrl: singleUser.imageUrl, location: singleUser.location, bootcamp: singleUser.role === 'admin' ? 'Instructors group' : user.bootcamp }),
         userGroups && userGroups.length > 0 && (React.createElement(Title_1["default"], { className: "mx-2 md:mx-0 md:my-2", underline: true, title: "Groups (" + (userGroups === null || userGroups === void 0 ? void 0 : userGroups.length) + ")" })),

@@ -56,14 +56,15 @@ const Group = () => {
       }).catch((error) => { 
         navigate("/error")
       });
-  }, [cookieToken, groupId, navigate]);
+      // eslint-disable-next-line
+  }, [cookieToken, groupId]);
 
   const handleAddUserToGroup = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
       axios
         .post(
-          `https://project-salty-backend.azurewebsites.net/Groups/AddUser/${groupId}`,
-          { users: [...selectedUsersIds], id: groupId },
+          `https://project-salty-backend.azurewebsites.net/Groups/${groupId}/AddUser`,
+          [...selectedUsersIds],
           {
             headers: {
               Authorization: `Bearer ${cookieToken}`,
@@ -86,7 +87,7 @@ const Group = () => {
     e.stopPropagation();
     axios
       .delete(
-        `https://project-salty-backend.azurewebsites.net/Groups/RemoveUser/${groupId}?userId=${id}`,
+        `https://project-salty-backend.azurewebsites.net/Groups/${groupId}/RemoveUser`,
         {
           headers: {
             Authorization: `Bearer ${cookieToken}`,

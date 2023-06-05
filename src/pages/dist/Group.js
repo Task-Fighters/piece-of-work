@@ -56,11 +56,12 @@ var Group = function () {
         })["catch"](function (error) {
             navigate("/error");
         });
-    }, [cookieToken, groupId, navigate]);
+        // eslint-disable-next-line
+    }, [cookieToken, groupId]);
     var handleAddUserToGroup = function (e) {
         e.preventDefault();
         axios_1["default"]
-            .post("https://project-salty-backend.azurewebsites.net/Groups/AddUser/" + groupId, { users: __spreadArrays(selectedUsersIds), id: groupId }, {
+            .post("https://project-salty-backend.azurewebsites.net/Groups/" + groupId + "/AddUser", __spreadArrays(selectedUsersIds), {
             headers: {
                 Authorization: "Bearer " + cookieToken,
                 Accept: 'text/plain'
@@ -75,7 +76,7 @@ var Group = function () {
     var handleRemoveUser = function (e, id) {
         e.preventDefault();
         e.stopPropagation();
-        axios_1["default"]["delete"]("https://project-salty-backend.azurewebsites.net/Groups/RemoveUser/" + groupId + "?userId=" + id, {
+        axios_1["default"]["delete"]("https://project-salty-backend.azurewebsites.net/Groups/" + groupId + "/RemoveUser", {
             headers: {
                 Authorization: "Bearer " + cookieToken,
                 Accept: 'text/plain'

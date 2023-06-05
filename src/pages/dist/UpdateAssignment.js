@@ -72,7 +72,8 @@ var UpdateAssignment = function () {
         })["catch"](function (error) {
             navigate("/error");
         });
-    }, [assignmentId, cookieToken, groups, navigate]);
+        // eslint-disable-next-line
+    }, [assignmentId, cookieToken, groups]);
     react_1.useEffect(function () {
         setIsValid(__assign(__assign({}, isValid), { title: title ? true : false, startDate: startDate ? true : false, description: regexForDescription.test(description.replace("<br>", "")) ? true : false }));
         // eslint-disable-next-line

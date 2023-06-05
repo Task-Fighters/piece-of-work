@@ -39,7 +39,8 @@ const User = () => {
       }).catch((error) => { 
         navigate("/error")
       });
-  }, [userId, cookieToken, navigate]);
+      // eslint-disable-next-line
+  }, [userId, cookieToken]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,7 +61,8 @@ const User = () => {
     };
 
     fetchData();
-  }, [cookieToken, userId, navigate]);
+    // eslint-disable-next-line
+  }, [cookieToken, userId]);
 
   return (
     <>

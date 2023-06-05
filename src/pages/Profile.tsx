@@ -49,7 +49,8 @@ const Profile = () => {
           navigate("/error")
         });
     }
-  }, [cookieToken, user.id, navigate]);
+    // eslint-disable-next-line
+  }, [cookieToken, user.id]);
 
   const handleDeleteRepo = (e: React.MouseEvent<HTMLElement>, id: number) => {
     e.preventDefault();

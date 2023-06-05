@@ -70,7 +70,8 @@ const UpdateUser = () => {
       }).catch((error) => { 
         navigate("/error")
       });
-  }, [userId, cookieToken, groups, navigate]);
+      // eslint-disable-next-line
+  }, [userId, cookieToken, groups]);
 
   const handleUpdateUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

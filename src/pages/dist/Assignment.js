@@ -59,7 +59,8 @@ var Assignment = function () {
                 navigate("/error");
             });
         }, 500);
-    }, [assignmentId, cookieToken, navigate]);
+        // eslint-disable-next-line
+    }, [assignmentId, cookieToken]);
     react_1.useEffect(function () {
         axios_1["default"]
             .get("https://project-salty-backend.azurewebsites.net/Repos/Assignment/" + assignmentId, {
@@ -73,7 +74,8 @@ var Assignment = function () {
         })["catch"](function (error) {
             navigate("/error");
         });
-    }, [assignmentId, cookieToken, repoName, navigate]);
+        // eslint-disable-next-line
+    }, [assignmentId, cookieToken, repoName]);
     var addRepo = function () {
         if (isValid.repoLink === true) {
             axios_1["default"]

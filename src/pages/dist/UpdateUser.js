@@ -72,7 +72,8 @@ var UpdateUser = function () {
         })["catch"](function (error) {
             navigate("/error");
         });
-    }, [userId, cookieToken, groups, navigate]);
+        // eslint-disable-next-line
+    }, [userId, cookieToken, groups]);
     var handleUpdateUser = function (e) {
         e.preventDefault();
         var updatedUser = {

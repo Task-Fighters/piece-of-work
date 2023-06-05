@@ -60,7 +60,7 @@ const AppProvider = ({ children }: any) => {
 
     }
     // eslint-disable-next-line
-  }, [profile, userGoogleToken, update, navigate]);
+  }, [profile, userGoogleToken, update]);
 
   useEffect(() => {
     const token = Cookies.get('token');
@@ -82,7 +82,7 @@ const AppProvider = ({ children }: any) => {
       navigate('/');
     }
     // eslint-disable-next-line
-  }, [refresh, navigate, localUserId]);
+  }, [refresh, localUserId]);
 
   const updateToken = async () => {
     const userId = secureLocalStorage.getItem('id');
@@ -140,7 +140,8 @@ const AppProvider = ({ children }: any) => {
           navigate("/error")
         });
     }
-  }, [cookieToken, localUserId, isLoggedIn, navigate]);
+    // eslint-disable-next-line
+  }, [cookieToken, localUserId, isLoggedIn]);
 
   useEffect(() => {
     if (isLoggedIn && localUserId !== null) {
@@ -157,9 +158,9 @@ const AppProvider = ({ children }: any) => {
         .catch((error) => { 
           navigate("/error")
         });
-
     }
-  }, [cookieToken, localUserId, user.role, isLoggedIn, navigate]);
+    // eslint-disable-next-line
+  }, [cookieToken, localUserId, user.role, isLoggedIn]);
 
   useEffect(() => {
     if (isLoggedIn && cookieToken) {
@@ -178,7 +179,8 @@ const AppProvider = ({ children }: any) => {
           navigate("/error")
         });
     }
-  }, [cookieToken, update, isLoggedIn, navigate]);
+    // eslint-disable-next-line
+  }, [cookieToken, update, isLoggedIn]);
 
   useEffect(() => {
     if (isLoggedIn && cookieToken) {
@@ -215,7 +217,8 @@ const AppProvider = ({ children }: any) => {
           });  
       }
     }
-  }, [user, cookieToken, isLoggedIn, navigate]);
+    // eslint-disable-next-line
+  }, [user, cookieToken, isLoggedIn]);
 
   return (
     <AppContext.Provider

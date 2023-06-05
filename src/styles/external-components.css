@@ -158,3 +158,12 @@
 .richText .ql-indent-7 {
   text-indent: 3rem;
 }
+.richText .ql-align-right {
+ text-align: right;
+}
+.richText .ql-align-justify{
+  text-align: justify;
+}
+.richText .ql-align-center {
+  text-align: center;
+}

@@ -61,7 +61,8 @@ const Assignment = () => {
           navigate("/error")
         });
     }, 500);
-  }, [assignmentId, cookieToken, navigate]);
+    // eslint-disable-next-line
+  }, [assignmentId, cookieToken]);
 
   useEffect(() => {
     axios
@@ -79,7 +80,8 @@ const Assignment = () => {
       }).catch((error) => { 
         navigate("/error")
       });
-  }, [assignmentId, cookieToken, repoName, navigate]);
+      // eslint-disable-next-line
+  }, [assignmentId, cookieToken, repoName]);
 
   const addRepo = () => {
     if (isValid.repoLink === true) {
