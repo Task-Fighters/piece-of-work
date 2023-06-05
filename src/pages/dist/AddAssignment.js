@@ -25,31 +25,7 @@ require("react-quill/dist/quill.snow.css");
 var react_select_1 = require("react-select");
 var ri_1 = require("react-icons/ri");
 var InputErrorAlert_1 = require("../components/InputErrorAlert");
-var modules = {
-    toolbar: [
-        [
-            { header: [2, 3, 4, 5, 6, false] },
-            { color: [] },
-            { background: [] },
-            'bold',
-            'italic',
-            'strike',
-            'underline',
-            'link',
-            'blockquote',
-            'code-block',
-            { list: 'ordered' },
-            { list: 'bullet' },
-            { indent: '-1' },
-            { indent: '+1' },
-            { align: [] },
-            'link',
-            'image',
-            'video',
-            'clean'
-        ]
-    ]
-};
+var RichTextEditor_1 = require("../components/RichTextEditor");
 var AddAssignment = function () {
     var groups = react_1.useContext(AppContext_1.AppContext).groups;
     var _a = react_1.useState(''), title = _a[0], setTitle = _a[1];
@@ -133,7 +109,7 @@ var AddAssignment = function () {
             react_1["default"].createElement("span", null, "\u00A0"),
             ' ',
             react_1["default"].createElement(ri_1.RiAsterisk, { className: "text-[10px] text-red-500" })),
-        react_1["default"].createElement(react_quill_1["default"], { className: "h-44 mb-14", theme: "snow", modules: modules, value: description, onChange: function (e) { return setDescription(e); } }),
+        react_1["default"].createElement(react_quill_1["default"], { className: "h-44 mb-14", theme: "snow", modules: RichTextEditor_1.modules, formats: RichTextEditor_1.formats, value: description, onChange: function (e) { return setDescription(e); } }),
         react_1["default"].createElement(InputErrorAlert_1.InputErrorAlert, { isValid: isValid.description, toShowValidationError: toShowValidationError }),
         react_1["default"].createElement("div", { className: "mb-32 mt-20 md:mt-0" },
             react_1["default"].createElement(Button_1.Button, { label: "Add Assignment", type: "submit" }))));

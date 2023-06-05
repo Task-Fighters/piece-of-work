@@ -13,32 +13,8 @@ import 'react-quill/dist/quill.snow.css';
 import Select from 'react-select';
 import { RiAsterisk } from 'react-icons/ri';
 import { InputErrorAlert } from '../components/InputErrorAlert';
+import {modules,formats} from '../components/RichTextEditor';
 
-const modules = {
-  toolbar: [
-    [
-      { header: [2, 3, 4, 5, 6, false] },
-      { color: [] },
-      { background: [] },
-      'bold',
-      'italic',
-      'strike',
-      'underline',
-      'link',
-      'blockquote',
-      'code-block',
-      { list: 'ordered' },
-      { list: 'bullet' },
-      { indent: '-1' },
-      { indent: '+1' },
-      { align: [] },
-      'link',
-      'image',
-      'video',
-      'clean'
-    ]
-  ]
-};
 const AddAssignment = () => {
   const { groups } = useContext(AppContext) as ContextType;
   const [title, setTitle] = useState('');
@@ -171,6 +147,7 @@ const AddAssignment = () => {
         className="h-44 mb-14"
         theme="snow"
         modules={modules}
+        formats={formats}
         value={description}
         onChange={(e) => setDescription(e)}
       />

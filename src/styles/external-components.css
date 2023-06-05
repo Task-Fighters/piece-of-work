@@ -46,3 +46,115 @@
 .single_select__option--is-selected {
   background-color: #db2777!important;
 }
+
+.richText h2 {
+  font-size: 1.25rem;
+}
+.richText h3 {
+  font-size: 1.125rem;
+}
+.richText h4 {
+  font-size: 1rem; 
+}
+.richText h5 {
+  font-size: 0.875rem;
+}
+.richText h6 {
+  font-size: 0.75rem;
+}
+.richText h2, h3, h4, h5, h6 {
+  font-weight: bolder!important; 
+}
+
+.richText .ql-size-huge{
+  font-size: 1.875rem;
+}
+.richText .ql-size-large{
+  font-size: 1.125rem;
+}
+
+.richText .ql-size-small {
+  font-size: 0.75rem;
+}
+
+.richText  p {
+  font-size: 0.875rem;
+}
+
+.richText  s {
+  text-decoration-line: line-through;
+}
+
+.richText  u{
+  text-decoration-line: underline;
+}
+
+.richText a {
+  color: rgb(37 99 235);
+}
+
+.richText a:hover {
+  text-decoration-line: underline;
+  text-decoration-color: rgb(37 99 235);
+}
+
+.richText blockquote {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem; 
+  margin-top: 1rem; 
+  margin-bottom: 1rem;
+  border-left: 4px solid rgb(75 85 99);;
+}
+
+.richText .ql-syntax {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  padding: 1rem; 
+  background-color: rgb(31 41 55);
+  color: white;
+  border-radius: 0.5rem;
+}
+
+.richText ol {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+	list-style-type: decimal!important;
+}
+.richText ul {
+  list-style-type: disc!important;
+}
+
+.richText ol li, .richText ul li{
+  margin-left: 1rem;;
+}
+
+.richText img {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.richText .ql-indent-1 {
+  text-indent: 0px;
+}
+
+.richText .ql-indent-2 {
+  text-indent: 0.5rem;
+}
+.richText .ql-indent-3 {
+  text-indent: 1rem;
+}
+.richText .ql-indent-4 {
+  text-indent: 1.5rem;
+}
+.richText .ql-indent-5 {
+  text-indent: 2rem;
+}
+.richText .ql-indent-6 {
+  text-indent: 2.5rem;
+}
+.richText .ql-indent-7 {
+  text-indent: 3rem;
+}

@@ -100,7 +100,7 @@ var AppProvider = function (_a) {
             });
         }
         // eslint-disable-next-line
-    }, [profile, userGoogleToken, update]);
+    }, [profile, userGoogleToken, update, navigate]);
     react_1.useEffect(function () {
         var token = js_cookie_1["default"].get('token');
         setRefresh(false);
@@ -185,7 +185,7 @@ var AppProvider = function (_a) {
                 navigate("/error");
             });
         }
-    }, [cookieToken, localUserId, isLoggedIn]);
+    }, [cookieToken, localUserId, isLoggedIn, navigate]);
     react_1.useEffect(function () {
         if (isLoggedIn && localUserId !== null) {
             axios_1["default"]
@@ -201,7 +201,7 @@ var AppProvider = function (_a) {
                 navigate("/error");
             });
         }
-    }, [cookieToken, localUserId, user.role, isLoggedIn]);
+    }, [cookieToken, localUserId, user.role, isLoggedIn, navigate]);
     react_1.useEffect(function () {
         if (isLoggedIn && cookieToken) {
             axios_1["default"]
@@ -218,7 +218,7 @@ var AppProvider = function (_a) {
                 navigate("/error");
             });
         }
-    }, [cookieToken, update, isLoggedIn]);
+    }, [cookieToken, update, isLoggedIn, navigate]);
     react_1.useEffect(function () {
         if (isLoggedIn && cookieToken) {
             if (user.role === 'admin') {
@@ -250,7 +250,7 @@ var AppProvider = function (_a) {
                 });
             }
         }
-    }, [user, cookieToken, isLoggedIn]);
+    }, [user, cookieToken, isLoggedIn, navigate]);
     return (React.createElement(AppContext.Provider, { value: {
             groups: groups,
             user: user,
