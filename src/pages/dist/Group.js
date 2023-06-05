@@ -56,7 +56,7 @@ var Group = function () {
         })["catch"](function (error) {
             navigate("/error");
         });
-    }, [cookieToken, groupId]);
+    }, [cookieToken, groupId, navigate]);
     var handleAddUserToGroup = function (e) {
         e.preventDefault();
         axios_1["default"]

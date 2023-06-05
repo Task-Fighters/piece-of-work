@@ -72,7 +72,7 @@ var UpdateUser = function () {
         })["catch"](function (error) {
             navigate("/error");
         });
-    }, [userId, cookieToken, groups]);
+    }, [userId, cookieToken, groups, navigate]);
     var handleUpdateUser = function (e) {
         e.preventDefault();
         var updatedUser = {

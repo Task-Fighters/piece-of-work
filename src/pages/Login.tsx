@@ -39,7 +39,7 @@ const Login = () => {
           navigate("/error")
         });
     }
-  }, [setProfile, userGoogleToken]);
+  }, [setProfile, userGoogleToken, navigate]);
 
   return (
     <div className="h-screen flex justify-center items-center mx-2">

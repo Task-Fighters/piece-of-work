@@ -70,7 +70,7 @@ const UpdateUser = () => {
       }).catch((error) => { 
         navigate("/error")
       });
-  }, [userId, cookieToken, groups]);
+  }, [userId, cookieToken, groups, navigate]);
 
   const handleUpdateUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

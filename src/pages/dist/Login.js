@@ -31,7 +31,7 @@ var Login = function () {
                 navigate("/error");
             });
         }
-    }, [setProfile, userGoogleToken]);
+    }, [setProfile, userGoogleToken, navigate]);
     return (React.createElement("div", { className: "h-screen flex justify-center items-center mx-2" },
         React.createElement("div", { className: "max-w-md w-full" },
             React.createElement("img", { className: "mb-16 px-5", alt: "Light theme Salt logo", src: Saltblack_svg_1["default"] }),

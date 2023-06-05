@@ -49,7 +49,7 @@ const Profile = () => {
           navigate("/error")
         });
     }
-  }, [cookieToken, user.id]);
+  }, [cookieToken, user.id, navigate]);
 
   const handleDeleteRepo = (e: React.MouseEvent<HTMLElement>, id: number) => {
     e.preventDefault();

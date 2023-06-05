@@ -39,7 +39,7 @@ const User = () => {
       }).catch((error) => { 
         navigate("/error")
       });
-  }, [userId, cookieToken]);
+  }, [userId, cookieToken, navigate]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,12 +55,12 @@ const User = () => {
         );
         setRepos(response.data);
       } catch (error) {
-        console.error(error);
+        navigate("/error")
       }
     };
 
     fetchData();
-  }, [cookieToken, userId]);
+  }, [cookieToken, userId, navigate]);
 
   return (
     <>

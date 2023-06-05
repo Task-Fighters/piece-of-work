@@ -56,7 +56,7 @@ const Group = () => {
       }).catch((error) => { 
         navigate("/error")
       });
-  }, [cookieToken, groupId]);
+  }, [cookieToken, groupId, navigate]);
 
   const handleAddUserToGroup = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
