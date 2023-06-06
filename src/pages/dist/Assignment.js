@@ -118,7 +118,7 @@ var Assignment = function () {
                 React.createElement(Button_1.Button, { buttonColor: "white", label: "Assign to group", type: "button", onClick: function () {
                         navigate("/assignments/" + assignmentId + "/assign");
                     } }))))),
-        !isLoading ? (assignment && (React.createElement(Card_1.Card, { cardType: "detailed", description: assignment.description, subtitle: assignment.startDate, title: assignment.title, group: groupName, iconEdit: user.role === 'admin' ? true : false, onClickEditIcon: function (e) {
+        !isLoading ? (assignment && (React.createElement(Card_1.Card, { cardType: "detailed", description: assignment.description, subtitle: assignment.startDate, title: assignment.title, group: groupName, pointer: false, iconEdit: user.role === 'admin' ? true : false, onClickEditIcon: function (e) {
                 navigate("/assignments/" + assignmentId + "/update");
             } }))) : (React.createElement(SkeletonCard_1["default"], { title: "", subtitle: "", description: "" })),
         React.createElement(Title_1["default"], { title: "Post completed assignment" }),

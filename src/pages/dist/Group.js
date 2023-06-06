@@ -145,7 +145,7 @@ var Group = function () {
         React.createElement(Title_1["default"], { title: "Group Assignments" }),
         React.createElement("div", { className: "flex flex-row flex-wrap justify-between mb-6" }, assignments
             .filter(function (assignment) { return assignment.groupId === group.id; })
-            .map(function (assignment, index) { return (React.createElement(Card_1.Card, { cardType: "card", id: assignment.id, key: index, description: assignment.description, subtitle: assignment.startDate, title: assignment.title })); })),
+            .map(function (assignment, index) { return (React.createElement(Card_1.Card, { cardType: "card", id: assignment.id, key: index, pointer: true, description: assignment.description, subtitle: assignment.startDate, title: assignment.title })); })),
         React.createElement(Button_1.Button, { label: "Delete Group", type: "button", className: "bg-pink-600 border-pink-600 text-white mb-36", onClick: function (e) {
                 handleDeleteGroup(e, Number(groupId));
             } })));

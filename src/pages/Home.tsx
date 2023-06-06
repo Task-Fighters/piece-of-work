@@ -83,6 +83,7 @@ const Home = () => {
               cardType="feature"
               id={assignment.id}
               key={index}
+              pointer={true}
               description={assignment.description}
               subtitle={assignment.startDate}
               title={assignment.title}
@@ -108,6 +109,7 @@ const Home = () => {
               <Card
                 cardType={'card'}
                 id={assignment.id}
+                pointer={true}
                 key={index}
                 description={assignment.description}
                 subtitle={assignment.startDate}
@@ -133,6 +135,7 @@ const Home = () => {
               cardType="card"
               id={assignment.id}
               key={index}
+              pointer={true}
               description={assignment.description}
               subtitle={assignment.startDate}
               title={assignment.title}

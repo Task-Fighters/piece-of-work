@@ -6,7 +6,7 @@ var md_1 = require("react-icons/md");
 var react_router_dom_1 = require("react-router-dom");
 var base_card = 'text-left border-b-2 leading-tight mb-4 w-full';
 exports.Card = function (_a) {
-    var id = _a.id, title = _a.title, subtitle = _a.subtitle, description = _a.description, group = _a.group, iconEdit = _a.iconEdit, _b = _a.cardType, cardType = _b === void 0 ? 'card' : _b, onClickEditIcon = _a.onClickEditIcon, onClick = _a.onClick;
+    var id = _a.id, title = _a.title, subtitle = _a.subtitle, description = _a.description, pointer = _a.pointer, group = _a.group, iconEdit = _a.iconEdit, _b = _a.cardType, cardType = _b === void 0 ? 'card' : _b, onClickEditIcon = _a.onClickEditIcon, onClick = _a.onClick;
     var navigate = react_router_dom_1.useNavigate();
     var mode = 'text-black border-black bg-gray-100';
     var featureText = description;
@@ -36,13 +36,11 @@ exports.Card = function (_a) {
     })
         .replace(',', '');
     subtitle = formattedDate;
-    var pointer;
     var classes = base_card + " " + mode + " py-2 " + (pointer === true ? "cursor-pointer" : "cursor-auto");
     var location = react_router_dom_1.useLocation();
     var handleNavigate = function () {
         if (location.pathname !== "/assignments/" + id) {
             navigate("/assignments/" + id);
-            pointer = true;
         }
         return;
     };

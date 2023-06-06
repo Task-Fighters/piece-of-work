@@ -72,7 +72,7 @@ const User = () => {
         imageUrl={singleUser.imageUrl}
         location={singleUser.location}
         bootcamp={
-          singleUser.role === 'admin' ? 'Instructors group' : user.bootcamp
+          singleUser.role === 'admin' ? 'Instructors group' : singleUser.bootcamp
         }
       />
       {userGroups && userGroups.length > 0 && (

@@ -190,6 +190,7 @@ const Group = () => {
               cardType="card"
               id={assignment.id}
               key={index}
+              pointer={true}
               description={assignment.description}
               subtitle={assignment.startDate}
               title={assignment.title}

@@ -21,8 +21,8 @@ export const Repo = ({ id, assignment, repoUrl, assignmentUrl, deleteIcon, onCli
       </div>
       <div className="px-4 py-1">
         <div className="text-md font-roboto">
-          <a href={`/assignments/${assignmentUrl}`}>Assignment</a> |{' '}
-          <a href={repoUrl}>Repository</a>
+          <a className="hover:underline" href={`/assignments/${assignmentUrl}`}>Assignment</a> |{' '}
+          <a className="hover:underline" href={repoUrl}>Repository</a>
         </div>
       </div>
     </div>

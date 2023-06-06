@@ -9,6 +9,7 @@ interface CardProps {
   subtitle: string;
   description: string;
   group?: string;
+  pointer?: Boolean;
   iconEdit?: Boolean;
   onClick?: (e: any) => void;
   onClickEditIcon?: (e: any) => void;
@@ -21,6 +22,7 @@ export const Card = ({
   title,
   subtitle,
   description,
+  pointer,
   group,
   iconEdit,
   cardType = 'card',
@@ -61,14 +63,12 @@ export const Card = ({
     .replace(',', '');
 
   subtitle = formattedDate;
-  let pointer;
   const classes = `${base_card} ${mode} py-2 ${pointer === true ? "cursor-pointer" : "cursor-auto" }`;
   const location = useLocation();
 
   const handleNavigate = () => {
     if(location.pathname !== `/assignments/${id}`){
       navigate(`/assignments/${id}`)
-      pointer = true;
     } return
     }
    

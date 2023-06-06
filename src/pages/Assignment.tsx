@@ -161,6 +161,7 @@ const Assignment = () => {
             subtitle={assignment.startDate}
             title={assignment.title}
             group={groupName}
+            pointer={false}
             iconEdit={user.role === 'admin' ? true : false}
             onClickEditIcon={(e: React.MouseEvent<HTMLElement>) => {
               navigate(`/assignments/${assignmentId}/update`);
