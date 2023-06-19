@@ -55,7 +55,7 @@ const AppProvider = ({ children }: any) => {
           navigate('/home');
         })
         .catch((error) => { 
-          navigate("/error")
+          console.log(error);
         });
 
     }
@@ -214,7 +214,8 @@ const AppProvider = ({ children }: any) => {
             setAssignments(response.data);
           })
           .catch((error) => { 
-            navigate("/error")
+            setAssignments([]);
+            // navigate("/error")
           });  
       }
     }

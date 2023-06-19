@@ -64,8 +64,9 @@ const AddUser = () => {
   const [errorMessageEmail, setErrorMessageEmail] = useState('');
   
   const isValidEmail = (email: string): boolean => {
-    const regex = /^[a-zA-Z0-9._%+-]+@appliedtechnology\.se$/;
-    return regex.test(email);
+    // const regex = /^[a-zA-Z0-9._%+-]+@appliedtechnology\.se$/;
+    // return regex.test(email);
+    return true;
   };
 
   useEffect(() => {

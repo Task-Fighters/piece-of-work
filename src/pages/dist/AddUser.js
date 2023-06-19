@@ -69,8 +69,9 @@ var AddUser = function () {
     var _h = react_1.useState(false), toShowValidationError = _h[0], setToShowValidationError = _h[1];
     var _j = react_1.useState(''), errorMessageEmail = _j[0], setErrorMessageEmail = _j[1];
     var isValidEmail = function (email) {
-        var regex = /^[a-zA-Z0-9._%+-]+@appliedtechnology\.se$/;
-        return regex.test(email);
+        // const regex = /^[a-zA-Z0-9._%+-]+@appliedtechnology\.se$/;
+        // return regex.test(email);
+        return true;
     };
     react_1.useEffect(function () {
         var getUserName = function () {

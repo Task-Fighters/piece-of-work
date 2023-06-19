@@ -96,7 +96,7 @@ var AppProvider = function (_a) {
                 setIsLoggedIn(true);
                 navigate('/home');
             })["catch"](function (error) {
-                navigate("/error");
+                console.log(error);
             });
         }
         // eslint-disable-next-line
@@ -250,7 +250,8 @@ var AppProvider = function (_a) {
                     .then(function (response) {
                     setAssignments(response.data);
                 })["catch"](function (error) {
-                    navigate("/error");
+                    setAssignments([]);
+                    // navigate("/error")
                 });
             }
         }
