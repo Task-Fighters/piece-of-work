@@ -1,5 +1,5 @@
 import { useEffect, useContext } from 'react';
-import { useGoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin, useGoogleOneTapLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { AppContext } from '../AppContext';
 import { ContextType } from '../types';
@@ -16,8 +16,12 @@ const Login = () => {
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
       setUserGoogleToken(codeResponse);
-    }
-  });
+    },
+    onError: (error) => {
+      console.log(error, 'Login Failed');
+  }
+  }
+  );
 
   const navigate = useNavigate();
   
@@ -29,14 +33,14 @@ const Login = () => {
           {
             headers: {
               Authorization: `Bearer ${userGoogleToken.access_token}`,
-              Accept: 'application/json'
-            }
+              Accept: 'application/json'            }
           }
         )
         .then((res) => {
           setProfile(res.data);
+          console.log(res.data);
         }).catch((error) => { 
-          navigate("/error")
+          console.log(error);
         });
     }
     // eslint-disable-next-line

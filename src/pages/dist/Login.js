@@ -13,6 +13,9 @@ var Login = function () {
     var login = google_1.useGoogleLogin({
         onSuccess: function (codeResponse) {
             setUserGoogleToken(codeResponse);
+        },
+        onError: function (error) {
+            console.log(error, 'Login Failed');
         }
     });
     var navigate = react_router_dom_1.useNavigate();
@@ -27,8 +30,9 @@ var Login = function () {
             })
                 .then(function (res) {
                 setProfile(res.data);
+                console.log(res.data);
             })["catch"](function (error) {
-                navigate("/error");
+                console.log(error);
             });
         }
         // eslint-disable-next-line
