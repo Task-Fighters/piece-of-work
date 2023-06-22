@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ContextType, IAssignment } from '../types';
+import { ContextType, AssignmentType } from '../types';
 import { AppContext } from '../AppContext';
 import { Input } from '../components/Input';
 import { Card } from '../components/Card';
@@ -38,7 +38,7 @@ const Home = () => {
       (assignment) =>
         new Date(assignment.startDate).getTime() > new Date().getTime()
     )
-    .sort((a: IAssignment, b: IAssignment) => {
+    .sort((a: AssignmentType, b: AssignmentType) => {
       return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
     });
 
@@ -48,7 +48,7 @@ const Home = () => {
         new Date(assignment.startDate).getTime() <= new Date().getTime() &&
         !featuredAssignments.includes(assignment)
     )
-    .sort((a: IAssignment, b: IAssignment) => {
+    .sort((a: AssignmentType, b: AssignmentType) => {
       return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
     });
 

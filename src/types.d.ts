@@ -1,4 +1,4 @@
-export interface IUser {
+export type UserType = {
   id: number;
   token?: string;
   googleId?: string;
@@ -12,38 +12,38 @@ export interface IUser {
   groupsId: number[];
 }
 
-export interface IUserGroup {
+export type UserGroup ={
   id: number;
   name: string;
 }
 
-export interface IUserGroups {
+export type UserGroups = {
   groupsId: number;
   name: string;
 }
-export interface IAssignmentGroup {
+export type AssignmentGroup ={
   groupsId: number;
   title: string;
 }
 
-export interface IGroup {
+export type GroupType = {
   id: number;
   name: string;
   users: IUserGroup[];
   assignmentsId: IAssignmentGroup[];
 }
 
-export interface IRole {
+export type Role = {
   id?: number;
   name: string;
 }
 
-export interface ILocation {
+export type Location = {
   id?: number;
   name: string;
 }
 
-export interface IAssignment {
+export type AssignmentType = {
   id: number | undefined;
   title: string;
   startDate: string;
@@ -51,25 +51,25 @@ export interface IAssignment {
   groupId: number | undefined;
 }
 
-export interface ISubmission {
+export type Submission = {
   userId: number;
   name: string;
   repo: string;
 }
 
-export interface IOption {
+export type Option = {
   label: string;
   value: string;
 }
 
-export interface IProfile {
+export type ProfileType = {
   email: string;
   name: string;
   picture: string;
   id: string;
 }
 
-export interface IResponse {
+export type Response = {
   access_token: string;
   authuser?: string;
   expires_in: number;
@@ -79,7 +79,7 @@ export interface IResponse {
   token_type: string;
 }
 
-interface IRepo {
+export type RepoType = {
   id: number;
   assignmentId: number;
   assignment: string;
@@ -93,7 +93,6 @@ export type ContextType = {
   profile: IProfile;
   groups: IGroup[];
   assignments: IAssignment[];
-  // isLoggedIn: boolean;
   userGoogleToken?: IResponse;
   setUser: (user: IUser) => void;
   setUsers: (users: IUser[]) => void;
@@ -101,6 +100,5 @@ export type ContextType = {
   setProfile: (profile: IProfile) => void;
   setGroups: (groups: IGroups[]) => void;
   setUpdate: (update: boolean) => void;
-  // setIsLoggedIn: (isLoggedIn: boolean) => void;
   setUserGoogleToken: (userGoogleToken?: IResponse) => void;
 };

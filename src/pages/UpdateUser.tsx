@@ -2,14 +2,14 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useContext, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { IUser, ContextType, IOption } from '../types';
+import { UserType, ContextType, Option } from '../types';
 import { AppContext } from '../AppContext';
 import Title from '../components/Title';
 import { Button } from '../components/Button';
 import Select from 'react-select';
 import { Input } from '../components/Input';
 
-const roleArr: IOption[] = [
+const roleArr: Option[] = [
   {
     value: 'PGP',
     label: 'PGP'
@@ -20,7 +20,7 @@ const roleArr: IOption[] = [
   }
 ];
 
-const locationArr: IOption[] = [
+const locationArr: Option[] = [
   {
     value: 'Amsterdam',
     label: 'Amsterdam'
@@ -37,7 +37,7 @@ const locationArr: IOption[] = [
 
 const UpdateUser = () => {
   const { users, groups, setUsers } = useContext(AppContext) as ContextType;
-  const [singleUser, setSingleUser] = useState<IUser>({} as IUser);
+  const [singleUser, setSingleUser] = useState<UserType>({} as UserType);
   const [singleUserLocation, setSingleUserLocation] = useState<any>({});
   const [singleUserRole, setSingleUserRole] = useState<any>({});
   let { userId } = useParams();

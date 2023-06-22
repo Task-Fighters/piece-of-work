@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Repo } from '../components/Repo';
+import { Repository } from '../components/Repository';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta = {
   title: 'Salty/Repo',
-  component: Repo,
+  component: Repository,
   tags: ['autodocs']
-} satisfies Meta<typeof Repo>;
+} satisfies Meta<typeof Repository>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

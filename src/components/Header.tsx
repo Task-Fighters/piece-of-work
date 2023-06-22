@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import whiteLogo from '../assets/White_logo.svg';
-import blackLogo from '../assets/Black_logo.svg';
-import blackP from '../assets/P-logo-black.svg';
+import whiteLogo from '../assets/Logo_white.png';
+import blackLogo from '../assets/Logo_black.png';
 
 interface HeaderProps {
   role: string;

@@ -5,7 +5,7 @@ import { AppContext } from '../AppContext';
 import { ContextType } from '../types';
 import Title from '../components/Title';
 import { Button } from '../components/Button';
-import blackLogo from '../assets/Black_logo.svg';
+import blackLogo from '../assets/Logo_black.png';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {

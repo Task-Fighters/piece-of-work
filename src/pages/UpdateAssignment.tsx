@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import React, { useContext, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AppContext } from '../AppContext';
-import { ContextType, IGroup } from '../types';
+import { ContextType, GroupType } from '../types';
 import Title from '../components/Title';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
@@ -28,7 +28,7 @@ const UpdateAssignment = () => {
   const [title, setTitle] = useState('');
   const [startDate, setStartDate] = useState('');
   const [description, setDescription] = useState('');
-  const [group, setGroup] = useState<IGroup>({
+  const [group, setGroup] = useState<GroupType>({
     id: 0,
     name: '',
     users: [],

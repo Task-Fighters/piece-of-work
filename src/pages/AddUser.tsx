@@ -4,7 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
 import { ContextType } from '../types';
-import { IOption } from '../types';
+import { Option } from '../types';
 import Title from '../components/Title';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
@@ -13,7 +13,7 @@ import Select from 'react-select';
 import { RiAsterisk } from 'react-icons/ri';
 import { InputErrorAlert } from '../components/InputErrorAlert';
 
-const roleArr: IOption[] = [
+const roleArr: Option[] = [
   {
     value: 'PGP',
     label: 'PGP'
@@ -24,7 +24,7 @@ const roleArr: IOption[] = [
   }
 ];
 
-const locationArr: IOption[] = [
+const locationArr: Option[] = [
   {
     value: 'Amsterdam',
     label: 'Amsterdam'

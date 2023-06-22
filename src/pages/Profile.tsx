@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ContextType, IRepo } from '../types';
+import { ContextType, RepoType } from '../types';
 import { AppContext } from '../AppContext';
-import { Repo } from '../components/Repo';
+import { Repository } from '../components/Repository';
 import Title from '../components/Title';
 import { Button } from '../components/Button';
 import UserDetails from '../components/UserDetails';
@@ -14,7 +14,7 @@ import { ListItem } from '../components/ListItem';
 const Profile = () => {
   const { user, assignments, groups } = useContext(AppContext) as ContextType;
   const cookieToken: string | undefined = Cookies.get('token');
-  const [repos, setRepos] = useState<IRepo[]>([]);
+  const [repos, setRepos] = useState<RepoType[]>([]);
   const navigate = useNavigate();
   const handleLogout = () => {
     navigate('/');
@@ -22,7 +22,7 @@ const Profile = () => {
     secureLocalStorage.clear();
   };
 
-  const userGroups = user.groupsId?.map((group) => {
+  const userGroups = user.groupsId?.map((group:any) => {
     let currentGroup = groups.find((item) => item.id === group);
     let groupObj = {
       id: group,
@@ -100,7 +100,7 @@ const Profile = () => {
       )}
       <div className="flex flex-row flex-wrap justify-between mx-2 md:m-0">
         <ul className="flex flex-row flex-wrap justify-between capitalize gap-x-1 w-full">
-          {userGroups?.map((group, index) => {
+          {userGroups?.map((group:any) => {
             return (
               <ListItem
                 key={group?.id}
@@ -126,7 +126,7 @@ const Profile = () => {
             (assignment) => assignment.id === repo.assignmentId
           );
           return (
-            <Repo
+            <Repository
               id={repo.id}
               key={index}
               assignment={repoAssignment?.title || ''}
