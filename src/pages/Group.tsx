@@ -3,7 +3,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppContext } from '../AppContext';
-import { ContextType, IGroup } from '../types';
+import { ContextType, GroupType } from '../types';
 import { ListItem } from '../components/ListItem';
 import { Button } from '../components/Button';
 import Editable from '../components/Editable';
@@ -16,7 +16,7 @@ const Group = () => {
   const { user, users, setUpdate, assignments } = useContext(
     AppContext
   ) as ContextType;
-  const [group, setGroup] = useState<IGroup>({} as IGroup);
+  const [group, setGroup] = useState<GroupType>({} as GroupType);
   const [groupName, setGroupName] = useState('');
 
   const selectOptions = users?.map((item) => ({

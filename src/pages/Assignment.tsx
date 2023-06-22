@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
-import { IAssignment, ContextType } from '../types';
+import { AssignmentType, ContextType } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Input } from '../components/Input';
@@ -20,7 +20,7 @@ interface IRepo {
 
 const Assignment = () => {
   const { user, users, groups } = useContext(AppContext) as ContextType;
-  const [assignment, setAssignment] = useState<IAssignment>({} as IAssignment);
+  const [assignment, setAssignment] = useState<AssignmentType>({} as AssignmentType);
   const [repoName, setRepoName] = useState<string>('');
   const [repos, setRepos] = useState<IRepo[]>([]);
   const [isLoading, setIsLoading] = useState(true);

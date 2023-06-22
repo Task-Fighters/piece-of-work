@@ -1,20 +1,20 @@
 import axios from 'axios';
 import { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { IUser, ContextType, IRepo } from '../types';
+import { UserType, ContextType, RepoType } from '../types';
 import Cookies from 'js-cookie';
 import { AppContext } from '../AppContext';
 import Title from '../components/Title';
 import UserDetails from '../components/UserDetails';
-import { Repo } from '../components/Repo';
+import { Repository } from '../components/Repository';
 import { ListItem } from '../components/ListItem';
 import { useNavigate } from 'react-router-dom';
 
 const User = () => {
   const { user, assignments, groups } = useContext(AppContext) as ContextType;
-  const [singleUser, setSingleUser] = useState<IUser>({} as IUser);
+  const [singleUser, setSingleUser] = useState<UserType>({} as UserType);
   let { userId } = useParams();
-  const [repos, setRepos] = useState<IRepo[]>([]);
+  const [repos, setRepos] = useState<RepoType[]>([]);
   const cookieToken: string | undefined = Cookies.get('token');
   const navigate = useNavigate();
   const userGroups = singleUser?.groupsId?.map((group) => {
@@ -111,7 +111,7 @@ const User = () => {
             (assign) => assign.id === repo.assignmentId
           )?.title;
           return (
-            <Repo
+            <Repository
               id={repo.id}
               key={index}
               assignment={name || ''}

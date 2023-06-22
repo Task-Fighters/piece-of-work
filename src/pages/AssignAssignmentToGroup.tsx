@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import React, { useContext, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AppContext } from '../AppContext';
-import { ContextType, IAssignment } from '../types';
+import { ContextType, AssignmentType } from '../types';
 import Title from '../components/Title';
 import { Input } from '../components/Input';
 import { MultiSelect } from 'react-multi-select-component';
@@ -15,7 +15,7 @@ const AssignAssignmentToGroup = () => {
   const { groups, assignments, setAssignments } = useContext(
     AppContext
   ) as ContextType;
-  const [assignment, setAssignment] = useState<IAssignment>({
+  const [assignment, setAssignment] = useState<AssignmentType>({
   id: undefined,
   title: "",
   startDate: "",

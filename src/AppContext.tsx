@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { createContext, useEffect, useState } from 'react';
 import {
-  IUser,
-  IAssignment,
-  IProfile,
+  UserType,
+  AssignmentType,
+  ProfileType,
   ContextType,
-  IGroup,
-  IResponse
+  GroupType,
+  Response
 } from './types';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
@@ -21,14 +21,14 @@ interface DecodedToken {
 
 const AppProvider = ({ children }: any) => {
   const cookieToken: string | undefined = Cookies.get('token');
-  const [userGoogleToken, setUserGoogleToken] = useState<IResponse | undefined>(
+  const [userGoogleToken, setUserGoogleToken] = useState<Response | undefined>(
     undefined
   );
-  const [user, setUser] = useState<IUser>({} as IUser);
-  const [profile, setProfile] = useState<IProfile>({} as IProfile);
-  const [assignments, setAssignments] = useState<IAssignment[]>([]);
-  const [users, setUsers] = useState<IUser[]>([]);
-  const [groups, setGroups] = useState<IGroup[]>([]);
+  const [user, setUser] = useState<UserType>({} as UserType);
+  const [profile, setProfile] = useState<ProfileType>({} as ProfileType);
+  const [assignments, setAssignments] = useState<AssignmentType[]>([]);
+  const [users, setUsers] = useState<UserType[]>([]);
+  const [groups, setGroups] = useState<GroupType[]>([]);
   const [update, setUpdate] = useState<Boolean>(false);
   // eslint-disable-next-line
   const [refresh, setRefresh] = useState<Boolean>(false);
@@ -70,7 +70,6 @@ const AppProvider = ({ children }: any) => {
       const exp = expiry.exp;
       if (exp) {
         const expirationTime = Number(exp) * 1000 - 60000;
-        // const expirationTime = Number(exp) * 1000 - 28 * 60 * 1000;
         const currentTime = Date.now();
         if (expirationTime < currentTime) {
           updateToken();

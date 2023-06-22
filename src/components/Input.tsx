@@ -1,5 +1,5 @@
 import { BiSearch } from 'react-icons/bi';
-import { IGroup, IRole, ILocation } from '../types';
+import { GroupType, Role, Location } from '../types';
 import { Select, initTE } from 'tw-elements';
 import { useEffect } from 'react';
 import { RiAsterisk } from 'react-icons/ri';
@@ -14,7 +14,7 @@ interface InputProps {
   required? :Boolean;
   defaultValue?: any;
   value?: any;
-  options?: IGroup[] | IRole[] | ILocation[];
+  options?: GroupType[] | Role[] | Location[];
   onChange?: (e: any) => void;
 }
 
