@@ -5,7 +5,7 @@ import { AppContext } from '../AppContext';
 import { ContextType } from '../types';
 import Title from '../components/Title';
 import { Button } from '../components/Button';
-import lightLogo from '../assets/Saltblack.svg';
+import blackLogo from '../assets/Black_logo.svg';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -47,12 +47,12 @@ const Login = () => {
       <div className="max-w-md w-full">
         <img
           className="mb-16 px-5"
-          alt="Light theme Salt logo"
-          src={lightLogo}
+          alt="Logo"
+          src={blackLogo}
         />
-        <Title underline title="Welcome" />
-        <p className="mb-10 text-sm">
-          Log in with your @appliedtechnology.se account
+        <Title underline title="Welcome" className='text-pink-600'/>
+        <p className="mb-8 text-sm">
+          Get started! Log in with your Google account
         </p>
         <Button
           onClick={() => login()}

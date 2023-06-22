@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import whiteLogo from '../assets/Saltwhite.svg';
-import blackLogo from '../assets/Saltblack.svg';
+import whiteLogo from '../assets/White_logo.svg';
+import blackLogo from '../assets/Black_logo.svg';
+import blackP from '../assets/P-logo-black.svg';
 
 interface HeaderProps {
   role: string;
@@ -46,7 +47,7 @@ export const Header = ({ role, location }: HeaderProps) => {
           />
         </div>
         <div>
-          <div className="w-36 m-5 flex md:hidden">
+          <div className="w-72 m-5 flex md:hidden">
             <img src={blackLogo} alt="Salt logo" />
           </div>
 
