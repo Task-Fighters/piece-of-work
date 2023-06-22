@@ -11,6 +11,7 @@ const root = ReactDOM.createRoot(
 );
 
 const clientId = process.env.REACT_APP_CLIENT_ID || '';
+console.log(clientId, "dasha"); 
 
 root.render(
   <GoogleOAuthProvider clientId={clientId}>
