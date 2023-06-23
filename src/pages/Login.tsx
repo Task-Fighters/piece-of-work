@@ -53,7 +53,7 @@ const Login = () => {
           alt="Logo"
           src={blackLogo}
         />
-        <Title title="Welcome" className='text-pink-600 !mb-2'/>
+        <Title title="Welcome!" className='text-pink-600 !mb-2'/>
         <hr className="w-full mb-12 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pink-600 to-transparent opacity-15" />
         <p className="mb-8 text-sm">
           Get started! Log in with your Google account
