@@ -9,7 +9,7 @@ import blackLogo from 'assets/Logo_black.png';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const { setProfile, userGoogleToken, setUserGoogleToken } = useContext(
+  const {setProfile, userGoogleToken, setUserGoogleToken } = useContext(
     AppContext
   ) as ContextType;
 
@@ -38,7 +38,6 @@ const Login = () => {
         )
         .then((res) => {
           setProfile(res.data);
-          console.log(res.data);
         }).catch((error) => { 
           console.log(error);
         });
@@ -48,13 +47,14 @@ const Login = () => {
 
   return (
     <div className="h-screen flex justify-center items-center mx-2">
-      <div className="max-w-md w-full">
+      <div className="max-w-md w-full flex flex-col items-center">
         <img
           className="mb-16 px-5"
           alt="Logo"
           src={blackLogo}
         />
-        <Title underline title="Welcome" className='text-pink-600'/>
+        <Title title="Welcome" className='text-pink-600 !mb-2'/>
+        <hr className="w-full mb-12 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-pink-600 to-transparent opacity-15" />
         <p className="mb-8 text-sm">
           Get started! Log in with your Google account
         </p>

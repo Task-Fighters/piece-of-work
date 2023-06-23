@@ -23,7 +23,7 @@ const Users = () => {
   return (
     <>
       <div className="flex justify-end">
-        {user.role === 'admin' && (
+        {user && (
           <div className="md:w-48 md:flex xs:w-full">
             <Button
               buttonColor="white"
