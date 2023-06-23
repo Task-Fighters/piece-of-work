@@ -2,17 +2,17 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useContext, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { AppContext } from '../AppContext';
-import { ContextType, GroupType } from '../types';
-import Title from '../components/Title';
-import { Input } from '../components/Input';
-import { Button } from '../components/Button';
-import Datepicker from '../components/Datepicker';
+import { AppContext } from 'AppContext';
+import { ContextType, GroupType } from 'types';
+import Title from 'components/Title';
+import { Input } from 'components/Input';
+import { Button } from 'components/Button';
+import Datepicker from 'components/Datepicker';
 import ReactQuill from 'react-quill';
 import moment from 'moment';
-import { InputErrorAlert } from '../components/InputErrorAlert';
+import { InputErrorAlert } from 'components/InputErrorAlert';
 import { RiAsterisk } from 'react-icons/ri';
-import {modules, formats} from '../components/RichTextEditor';
+import {modules, formats} from 'components/RichTextEditor';
 moment().format();
 
 const convertDate = (date: string) => {

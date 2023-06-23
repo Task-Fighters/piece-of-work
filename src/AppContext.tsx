@@ -7,7 +7,7 @@ import {
   ContextType,
   GroupType,
   Response
-} from './types';
+} from 'types';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import secureLocalStorage from 'react-secure-storage';

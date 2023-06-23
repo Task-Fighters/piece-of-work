@@ -2,16 +2,15 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { AppContext } from '../AppContext';
-import { ContextType } from '../types';
-import { Option } from '../types';
-import Title from '../components/Title';
-import { Input } from '../components/Input';
-import { Button } from '../components/Button';
-import '../styles/external-components.css';
+import { AppContext } from 'AppContext';
+import { ContextType, Option } from 'types';
+import Title from 'components/Title';
+import { Input } from 'components/Input';
+import { Button } from 'components/Button';
+import 'styles/external-components.css';
 import Select from 'react-select';
 import { RiAsterisk } from 'react-icons/ri';
-import { InputErrorAlert } from '../components/InputErrorAlert';
+import { InputErrorAlert } from 'components/InputErrorAlert';
 
 const roleArr: Option[] = [
   {

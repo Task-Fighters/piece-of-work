@@ -2,14 +2,14 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useContext, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { AppContext } from '../AppContext';
-import { ContextType, AssignmentType } from '../types';
-import Title from '../components/Title';
-import { Input } from '../components/Input';
+import { AppContext } from 'AppContext';
+import { ContextType, AssignmentType } from 'types';
+import Title from 'components/Title';
+import { Input } from 'components/Input';
 import { MultiSelect } from 'react-multi-select-component';
-import { Button } from '../components/Button';
+import { Button } from 'components/Button';
 import { RiAsterisk } from 'react-icons/ri';
-import { InputErrorAlert } from '../components/InputErrorAlert';
+import { InputErrorAlert } from 'components/InputErrorAlert';
 
 const AssignAssignmentToGroup = () => {
   const { groups, assignments, setAssignments } = useContext(

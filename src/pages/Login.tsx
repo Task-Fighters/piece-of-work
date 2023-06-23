@@ -1,11 +1,11 @@
 import { useEffect, useContext } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
-import { AppContext } from '../AppContext';
-import { ContextType } from '../types';
-import Title from '../components/Title';
-import { Button } from '../components/Button';
-import blackLogo from '../assets/Logo_black.png';
+import { AppContext } from 'AppContext';
+import { ContextType } from 'types';
+import Title from 'components/Title';
+import { Button } from 'components/Button';
+import blackLogo from 'assets/Logo_black.png';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {

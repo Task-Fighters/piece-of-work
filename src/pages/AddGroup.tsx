@@ -1,14 +1,14 @@
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Input } from '../components/Input';
-import { Button } from '../components/Button';
+import { Input } from 'components/Input';
+import { Button } from 'components/Button';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import Title from '../components/Title';
+import Title from 'components/Title';
 import { MultiSelect } from 'react-multi-select-component';
-import { AppContext } from '../AppContext';
-import { ContextType } from '../types';
-import {InputErrorAlert}  from '../components/InputErrorAlert';
+import { AppContext } from 'AppContext';
+import { ContextType } from 'types';
+import {InputErrorAlert}  from 'components/InputErrorAlert';
 
 const AddGroup = () => {
   const {users } = useContext(AppContext) as ContextType;

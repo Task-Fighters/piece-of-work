@@ -2,11 +2,11 @@ import { useContext } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { AppContext } from '../AppContext';
-import { ContextType } from '../types';
-import Title from '../components/Title';
-import { ListItem } from '../components/ListItem';
-import { Button } from '../components/Button';
+import { AppContext } from 'AppContext';
+import { ContextType } from 'types';
+import Title from 'components/Title';
+import { ListItem } from 'components/ListItem';
+import { Button } from 'components/Button';
 
 const Groups = () => {
   const { user, groups, setUpdate } = useContext(AppContext) as ContextType;

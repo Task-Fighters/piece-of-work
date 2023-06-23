@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import UserDetails from '../components/UserDetails';
+import UserDetails from 'components/UserDetails';
 
 const meta = {
   title: 'Salty/User Details',

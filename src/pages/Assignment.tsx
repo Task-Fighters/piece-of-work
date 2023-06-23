@@ -2,15 +2,15 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { AppContext } from '../AppContext';
-import { AssignmentType, ContextType } from '../types';
-import { Button } from '../components/Button';
-import { Card } from '../components/Card';
-import { Input } from '../components/Input';
-import Title from '../components/Title';
-import { ListItem } from '../components/ListItem';
-import SkeletonCard from '../components/SkeletonCard';
-import { InputErrorAlert } from '../components/InputErrorAlert';
+import { AppContext } from 'AppContext';
+import { AssignmentType, ContextType } from 'types';
+import { Button } from 'components/Button';
+import { Card } from 'components/Card';
+import { Input } from 'components/Input';
+import Title from 'components/Title';
+import { ListItem } from 'components/ListItem';
+import SkeletonCard from 'components/SkeletonCard';
+import { InputErrorAlert } from 'components/InputErrorAlert';
 
 interface IRepo {
   userId: number;

@@ -1,11 +1,11 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ContextType, AssignmentType } from '../types';
-import { AppContext } from '../AppContext';
-import { Input } from '../components/Input';
-import { Card } from '../components/Card';
-import { Button } from '../components/Button';
-import Title from '../components/Title';
+import { ContextType, AssignmentType } from 'types';
+import { AppContext } from 'AppContext';
+import { Input } from 'components/Input';
+import { Card } from 'components/Card';
+import { Button } from 'components/Button';
+import Title from 'components/Title';
 
 const Home = () => {
   const { user, assignments, groups } = useContext(AppContext) as ContextType;
