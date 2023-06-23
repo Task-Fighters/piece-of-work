@@ -2,12 +2,12 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useContext, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { UserType, ContextType, Option } from '../types';
-import { AppContext } from '../AppContext';
-import Title from '../components/Title';
-import { Button } from '../components/Button';
+import { UserType, ContextType, Option } from 'types';
+import { AppContext } from 'AppContext';
+import Title from 'components/Title';
+import { Button } from 'components/Button';
 import Select from 'react-select';
-import { Input } from '../components/Input';
+import { Input } from 'components/Input';
 
 const roleArr: Option[] = [
   {

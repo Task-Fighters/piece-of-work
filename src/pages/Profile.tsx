@@ -1,15 +1,15 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ContextType, RepoType } from '../types';
-import { AppContext } from '../AppContext';
-import { Repository } from '../components/Repository';
-import Title from '../components/Title';
-import { Button } from '../components/Button';
-import UserDetails from '../components/UserDetails';
+import { ContextType, RepoType } from 'types';
+import { AppContext } from 'AppContext';
+import { Repository } from 'components/Repository';
+import Title from 'components/Title';
+import { Button } from 'components/Button';
+import UserDetails from 'components/UserDetails';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import secureLocalStorage from 'react-secure-storage';
-import { ListItem } from '../components/ListItem';
+import { ListItem } from 'components/ListItem';
 
 const Profile = () => {
   const { user, assignments, groups } = useContext(AppContext) as ContextType;

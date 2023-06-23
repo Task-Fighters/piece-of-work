@@ -2,14 +2,14 @@ import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AppContext } from '../AppContext';
-import { ContextType, GroupType } from '../types';
-import { ListItem } from '../components/ListItem';
-import { Button } from '../components/Button';
-import Editable from '../components/Editable';
-import Title from '../components/Title';
+import { AppContext } from 'AppContext';
+import { ContextType, GroupType } from 'types';
+import { ListItem } from 'components/ListItem';
+import { Button } from 'components/Button';
+import Editable from 'components/Editable';
+import Title from 'components/Title';
 import { MultiSelect } from 'react-multi-select-component';
-import { Card } from '../components/Card';
+import { Card } from 'components/Card';
 import { RiAsterisk } from 'react-icons/ri';
 
 const Group = () => {

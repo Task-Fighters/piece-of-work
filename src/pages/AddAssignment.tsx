@@ -3,17 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import ReactQuill from 'react-quill';
 import axios from 'axios';
-import { ContextType } from '../types';
-import Title from '../components/Title';
-import { Input } from '../components/Input';
-import { AppContext } from '../AppContext';
-import { Button } from '../components/Button';
-import Datepicker from '../components/Datepicker';
+import { ContextType } from 'types';
+import Title from 'components/Title';
+import { Input } from 'components/Input';
+import { AppContext } from 'AppContext';
+import { Button } from 'components/Button';
+import Datepicker from 'components/Datepicker';
 import 'react-quill/dist/quill.snow.css';
 import Select from 'react-select';
 import { RiAsterisk } from 'react-icons/ri';
-import { InputErrorAlert } from '../components/InputErrorAlert';
-import {modules,formats} from '../components/RichTextEditor';
+import { InputErrorAlert } from 'components/InputErrorAlert';
+import {modules,formats} from 'components/RichTextEditor';
 
 const AddAssignment = () => {
   const { groups } = useContext(AppContext) as ContextType;

@@ -1,11 +1,11 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../AppContext';
-import { ContextType } from '../types';
-import { Input } from '../components/Input';
-import Title from '../components/Title';
-import { ListItem } from '../components/ListItem';
-import { Button } from '../components/Button';
+import { AppContext } from 'AppContext';
+import { ContextType } from 'types';
+import { Input } from 'components/Input';
+import Title from 'components/Title';
+import { ListItem } from 'components/ListItem';
+import { Button } from 'components/Button';
 
 const Users = () => {
   const { user, users } = useContext(AppContext) as ContextType;
@@ -23,7 +23,7 @@ const Users = () => {
   return (
     <>
       <div className="flex justify-end">
-        {user.role === 'admin' && (
+        {user && (
           <div className="md:w-48 md:flex xs:w-full">
             <Button
               buttonColor="white"

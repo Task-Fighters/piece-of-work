@@ -3,11 +3,11 @@ import { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { UserType, ContextType, RepoType } from '../types';
 import Cookies from 'js-cookie';
-import { AppContext } from '../AppContext';
-import Title from '../components/Title';
-import UserDetails from '../components/UserDetails';
-import { Repository } from '../components/Repository';
-import { ListItem } from '../components/ListItem';
+import { AppContext } from 'AppContext';
+import Title from 'components/Title';
+import UserDetails from 'components/UserDetails';
+import { Repository } from 'components/Repository';
+import { ListItem } from 'components/ListItem';
 import { useNavigate } from 'react-router-dom';
 
 const User = () => {

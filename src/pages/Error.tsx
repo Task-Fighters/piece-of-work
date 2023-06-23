@@ -1,5 +1,5 @@
-import Title from '../components/Title';
-import { Button } from '../components/Button';
+import Title from 'components/Title';
+import { Button } from 'components/Button';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 
