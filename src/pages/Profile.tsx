@@ -71,7 +71,7 @@ const Profile = () => {
   return (
     <>
       <div className="flex justify-end">
-        {user.role === 'admin' && (
+        {user && (
           <div className="w-48 hidden md:flex">
             <Button
               buttonColor="pink"
