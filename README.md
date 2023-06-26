@@ -1,47 +1,46 @@
-# Getting Started with Create React App
+# Welcome to Piece of Work!
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An organizational tool to manage users, groups, and assignments mainly targeting educational establishments.
+The project started as an internal tool for a software development boot camp to simplify the processes there 
+and for the convenience of both the students and the instructors! 
+Now the application is in demo mode, meaning anyone can create an account as an admin so that we can showcase the full functionality.
+In its active state, the app would only grant access to users within a specific organization, and admin users would be seeded manually for security reasons.
 
-## Available Scripts
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+###General
+- Automatic Google Login
+- Intuitive UI and UX design
+- Fast load times
+- Secure data handling
+- JWT authentication 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### User 
+- Easily manage your active assignments and groups
+- Upload your submissions for assignments
+- Check other users' submissions 
+- Customize your profile
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Admin
+- Create new users, groups, and assignments
+- Easily move users between groups
+- Search all submissions by user or by assignment
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Credits
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+###Task Fighters Team
+[Emanuele Parlascino](https://github.com/EmanueleParlascino-Personal)
+[Daria Mylnikova](https://github.com/daashkins)
+[Camille Marawa](https://github.com/CamilleM28)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
+###Previous team
+[Eoghain O'Briain](https://github.com/EoghainOB)
+[Tan Lui](https://github.com/xploreout)
+[Lucas Wiersma](https://github.com/lucaswiersma)
+[Farhana Ahmed](https://github.com/Farhana-Ahmed)
+[Joyce Terra de Oliveira](https://github.com/aguaholic)
+[Iliana Scalco](https://github.com/dokratos)
