@@ -146,6 +146,7 @@ const AddUser = () => {
               });
               setToShowValidationError(false);
               setUpdate(true);
+              navigate('/users')
             }
           })
           .catch((error) => {

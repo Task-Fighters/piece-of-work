@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AppContext } from 'AppContext';
 import { ContextType, GroupType } from 'types';
@@ -42,11 +42,11 @@ const UpdateAssignment = () => {
   });
 
   const [toShowValidationError, setToShowValidationError] = useState(false);
-
-  const cookieToken: string | undefined = Cookies.get('token');
+  const quillRef = useRef<HTMLInputElement | any>(null);
+    const cookieToken: string | undefined = Cookies.get('token');
   let { assignmentId } = useParams();
   const navigate = useNavigate();
-  const regexForDescription = /(?<=>)[\w\s]+(?=<)/g
+
 
   useEffect(() => {
     axios
@@ -68,6 +68,10 @@ const UpdateAssignment = () => {
         setStartDate(date);
         group && setGroup(group);
         setDescription(response.data?.description);
+       setIsValid({
+          ...isValid,
+          description: true
+        });
       }).catch((error) => { 
         navigate("/error")
       });
@@ -79,12 +83,11 @@ const UpdateAssignment = () => {
       ...isValid,
       title: title ? true : false,
       startDate: startDate ? true : false,
-      description: regexForDescription.test(description.replace("<br>", "")) ? true : false
+      description: description.replace(/<[^>]*>/g, '').trim().length >= 1 ? true : false
     });
     // eslint-disable-next-line
   }, [title, startDate, description]);
 
-  
   const handleUpdateAssignment: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     let updatedAssignment;
@@ -147,6 +150,10 @@ const UpdateAssignment = () => {
       });
   };
 
+  const handleChangeDescription = (content:any, delta: any, source:any, editor: any) => {
+    setDescription(content);
+  };
+
   return (
     <>
       <form onSubmit={handleUpdateAssignment}>
@@ -189,8 +196,9 @@ const UpdateAssignment = () => {
           theme="snow"
           modules={modules}
           formats={formats}
+          ref={quillRef}
           value={description}
-          onChange={(e: any) => setDescription(e)}
+          onChange={handleChangeDescription}
         />
         <InputErrorAlert
           isValid={isValid.description}
@@ -213,3 +221,5 @@ const UpdateAssignment = () => {
 };
 
 export default UpdateAssignment;
+
+

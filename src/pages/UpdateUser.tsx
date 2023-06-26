@@ -98,7 +98,6 @@ const UpdateUser = () => {
         }
       )
       .then((response) => {
-        console.log(response.statusText);
         navigate(`/users/${userId}`);
       }).catch((error) => { 
         navigate("/error")
@@ -118,7 +117,6 @@ const UpdateUser = () => {
         }
       )
       .then((response) => {
-        console.log(response.statusText);
         setUsers(users.filter((user) => user.id !== Number(userId)));
         navigate(`/users`);
       }).catch((error) => { 

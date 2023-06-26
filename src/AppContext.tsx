@@ -160,7 +160,7 @@ const AppProvider = ({ children }: any) => {
         });
     }
     // eslint-disable-next-line
-  }, [cookieToken, localUserId, user.role, isLoggedIn]);
+  }, [cookieToken, localUserId, user.role, isLoggedIn, update]);
 
   useEffect(() => {
     if (isLoggedIn && cookieToken) {
