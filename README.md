@@ -9,7 +9,7 @@ In its active state, the app would only grant access to users within a specific 
 
 ## Features
 
-###General
+### General
 - Automatic Google Login
 - Intuitive UI and UX design
 - Fast load times
@@ -31,13 +31,13 @@ In its active state, the app would only grant access to users within a specific 
 
 ## Credits
 
-###Task Fighters Team
+### Task Fighters Team
 [Emanuele Parlascino](https://github.com/EmanueleParlascino-Personal)
 [Daria Mylnikova](https://github.com/daashkins)
 [Camille Marawa](https://github.com/CamilleM28)
 
 
-###Previous team
+### Previous team
 [Eoghain O'Briain](https://github.com/EoghainOB)
 [Tan Lui](https://github.com/xploreout)
 [Lucas Wiersma](https://github.com/lucaswiersma)
