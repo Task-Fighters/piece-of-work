@@ -32,15 +32,15 @@ In its active state, the app would only grant access to users within a specific 
 ## Credits
 
 ### Task Fighters Team
-[Emanuele Parlascino](https://github.com/EmanueleParlascino-Personal)
-[Daria Mylnikova](https://github.com/daashkins)
-[Camille Marawa](https://github.com/CamilleM28)
+- [Emanuele Parlascino](https://github.com/EmanueleParlascino-Personal)
+- [Daria Mylnikova](https://github.com/daashkins)
+- [Camille Marawa](https://github.com/CamilleM28)
 
 
 ### Previous team
-[Eoghain O'Briain](https://github.com/EoghainOB)
-[Tan Lui](https://github.com/xploreout)
-[Lucas Wiersma](https://github.com/lucaswiersma)
-[Farhana Ahmed](https://github.com/Farhana-Ahmed)
-[Joyce Terra de Oliveira](https://github.com/aguaholic)
-[Iliana Scalco](https://github.com/dokratos)
+- [Eoghain O'Briain](https://github.com/EoghainOB)
+- [Tan Lui](https://github.com/xploreout)
+- [Lucas Wiersma](https://github.com/lucaswiersma)
+- [Farhana Ahmed](https://github.com/Farhana-Ahmed)
+- [Joyce Terra de Oliveira](https://github.com/aguaholic)
+- [Iliana Scalco](https://github.com/dokratos)
