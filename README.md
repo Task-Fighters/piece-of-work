@@ -4,7 +4,7 @@ An organizational tool to manage users, groups, and assignments mainly targeting
 The project started as an internal tool for a software development boot camp to simplify the processes there 
 and for the convenience of both the students and the instructors! 
 Now the application is in demo mode, meaning anyone can create an account as an admin so that we can showcase the full functionality.
-In its active state, the app would only grant access to users within a specific organization, and admin users would be seeded manually for security reasons.
+In its active state, the app would only grant access to users within a specific organization, and admin users would be seeded manually for security reasons. 
 
 
 ## Features
